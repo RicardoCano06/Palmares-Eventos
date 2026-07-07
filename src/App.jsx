@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { FaWhatsapp, FaInstagram, FaFacebookF, FaStar } from 'react-icons/fa6';
-import logo from '/Imagen1.png';
+import logo from '/Imagen1.webp';
 
 const whatsappNumber = '000000000000';
 const instagramUrl = 'https://www.instagram.com/palmarespyeventos/';
@@ -566,7 +566,7 @@ function App() {
                   </div>
                   <div>
                     <p className="text-xs font-semibold tracking-[0.3em] text-white">PALMARES</p>
-                    <p className="text-[0.6rem] uppercase tracking-[0.4em] text-white/50">Salón de Eventos</p>
+                    <p className="text-[0.6rem] uppercase tracking-[0.4em] text-white/85">Salón de Eventos</p>
                   </div>
                 </div>
                 <p className="text-sm leading-6 text-white/80">Salón de eventos en Fernando de la Mora. Espacio único con quincho, pileta y generador propio.</p>
