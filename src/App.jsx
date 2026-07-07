@@ -432,6 +432,8 @@ function App() {
                       key={foto.src}
                       src={foto.src}
                       alt={foto.title}
+                      loading={i === 0 ? 'eager' : 'lazy'}
+                      fetchpriority={i === 0 ? 'high' : 'low'}
                       className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${i === galeriaIdx ? 'opacity-100' : 'opacity-0'}`}
                     />
                   ))}
