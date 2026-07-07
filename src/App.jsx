@@ -213,6 +213,8 @@ function App() {
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
+  const scrollTo = (id) => (e) => { e?.preventDefault(); document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); };
+
   const isColacion = form.eventType === 'Colación';
 
   const currentMonth = months[new Date().getMonth()];
@@ -289,7 +291,7 @@ function App() {
 
         <header className={`z-50 transition-all duration-500 ${scrolled ? 'fixed left-1/2 -translate-x-1/2 top-4 w-[calc(100%-3rem)] max-w-6xl rounded-xl bg-white shadow-[0_8px_40px_rgba(0,0,0,0.1)]' : 'relative bg-white/80 backdrop-blur-xl'}`}>
           <div className={`mx-auto flex items-center justify-between px-4 sm:px-6 transition-all duration-300 ${scrolled ? 'py-3' : 'py-4 lg:px-8'}`}>
-            <a href="#inicio" className="flex items-center gap-3">
+             <a href="#inicio" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="flex items-center gap-3">
               <div className={`overflow-hidden rounded-full border border-[#e0d6cc] bg-white transition-all duration-300 ${scrolled ? 'h-10 w-10' : 'h-12 w-12 shadow-[0_0_30px_rgba(124,179,66,0.12)]'}`}>
                 <img src={logo} alt="Palmares - Salón de Eventos" className="h-full w-full object-cover" />
               </div>
@@ -305,13 +307,13 @@ function App() {
                 <span className="text-xs text-[#558B2F]">Consultá disponibilidad para {currentMonth}</span>
               </div>
               <nav className={`flex items-center gap-6 transition-all duration-300 ${scrolled ? 'gap-4' : 'gap-8'}`}>
-                <a href="#diferenciales" className="text-sm text-[#5a4e42] transition hover:text-[#1f1a17]">
+                <a href="#diferenciales" onClick={scrollTo('diferenciales')} className="text-sm text-[#5a4e42] transition hover:text-[#1f1a17]">
                   Diferenciales
                 </a>
-                <a href="#galeria" className="text-sm text-[#5a4e42] transition hover:text-[#1f1a17]">
+                <a href="#galeria" onClick={scrollTo('galeria')} className="text-sm text-[#5a4e42] transition hover:text-[#1f1a17]">
                   Galería
                 </a>
-                <a href="#ubicacion" className="text-sm text-[#5a4e42] transition hover:text-[#1f1a17]">
+                <a href="#ubicacion" onClick={scrollTo('ubicacion')} className="text-sm text-[#5a4e42] transition hover:text-[#1f1a17]">
                   Ubicación
                 </a>
                 <a
@@ -343,21 +345,21 @@ function App() {
                 <a
                   href="#diferenciales"
                   className="py-4 text-sm text-[#1f1a17] border-b border-[#e0d6cc]/50 transition hover:text-[#7CB342]"
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={(e) => { setMobileMenuOpen(false); scrollTo('diferenciales')(e); }}
                 >
                   Diferenciales
                 </a>
                 <a
                   href="#galeria"
                   className="py-4 text-sm text-[#1f1a17] border-b border-[#e0d6cc]/50 transition hover:text-[#7CB342]"
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={(e) => { setMobileMenuOpen(false); scrollTo('galeria')(e); }}
                 >
                   Galería
                 </a>
                 <a
                   href="#ubicacion"
                   className="py-4 text-sm text-[#1f1a17] border-b border-[#e0d6cc]/50 transition hover:text-[#7CB342]"
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={(e) => { setMobileMenuOpen(false); scrollTo('ubicacion')(e); }}
                 >
                   Ubicación
                 </a>
@@ -433,6 +435,7 @@ function App() {
                         </a>
                         <a
                           href="#galeria"
+                          onClick={scrollTo('galeria')}
                           className="inline-flex items-center justify-center rounded-full border border-[#d0c8bc] bg-white px-6 py-4 text-sm font-semibold text-[#1f1a17] transition hover:bg-[#f0e8de]"
                         >
                           Ver fotos del salón
