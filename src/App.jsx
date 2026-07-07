@@ -290,22 +290,22 @@ function App() {
         </header>
 
         <main id="inicio">
-          <section className="mx-auto px-4 pb-14 pt-12 sm:px-6 lg:px-8 lg:pb-20">
-            <Reveal>
-              <div className="mx-auto max-w-5xl text-center">
-                <h2 className="font-display text-5xl font-extrabold leading-[1.05] text-brand-text sm:text-6xl lg:text-7xl xl:text-8xl">
+          <section className="mx-auto px-4 pb-14 pt-8 sm:px-6 lg:px-8 lg:pb-20">
+            <div className="mx-auto max-w-6xl">
+              <div className="text-center">
+                <h2 className="animate-fade-up font-display text-5xl font-extrabold leading-[1.05] text-brand-text sm:text-6xl lg:text-7xl xl:text-8xl">
                   El lugar perfecto para tu evento en Fernando de la Mora
                 </h2>
-                <p className="mt-6 text-lg leading-7 text-brand-muted max-w-3xl mx-auto">
+                <p className="animate-fade-up-1 mt-6 text-lg leading-7 text-brand-muted max-w-3xl mx-auto">
                   Bodas, cumpleaños, colaciones y eventos de empresa. Salón con quincho, parrilla, pileta y generador propio.
                 </p>
 
-                <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+                <div className="animate-fade-up-2 mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
                   <a
                     href={`https://wa.me/${whatsappNumber}`}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-2 rounded-full bg-brand-text px-7 py-4 text-sm font-semibold text-white shadow-lg transition hover:opacity-90"
+                    className="animate-pulse-glow inline-flex items-center gap-2 rounded-full bg-brand-text px-7 py-4 text-sm font-semibold text-white shadow-lg transition hover:opacity-90"
                   >
                     Cotizar ahora
                     <FaWhatsapp className="h-4 w-4" />
@@ -320,7 +320,7 @@ function App() {
                   </a>
                 </div>
 
-                <div className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-sm text-brand-muted">
+                <div className="animate-fade-up-3 mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-sm text-brand-muted">
                   <span><strong className="text-brand-text font-semibold">4.7 ★</strong> Google</span>
                   <span className="w-px h-4 bg-brand-surface" />
                   <span><strong className="text-brand-text font-semibold">161+</strong> Reseñas</span>
@@ -330,7 +330,30 @@ function App() {
                   <span><strong className="text-brand-text font-semibold">2021</strong> Trayectoria</span>
                 </div>
               </div>
-            </Reveal>
+
+              <div className="animate-fade-up-3 mt-12 lg:mt-16 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+                <div className="col-span-1 md:col-span-1 md:row-span-2 md:mt-0 -mt-8 md:-mt-12">
+                  <div className="relative overflow-hidden rounded-2xl bg-brand-surface aspect-[3/4] shadow-xl">
+                    <img src={galeriaFotos[0].src} alt={galeriaFotos[0].title} className="h-full w-full object-cover" loading="lazy" />
+                  </div>
+                </div>
+                <div className="col-span-1">
+                  <div className="relative overflow-hidden rounded-2xl bg-brand-surface aspect-[4/3] shadow-lg">
+                    <img src={galeriaFotos[1].src} alt={galeriaFotos[1].title} className="h-full w-full object-cover" loading="lazy" />
+                  </div>
+                </div>
+                <div className="col-span-1 md:col-span-1">
+                  <div className="relative overflow-hidden rounded-2xl bg-brand-surface aspect-[4/3] shadow-lg">
+                    <img src={galeriaFotos[2].src} alt={galeriaFotos[2].title} className="h-full w-full object-cover" loading="lazy" />
+                  </div>
+                </div>
+                <div className="col-span-2 md:col-span-1">
+                  <div className="relative overflow-hidden rounded-2xl bg-brand-surface aspect-[4/3] md:aspect-[3/4] shadow-xl">
+                    <img src={galeriaFotos[3].src} alt={galeriaFotos[3].title} className="h-full w-full object-cover" loading="lazy" />
+                  </div>
+                </div>
+              </div>
+            </div>
           </section>
 
           <section id="diferenciales" className="mx-auto px-4 pb-16 sm:px-6 lg:px-8">

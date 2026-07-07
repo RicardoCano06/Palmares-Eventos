@@ -26,6 +26,23 @@
         font-family: 'Plus Jakarta Sans', sans-serif;
         letter-spacing: -0.03em;
       }
+      @keyframes fade-up {
+        from { opacity: 0; transform: translateY(40px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes pulse-glow {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(184, 148, 60, 0.3); }
+        50% { box-shadow: 0 0 0 12px rgba(184, 148, 60, 0); }
+      }
+      @keyframes shine {
+        0% { background-position: -200% center; }
+        100% { background-position: 200% center; }
+      }
+      .animate-fade-up { animation: fade-up 0.8s ease-out both; }
+      .animate-fade-up-1 { animation: fade-up 0.8s ease-out 0.15s both; }
+      .animate-fade-up-2 { animation: fade-up 0.8s ease-out 0.3s both; }
+      .animate-fade-up-3 { animation: fade-up 0.8s ease-out 0.45s both; }
+      .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
     </style>
   </head>
   <body>
