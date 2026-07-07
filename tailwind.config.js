@@ -5,11 +5,12 @@ module.exports = {
     extend: {
       colors: {
         brand: {
-          bg: '#fcfaf2',
-          surface: '#f5f1e6',
-          text: '#1a1b20',
-          accent: '#b8943c',
-          muted: '#8a7a6a',
+          bg: '#F9F9F5',
+          surface: '#f0f0ea',
+          text: '#111215',
+          dark: '#111215',
+          green: '#3A5A24',
+          muted: '#7a7a7a',
         },
       },
       fontFamily: {

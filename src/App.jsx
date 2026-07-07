@@ -230,7 +230,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-brand-bg text-brand-text selection:bg-brand-accent/25 selection:text-brand-text">
+    <div className="min-h-screen bg-brand-bg text-brand-text selection:bg-brand-green/25 selection:text-brand-text">
       <div className="relative isolate overflow-hidden">
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-brand-bg via-brand-surface to-brand-bg" />
         <div className="absolute inset-x-0 top-0 -z-10 h-80 bg-[radial-gradient(circle,_rgba(184,148,60,0.06),_transparent_60%)] blur-3xl" />
@@ -258,7 +258,7 @@ function App() {
                   href={`https://wa.me/${whatsappNumber}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-brand-accent px-5 py-3 text-sm font-semibold text-white transition hover:opacity-90"
+                  className="inline-flex items-center gap-2 rounded-full bg-brand-green px-5 py-3 text-sm font-semibold text-white transition hover:opacity-90"
                 >
                   Cotizar Ahora
                   <FaWhatsapp className="h-4 w-4" />
@@ -268,7 +268,7 @@ function App() {
 
             <button
               type="button"
-              className="inline-flex items-center justify-center rounded-full border border-brand-surface bg-white/80 p-3 text-brand-text transition hover:border-brand-accent/30 hover:bg-white md:hidden"
+              className="inline-flex items-center justify-center rounded-full border border-brand-surface bg-white/80 p-3 text-brand-text transition hover:border-brand-green/30 hover:bg-white md:hidden"
               onClick={() => setMobileMenuOpen((current) => !current)}
               aria-label={mobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
               aria-expanded={mobileMenuOpen}
@@ -280,10 +280,10 @@ function App() {
           {mobileMenuOpen ? (
             <div className="border-t border-brand-surface bg-white md:hidden">
               <nav className="flex flex-col px-4 sm:px-6">
-                <a href="#diferenciales" className="py-4 text-sm text-brand-text border-b border-brand-surface/50 transition hover:text-brand-accent" onClick={(e) => { setMobileMenuOpen(false); scrollTo('diferenciales')(e); }}>Diferenciales</a>
-                <a href="#galeria" className="py-4 text-sm text-brand-text border-b border-brand-surface/50 transition hover:text-brand-accent" onClick={(e) => { setMobileMenuOpen(false); scrollTo('galeria')(e); }}>Galería</a>
-                <a href="#ubicacion" className="py-4 text-sm text-brand-text border-b border-brand-surface/50 transition hover:text-brand-accent" onClick={(e) => { setMobileMenuOpen(false); scrollTo('ubicacion')(e); }}>Ubicación</a>
-                <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 py-4 text-sm font-semibold text-brand-accent transition hover:text-brand-accent/80"><FaWhatsapp className="h-4 w-4" /> Cotizar por WhatsApp</a>
+                <a href="#diferenciales" className="py-4 text-sm text-brand-text border-b border-brand-surface/50 transition hover:text-brand-green" onClick={(e) => { setMobileMenuOpen(false); scrollTo('diferenciales')(e); }}>Diferenciales</a>
+                <a href="#galeria" className="py-4 text-sm text-brand-text border-b border-brand-surface/50 transition hover:text-brand-green" onClick={(e) => { setMobileMenuOpen(false); scrollTo('galeria')(e); }}>Galería</a>
+                <a href="#ubicacion" className="py-4 text-sm text-brand-text border-b border-brand-surface/50 transition hover:text-brand-green" onClick={(e) => { setMobileMenuOpen(false); scrollTo('ubicacion')(e); }}>Ubicación</a>
+                <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 py-4 text-sm font-semibold text-brand-green transition hover:text-brand-green/80"><FaWhatsapp className="h-4 w-4" /> Cotizar por WhatsApp</a>
               </nav>
             </div>
           ) : null}
@@ -358,7 +358,7 @@ function App() {
             <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4 xl:gap-5">
               {differentiators.map((item) => (
                 <Reveal key={item.title} className="rounded-2xl bg-brand-surface px-6 py-7 transition hover:bg-[#efeae0]">
-                  <span className="inline-flex rounded-full bg-brand-accent/10 px-3 py-1 text-[0.65rem] uppercase tracking-[0.36em] text-brand-accent font-semibold">{item.badge}</span>
+                  <span className="inline-flex rounded-full bg-brand-green/10 px-3 py-1 text-[0.65rem] uppercase tracking-[0.36em] text-brand-green font-semibold">{item.badge}</span>
                   <h4 className="mt-4 font-display text-xl font-bold text-brand-text">{item.title}</h4>
                   <p className="mt-3 text-sm leading-6 text-brand-muted">{item.description}</p>
                 </Reveal>
@@ -370,7 +370,7 @@ function App() {
                 href={`https://wa.me/${whatsappNumber}`}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-accent px-8 py-4 text-sm font-semibold text-white shadow-lg transition hover:opacity-90"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-green px-8 py-4 text-sm font-semibold text-white shadow-lg transition hover:opacity-90"
               >
                 Consultá disponibilidad para tu evento
                 <FaWhatsapp className="h-4 w-4" />
@@ -391,7 +391,7 @@ function App() {
               {testimonials.map((t) => (
                 <Reveal key={t.name} className="rounded-2xl bg-brand-surface p-7 transition hover:bg-[#efeae0]">
                   <div className="flex items-center gap-1 mb-4">
-                    {Array.from({ length: t.rating }).map((_, i) => (<FaStar key={i} className="h-4 w-4 text-brand-accent" />))}
+                    {Array.from({ length: t.rating }).map((_, i) => (<FaStar key={i} className="h-4 w-4 text-brand-green" />))}
                   </div>
                   <p className="text-sm leading-6 text-brand-muted">"{t.text}"</p>
                   <div className="mt-5 flex items-center gap-3 pt-4">
@@ -449,7 +449,7 @@ function App() {
                     <button
                       key={foto.src}
                       onClick={() => setGaleriaIdx(i)}
-                      className={`shrink-0 w-14 h-14 md:w-16 md:h-16 rounded-xl overflow-hidden border-2 transition ${i === galeriaIdx ? 'border-brand-accent opacity-100 shadow-md' : 'border-transparent opacity-50 hover:opacity-80'}`}
+                      className={`shrink-0 w-14 h-14 md:w-16 md:h-16 rounded-xl overflow-hidden border-2 transition ${i === galeriaIdx ? 'border-brand-green opacity-100 shadow-md' : 'border-transparent opacity-50 hover:opacity-80'}`}
                     >
                       <img src={foto.src} alt="" className="h-full w-full object-cover" />
                     </button>
@@ -508,32 +508,32 @@ function App() {
                 <div className="space-y-5">
                   <div>
                     <label htmlFor="name" className="block text-xs font-semibold uppercase tracking-wider text-brand-muted">Nombre Completo</label>
-                    <input type="text" id="name" value={form.name} onChange={handleChange('name')} placeholder="Ej. Juan Pérez" className="mt-2 w-full rounded-xl border border-brand-surface bg-brand-surface/50 px-4 py-3.5 text-sm text-brand-text placeholder-brand-muted/50 transition focus:border-brand-accent/40 focus:outline-none focus:ring-1 focus:ring-brand-accent/40" required />
+                    <input type="text" id="name" value={form.name} onChange={handleChange('name')} placeholder="Ej. Juan Pérez" className="mt-2 w-full rounded-xl border border-brand-surface bg-brand-surface/50 px-4 py-3.5 text-sm text-brand-text placeholder-brand-muted/50 transition focus:border-brand-green/40 focus:outline-none focus:ring-1 focus:ring-brand-green/40" required />
                   </div>
 
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div>
                       <label htmlFor="eventType" className="block text-xs font-semibold uppercase tracking-wider text-brand-muted">Tipo de Evento</label>
-                      <select id="eventType" value={form.eventType} onChange={handleChange('eventType')} className="mt-2 w-full rounded-xl border border-brand-surface bg-brand-surface/50 px-4 py-3.5 text-sm text-brand-text transition focus:border-brand-accent/40 focus:outline-none focus:ring-1 focus:ring-brand-accent/40">
+                      <select id="eventType" value={form.eventType} onChange={handleChange('eventType')} className="mt-2 w-full rounded-xl border border-brand-surface bg-brand-surface/50 px-4 py-3.5 text-sm text-brand-text transition focus:border-brand-green/40 focus:outline-none focus:ring-1 focus:ring-brand-green/40">
                         {eventTypes.map((type) => (<option key={type} value={type} className="bg-white">{type}</option>))}
                       </select>
                     </div>
                     <div>
                       <label htmlFor="guests" className="block text-xs font-semibold uppercase tracking-wider text-brand-muted">Invitados (Máx. 120)</label>
-                      <input type="number" id="guests" min="1" max="120" value={form.guests} onChange={handleChange('guests')} placeholder="Ej. 80" className="mt-2 w-full rounded-xl border border-brand-surface bg-brand-surface/50 px-4 py-3.5 text-sm text-brand-text placeholder-brand-muted/50 transition focus:border-brand-accent/40 focus:outline-none focus:ring-1 focus:ring-brand-accent/40" />
+                      <input type="number" id="guests" min="1" max="120" value={form.guests} onChange={handleChange('guests')} placeholder="Ej. 80" className="mt-2 w-full rounded-xl border border-brand-surface bg-brand-surface/50 px-4 py-3.5 text-sm text-brand-text placeholder-brand-muted/50 transition focus:border-brand-green/40 focus:outline-none focus:ring-1 focus:ring-brand-green/40" />
                     </div>
                   </div>
 
                   {isColacion && (
                     <div>
                       <label htmlFor="institution" className="block text-xs font-semibold uppercase tracking-wider text-brand-muted">Institución Educativa / Colegio</label>
-                      <input type="text" id="institution" value={form.institution} onChange={handleChange('institution')} placeholder="Ej. Colegio Nacional de la Capital" className="mt-2 w-full rounded-xl border border-brand-accent/30 bg-brand-surface/50 px-4 py-3.5 text-sm text-brand-text placeholder-brand-muted/50 transition focus:border-brand-accent/50 focus:outline-none focus:ring-1 focus:ring-brand-accent/50" />
+                      <input type="text" id="institution" value={form.institution} onChange={handleChange('institution')} placeholder="Ej. Colegio Nacional de la Capital" className="mt-2 w-full rounded-xl border border-brand-green/30 bg-brand-surface/50 px-4 py-3.5 text-sm text-brand-text placeholder-brand-muted/50 transition focus:border-brand-green/50 focus:outline-none focus:ring-1 focus:ring-brand-green/50" />
                     </div>
                   )}
 
                   <div>
                     <label htmlFor="date" className="block text-xs font-semibold uppercase tracking-wider text-brand-muted">Fecha Tentativa</label>
-                    <input type="text" id="date" value={form.date} onChange={handleChange('date')} placeholder="Ej. Sábado 15 de Octubre" className="mt-2 w-full rounded-xl border border-brand-surface bg-brand-surface/50 px-4 py-3.5 text-sm text-brand-text placeholder-brand-muted/50 transition focus:border-brand-accent/40 focus:outline-none focus:ring-1 focus:ring-brand-accent/40" />
+                    <input type="text" id="date" value={form.date} onChange={handleChange('date')} placeholder="Ej. Sábado 15 de Octubre" className="mt-2 w-full rounded-xl border border-brand-surface bg-brand-surface/50 px-4 py-3.5 text-sm text-brand-text placeholder-brand-muted/50 transition focus:border-brand-green/40 focus:outline-none focus:ring-1 focus:ring-brand-green/40" />
                   </div>
 
                   {formError && (<div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-xs text-red-600">{formError}</div>)}
@@ -548,35 +548,35 @@ function App() {
           </section>
         </main>
 
-        <footer className="border-t border-brand-surface bg-brand-bg py-12">
+        <footer className="bg-brand-green py-12">
           <div className="mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
               <div>
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="flex h-10 w-10 overflow-hidden rounded-full border border-brand-surface">
+                  <div className="flex h-10 w-10 overflow-hidden rounded-full border border-white/10">
                     <img src={logo} alt="Palmares" className="h-full w-full object-cover" />
                   </div>
                   <div>
-                    <p className="text-xs font-semibold tracking-[0.3em] text-brand-text">PALMARES</p>
-                    <p className="text-[0.6rem] uppercase tracking-[0.4em] text-brand-muted">Salón de Eventos</p>
+                    <p className="text-xs font-semibold tracking-[0.3em] text-white">PALMARES</p>
+                    <p className="text-[0.6rem] uppercase tracking-[0.4em] text-white/50">Salón de Eventos</p>
                   </div>
                 </div>
-                <p className="text-sm leading-6 text-brand-muted">Salón de eventos en Fernando de la Mora. Espacio único con quincho, pileta y generador propio.</p>
-                <p className="mt-3 text-sm text-brand-accent">Yataity Cora esq. Fortín Toledo, Fernando de la Mora</p>
+                <p className="text-sm leading-6 text-white/70">Salón de eventos en Fernando de la Mora. Espacio único con quincho, pileta y generador propio.</p>
+                <p className="mt-3 text-sm text-white/50">Yataity Cora esq. Fortín Toledo, Fernando de la Mora</p>
               </div>
 
               <div>
-                <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-text mb-4">Contacto</h4>
-                <div className="space-y-3 text-sm text-brand-muted">
-                  <a href={instagramUrl} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-brand-accent hover:text-brand-accent/80 transition"><FaInstagram className="h-4 w-4" /> @palmarespyeventos</a>
-                  <a href="https://www.facebook.com/profile.php?id=100069641632947" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-brand-accent hover:text-brand-accent/80 transition"><FaFacebookF className="h-4 w-4" /> Palmares Salón de Eventos</a>
-                  <a href="mailto:palmarespyeventos@gmail.com" className="flex items-center gap-2 text-brand-accent hover:text-brand-accent/80 transition"><span className="text-sm">✉</span> palmarespyeventos@gmail.com</a>
+                <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-white/80 mb-4">Contacto</h4>
+                <div className="space-y-3 text-sm text-white/70">
+                  <a href={instagramUrl} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-white hover:text-white/80 transition"><FaInstagram className="h-4 w-4" /> @palmarespyeventos</a>
+                  <a href="https://www.facebook.com/profile.php?id=100069641632947" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-white hover:text-white/80 transition"><FaFacebookF className="h-4 w-4" /> Palmares Salón de Eventos</a>
+                  <a href="mailto:palmarespyeventos@gmail.com" className="flex items-center gap-2 text-white hover:text-white/80 transition"><span className="text-sm">✉</span> palmarespyeventos@gmail.com</a>
                 </div>
               </div>
             </div>
 
-            <div className="border-t border-brand-surface mt-10 pt-6">
-              <p className="text-xs text-brand-muted">&copy; {new Date().getFullYear()} Palmares Salón de Eventos. Fernando de la Mora, Paraguay.</p>
+            <div className="border-t border-white/10 mt-10 pt-6">
+              <p className="text-xs text-white/40">&copy; {new Date().getFullYear()} Palmares Salón de Eventos. Fernando de la Mora, Paraguay.</p>
             </div>
           </div>
         </footer>
