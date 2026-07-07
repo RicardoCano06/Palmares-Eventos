@@ -291,65 +291,55 @@ function App() {
 
         <main id="inicio">
           <section className="mx-auto px-4 pb-14 pt-8 sm:px-6 lg:px-8 lg:pb-20">
-            <div className="mx-auto max-w-6xl">
-              <div className="text-center">
-                <h2 className="animate-fade-up font-display text-5xl font-extrabold leading-[1.05] text-brand-text sm:text-6xl lg:text-7xl xl:text-8xl">
-                  El lugar perfecto para tu evento en Fernando de la Mora
-                </h2>
-                <p className="animate-fade-up-1 mt-6 text-lg leading-7 text-brand-muted max-w-3xl mx-auto">
-                  Bodas, cumpleaños, colaciones y eventos de empresa. Salón con quincho, parrilla, pileta y generador propio.
-                </p>
+            <div className="mx-auto max-w-7xl">
+              <div className="flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-16">
+                <div className="flex-1 lg:max-w-[55%]">
+                  <h2 className="animate-fade-up font-display text-5xl font-extrabold leading-[1.05] text-brand-text sm:text-6xl lg:text-7xl xl:text-8xl">
+                    El lugar perfecto para tu evento en Fernando de la Mora
+                  </h2>
+                  <p className="animate-fade-up-1 mt-6 text-lg leading-7 text-brand-muted max-w-xl">
+                    Bodas, cumpleaños, colaciones y eventos de empresa. Salón con quincho, parrilla, pileta y generador propio.
+                  </p>
 
-                <div className="animate-fade-up-2 mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-                  <a
-                    href={`https://wa.me/${whatsappNumber}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="animate-pulse-glow inline-flex items-center gap-2 rounded-full bg-brand-text px-7 py-4 text-sm font-semibold text-white shadow-lg transition hover:opacity-90"
-                  >
-                    Cotizar ahora
-                    <FaWhatsapp className="h-4 w-4" />
-                  </a>
-                  <a
-                    href="#galeria"
-                    onClick={scrollTo('galeria')}
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-brand-muted transition hover:text-brand-text"
-                  >
-                    Ver fotos del salón
-                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-                  </a>
-                </div>
+                  <div className="animate-fade-up-2 mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
+                    <a
+                      href={`https://wa.me/${whatsappNumber}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="animate-pulse-glow inline-flex items-center gap-2 rounded-full bg-brand-text px-7 py-4 text-sm font-semibold text-white shadow-lg transition hover:opacity-90 w-fit"
+                    >
+                      Cotizar ahora
+                      <FaWhatsapp className="h-4 w-4" />
+                    </a>
+                    <a
+                      href="#galeria"
+                      onClick={scrollTo('galeria')}
+                      className="inline-flex items-center gap-2 text-sm font-semibold text-brand-muted transition hover:text-brand-text"
+                    >
+                      Ver fotos del salón
+                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                    </a>
+                  </div>
 
-                <div className="animate-fade-up-3 mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-sm text-brand-muted">
-                  <span><strong className="text-brand-text font-semibold">4.7 ★</strong> Google</span>
-                  <span className="w-px h-4 bg-brand-surface" />
-                  <span><strong className="text-brand-text font-semibold">161+</strong> Reseñas</span>
-                  <span className="w-px h-4 bg-brand-surface" />
-                  <span><strong className="text-brand-text font-semibold">80+</strong> Eventos</span>
-                  <span className="w-px h-4 bg-brand-surface" />
-                  <span><strong className="text-brand-text font-semibold">2021</strong> Trayectoria</span>
-                </div>
-              </div>
-
-              <div className="animate-fade-up-3 mt-12 lg:mt-16 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-                <div className="col-span-1 md:col-span-1 md:row-span-2 md:mt-0 -mt-8 md:-mt-12">
-                  <div className="relative overflow-hidden rounded-2xl bg-brand-surface aspect-[3/4] shadow-xl">
-                    <img src={galeriaFotos[0].src} alt={galeriaFotos[0].title} className="h-full w-full object-cover" loading="lazy" />
+                  <div className="animate-fade-up-3 mt-10 flex flex-wrap items-center gap-x-8 gap-y-2 text-sm text-brand-muted">
+                    <span><strong className="text-brand-text font-semibold">4.7 ★</strong> Google</span>
+                    <span className="w-px h-4 bg-brand-surface" />
+                    <span><strong className="text-brand-text font-semibold">161+</strong> Reseñas</span>
+                    <span className="w-px h-4 bg-brand-surface" />
+                    <span><strong className="text-brand-text font-semibold">80+</strong> Eventos</span>
+                    <span className="w-px h-4 bg-brand-surface" />
+                    <span><strong className="text-brand-text font-semibold">2021</strong> Trayectoria</span>
                   </div>
                 </div>
-                <div className="col-span-1">
-                  <div className="relative overflow-hidden rounded-2xl bg-brand-surface aspect-[4/3] shadow-lg">
-                    <img src={galeriaFotos[1].src} alt={galeriaFotos[1].title} className="h-full w-full object-cover" loading="lazy" />
-                  </div>
-                </div>
-                <div className="col-span-1 md:col-span-1">
-                  <div className="relative overflow-hidden rounded-2xl bg-brand-surface aspect-[4/3] shadow-lg">
-                    <img src={galeriaFotos[2].src} alt={galeriaFotos[2].title} className="h-full w-full object-cover" loading="lazy" />
-                  </div>
-                </div>
-                <div className="col-span-2 md:col-span-1">
-                  <div className="relative overflow-hidden rounded-2xl bg-brand-surface aspect-[4/3] md:aspect-[3/4] shadow-xl">
-                    <img src={galeriaFotos[3].src} alt={galeriaFotos[3].title} className="h-full w-full object-cover" loading="lazy" />
+
+                <div className="animate-fade-up-3 lg:max-w-[45%] w-full">
+                  <div className="relative overflow-hidden rounded-[2.5rem] bg-brand-surface shadow-2xl aspect-[4/5] lg:aspect-[5/6]">
+                    <img
+                      src="/galeria/fachadasalon.png"
+                      alt="Entrada de Palmares Salón de Eventos"
+                      className="h-full w-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
                   </div>
                 </div>
               </div>
