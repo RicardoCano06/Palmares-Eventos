@@ -1,0 +1,14 @@
+{
+  "crons": [
+    {
+      "path": "/api/instagram?limit=3",
+      "schedule": "0 6 * * 1"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
