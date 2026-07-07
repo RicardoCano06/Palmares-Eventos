@@ -67,7 +67,7 @@ const differentiators = [
 const galeriaFotos = [
   { src: '/galeria/fachadasalon.png', title: 'Entrada del Salón', desc: 'La puerta de entrada a un evento inolvidable.' },
   { src: '/galeria/piscinanocturna.png', title: 'Piscina Nocturna', desc: 'La pileta iluminada le da otro ambiente a la noche.' },
-  { src: '/galeria/quinchoparrilla.png', title: 'El Quincho y la Parrilla', desc: 'Asado, música y buena compañía al aire libre.' },
+  { src: '/galeria/quinchoparrilla.png', title: 'El Quincho y la Parrilla', desc: 'Asado, música y buena compañía.' },
   { src: '/galeria/montajemesa.png', title: 'Montaje de Mesas', desc: 'Amplio espacio para montar tu evento a tu gusto.' },
 ];
 
