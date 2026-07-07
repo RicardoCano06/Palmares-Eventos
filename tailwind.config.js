@@ -4,11 +4,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'brand-dark': '#120f0d',
-        'brand-card': '#fbf6ef',
-        'brand-accent': '#22e369',
-        'brand-muted': '#6f6459',
-        'brand-gold': '#b8863b',
+        brand: {
+          bg: '#fcfaf2',
+          surface: '#f5f1e6',
+          text: '#1a1b20',
+          accent: '#b8943c',
+          muted: '#8a7a6a',
+        },
+      },
+      fontFamily: {
+        display: ['Plus Jakarta Sans', 'sans-serif'],
+        body: ['Inter', 'sans-serif'],
       },
     },
   },
