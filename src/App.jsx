@@ -65,10 +65,10 @@ const differentiators = [
 ];
 
 const galeriaFotos = [
-  { src: '/galeria/fachadasalon.png', title: 'Entrada del Salón', desc: 'La puerta de entrada a un evento inolvidable.' },
-  { src: '/galeria/piscinanocturna.png', title: 'Piscina Nocturna', desc: 'La pileta iluminada le da otro ambiente a la noche.' },
-  { src: '/galeria/quinchoparrilla.png', title: 'El Quincho y la Parrilla', desc: 'Asado, música y buena compañía.' },
-  { src: '/galeria/montajemesa.png', title: 'Montaje de Mesas', desc: 'Amplio espacio para montar tu evento a tu gusto.' },
+  { src: '/galeria/fachadasalon.webp', title: 'Entrada del Salón', desc: 'La puerta de entrada a un evento inolvidable.' },
+  { src: '/galeria/piscinanocturna.webp', title: 'Piscina Nocturna', desc: 'La pileta iluminada le da otro ambiente a la noche.' },
+  { src: '/galeria/quinchoparrilla.webp', title: 'El Quincho y la Parrilla', desc: 'Asado, música y buena compañía.' },
+  { src: '/galeria/montajemesa.webp', title: 'Montaje de Mesas', desc: 'Amplio espacio para montar tu evento a tu gusto.' },
 ];
 
 const instagramPosts = [
@@ -246,7 +246,7 @@ function App() {
                 <img src={logo} alt="Palmares - Salón de Eventos" className="h-full w-full object-cover" />
               </div>
               <div>
-                <p className={`uppercase tracking-[0.45em] text-brand-muted transition-all duration-300 ${scrolled ? 'text-[0.55rem]' : 'text-[0.62rem]'}`}>Salón de Eventos</p>
+                <p className={`uppercase tracking-[0.45em] text-[#5a5a5a] transition-all duration-300 ${scrolled ? 'text-[0.55rem]' : 'text-[0.62rem]'}`}>Salón de Eventos</p>
                 <h1 className={`font-semibold tracking-[0.35em] text-brand-text transition-all duration-300 ${scrolled ? 'text-sm' : 'mt-1 text-sm sm:text-base'}`}>PALMARES</h1>
               </div>
             </a>
@@ -338,8 +338,10 @@ function App() {
                 <div className="animate-fade-up-3 lg:max-w-[45%] w-full">
                   <div className="relative overflow-hidden rounded-[2.5rem] bg-brand-surface shadow-2xl aspect-[4/5] lg:aspect-[5/6]">
                     <img
-                      src="/galeria/fachadasalon.png"
+                      src="/galeria/fachadasalon.webp"
                       alt="Entrada de Palmares Salón de Eventos"
+                      fetchpriority="high"
+                      loading="eager"
                       className="h-full w-full object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
@@ -454,6 +456,7 @@ function App() {
                     <button
                       key={foto.src}
                       onClick={() => setGaleriaIdx(i)}
+                      aria-label={`Ver foto ${i + 1}: ${galeriaFotos[i].title}`}
                       className={`shrink-0 w-14 h-14 md:w-16 md:h-16 rounded-xl overflow-hidden border-2 transition ${i === galeriaIdx ? 'border-brand-green opacity-100 shadow-md' : 'border-transparent opacity-50 hover:opacity-80'}`}
                     >
                       <img src={foto.src} alt="" className="h-full w-full object-cover" />
@@ -566,13 +569,13 @@ function App() {
                     <p className="text-[0.6rem] uppercase tracking-[0.4em] text-white/50">Salón de Eventos</p>
                   </div>
                 </div>
-                <p className="text-sm leading-6 text-white/70">Salón de eventos en Fernando de la Mora. Espacio único con quincho, pileta y generador propio.</p>
-                <p className="mt-3 text-sm text-white/50">Yataity Cora esq. Fortín Toledo, Fernando de la Mora</p>
+                <p className="text-sm leading-6 text-white/80">Salón de eventos en Fernando de la Mora. Espacio único con quincho, pileta y generador propio.</p>
+                <p className="mt-3 text-sm text-white/70">Yataity Cora esq. Fortín Toledo, Fernando de la Mora</p>
               </div>
 
               <div>
                 <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-white/80 mb-4">Contacto</h4>
-                <div className="space-y-3 text-sm text-white/70">
+                <div className="space-y-3 text-sm text-white/80">
                   <a href={instagramUrl} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-white hover:text-white/80 transition"><FaInstagram className="h-4 w-4" /> @palmarespyeventos</a>
                   <a href="https://www.facebook.com/profile.php?id=100069641632947" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-white hover:text-white/80 transition"><FaFacebookF className="h-4 w-4" /> Palmares Salón de Eventos</a>
                   <a href="mailto:palmarespyeventos@gmail.com" className="flex items-center gap-2 text-white hover:text-white/80 transition"><span className="text-sm">✉</span> palmarespyeventos@gmail.com</a>
@@ -581,7 +584,7 @@ function App() {
             </div>
 
             <div className="border-t border-white/10 mt-10 pt-6">
-              <p className="text-xs text-white/40">&copy; {new Date().getFullYear()} Palmares Salón de Eventos. Fernando de la Mora, Paraguay.</p>
+              <p className="text-xs text-white/70">&copy; {new Date().getFullYear()} Palmares Salón de Eventos. Fernando de la Mora, Paraguay.</p>
             </div>
           </div>
         </footer>
