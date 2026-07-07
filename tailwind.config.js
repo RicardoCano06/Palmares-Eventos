@@ -6,7 +6,7 @@ module.exports = {
       colors: {
         'brand-dark': '#1e252d',
         'brand-card': '#27313b',
-        'brand-accent': '#34eb61',
+        'brand-accent': '#22e369',
         'brand-muted': '#b1becb',
         'brand-gold': '#d4af37',
       },

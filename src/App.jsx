@@ -227,14 +227,14 @@ function App() {
   return (
     <div className="min-h-screen bg-brand-dark text-slate-900 selection:bg-brand-accent/25 selection:text-slate-900">
       <div className="relative isolate overflow-hidden">
-        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(52,235,97,0.14),_transparent_24%),radial-gradient(circle_at_80%_10%,rgba(255,255,255,0.85),transparent_30%),linear-gradient(to_bottom,_#f7faf7,_#f1f5ef_45%,_#edf2eb_100%)]" />
-        <div className="absolute inset-x-0 top-0 -z-10 h-96 bg-[linear-gradient(180deg,rgba(52,235,97,0.1),transparent)] blur-3xl" />
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(34,227,105,0.14),_transparent_24%),radial-gradient(circle_at_80%_10%,rgba(255,255,255,0.85),transparent_30%),linear-gradient(to_bottom,_#f7faf7,_#f1f5ef_45%,_#edf2eb_100%)]" />
+        <div className="absolute inset-x-0 top-0 -z-10 h-96 bg-[linear-gradient(180deg,rgba(34,227,105,0.1),transparent)] blur-3xl" />
         <div className="absolute inset-x-0 top-20 -z-10 h-px bg-gradient-to-r from-transparent via-brand-accent/40 to-transparent" />
 
         <header className="border-b border-slate-200/80 bg-white/70 backdrop-blur-xl">
-          <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+          <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-10 xl:px-12">
             <a href="#inicio" className="flex items-center gap-3">
-              <div className="flex h-12 w-12 overflow-hidden rounded-full border border-brand-accent/25 bg-brand-card shadow-[0_0_35px_rgba(52,235,97,0.14)]">
+              <div className="flex h-12 w-12 overflow-hidden rounded-full border border-brand-accent/25 bg-brand-card shadow-[0_0_35px_rgba(34,227,105,0.14)]">
                 <img src={logo} alt="Palmares - Salón de Eventos" className="h-full w-full object-cover" />
               </div>
               <div>
@@ -254,7 +254,7 @@ function App() {
                 href={`https://wa.me/${whatsappNumber}`}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-brand-accent/30 bg-brand-accent px-5 py-3 text-sm font-semibold text-brand-dark shadow-[0_12px_35px_rgba(52,235,97,0.22)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_40px_rgba(52,235,97,0.28)]"
+                className="inline-flex items-center gap-2 rounded-full border border-brand-accent/30 bg-brand-accent px-5 py-3 text-sm font-semibold text-brand-dark shadow-[0_12px_35px_rgba(34,227,105,0.22)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_40px_rgba(34,227,105,0.28)]"
               >
                 Cotizar Ahora
                 <MessageSquare className="h-4 w-4" />
@@ -274,7 +274,7 @@ function App() {
 
           {mobileMenuOpen ? (
             <div className="border-t border-slate-200 bg-white/95 px-4 py-4 backdrop-blur-xl md:hidden">
-              <div className="mx-auto flex max-w-6xl flex-col gap-3">
+              <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 sm:px-6 lg:px-10 xl:px-12">
                 <a
                   href="#diferenciales"
                   className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 transition hover:border-brand-accent/20 hover:bg-slate-50"
@@ -304,8 +304,8 @@ function App() {
         </header>
 
         <main id="inicio">
-          <section className="mx-auto max-w-6xl px-4 pb-14 pt-12 sm:px-6 sm:pb-16 lg:px-8 lg:pb-20 lg:pt-16">
-            <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
+          <section className="mx-auto max-w-7xl px-4 pb-14 pt-12 sm:px-6 sm:pb-16 lg:px-10 lg:pb-20 lg:pt-16 xl:px-12">
+            <div className="grid items-center gap-10 lg:grid-cols-[1.12fr_0.88fr] lg:gap-16 xl:gap-20">
               <div className="space-y-8">
                 <div className="inline-flex items-center gap-2 rounded-full border border-brand-accent/20 bg-white px-4 py-2 text-sm text-slate-600 shadow-[0_0_0_1px_rgba(15,23,42,0.03)] backdrop-blur">
                   <CheckCircle className="h-4 w-4 text-brand-accent" />
@@ -313,10 +313,10 @@ function App() {
                 </div>
 
                 <div className="space-y-5">
-                  <h2 className="max-w-3xl text-4xl font-semibold leading-tight tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
+                  <h2 className="max-w-4xl text-4xl font-semibold leading-tight tracking-tight text-slate-950 sm:text-5xl lg:text-6xl xl:text-7xl">
                     Hacemos realidad tu evento soñado en Fernando de la Mora
                   </h2>
-                  <p className="max-w-2xl text-base leading-7 text-slate-600 sm:text-lg">
+                  <p className="max-w-3xl text-base leading-7 text-slate-600 sm:text-lg xl:text-xl">
                     Un salón con presencia, verde visual y una propuesta más humana. Inspirado en la estructura clara de sitios de referencia, pero adaptado a Palmares para que la marca se sienta propia desde el primer scroll.
                   </p>
                 </div>
@@ -324,7 +324,7 @@ function App() {
                 <div className="flex flex-col gap-4 sm:flex-row">
                   <a
                     href="#presupuesto"
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-accent px-6 py-4 text-sm font-semibold text-brand-dark shadow-[0_18px_45px_rgba(52,235,97,0.22)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_22px_55px_rgba(52,235,97,0.3)]"
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-accent px-6 py-4 text-sm font-semibold text-brand-dark shadow-[0_18px_45px_rgba(34,227,105,0.22)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_22px_55px_rgba(34,227,105,0.3)]"
                   >
                     Cotizar por WhatsApp
                     <MessageSquare className="h-4 w-4" />
@@ -341,7 +341,7 @@ function App() {
                     return (
                       <div
                         key={item.label}
-                        className="rounded-3xl border border-slate-200 bg-white p-4 shadow-[0_20px_60px_rgba(15,23,42,0.06)] transition duration-300 hover:-translate-y-1 hover:border-brand-accent/20 hover:shadow-[0_28px_80px_rgba(52,235,97,0.1)]"
+                        className="rounded-3xl border border-slate-200 bg-white p-4 shadow-[0_20px_60px_rgba(15,23,42,0.06)] transition duration-300 hover:-translate-y-1 hover:border-brand-accent/20 hover:shadow-[0_28px_80px_rgba(34,227,105,0.1)]"
                       >
                         <Icon className="h-5 w-5 text-brand-accent" />
                         <p className="mt-4 text-2xl font-semibold text-slate-950">{item.value}</p>
@@ -353,10 +353,10 @@ function App() {
               </div>
 
               <div className="relative">
-                <div className="absolute -inset-4 -z-10 rounded-[2rem] bg-[radial-gradient(circle,_rgba(52,235,97,0.14),_transparent_65%)] blur-2xl" />
+                <div className="absolute -inset-4 -z-10 rounded-[2rem] bg-[radial-gradient(circle,_rgba(34,227,105,0.14),_transparent_65%)] blur-2xl" />
                 <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_30px_90px_rgba(15,23,42,0.08)] backdrop-blur-xl sm:p-8">
                   <div className="flex items-center gap-4">
-                    <div className="h-16 w-16 overflow-hidden rounded-2xl border border-brand-accent/20 bg-white shadow-[0_0_30px_rgba(52,235,97,0.1)]">
+                    <div className="h-16 w-16 overflow-hidden rounded-2xl border border-brand-accent/20 bg-white shadow-[0_0_30px_rgba(34,227,105,0.1)]">
                       <img src={logo} alt="Logo Palmares" className="h-full w-full object-cover" />
                     </div>
                     <div>
@@ -380,7 +380,7 @@ function App() {
                     </div>
                   </div>
 
-                  <div className="mt-6 rounded-3xl border border-brand-accent/15 bg-[linear-gradient(180deg,rgba(52,235,97,0.08),rgba(52,235,97,0.03))] p-5">
+                  <div className="mt-6 rounded-3xl border border-brand-accent/15 bg-[linear-gradient(180deg,rgba(34,227,105,0.08),rgba(34,227,105,0.03))] p-5">
                     <p className="text-xs uppercase tracking-[0.3em] text-brand-accent/90">Desde 2021</p>
                     <p className="mt-2 text-lg font-medium text-slate-950">Una propuesta elegante y funcional para eventos que necesitan verse bien y organizarse mejor.</p>
                   </div>
@@ -389,20 +389,20 @@ function App() {
             </div>
           </section>
 
-          <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6 lg:px-8">
-            <Reveal className="max-w-2xl">
+          <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-10 xl:px-12">
+            <Reveal className="max-w-3xl">
               <p className="text-sm uppercase tracking-[0.3em] text-brand-accent/90">Galería</p>
-              <h3 className="mt-3 text-3xl font-semibold text-slate-950 sm:text-4xl">Una presentación visual más cercana a un salón real</h3>
+              <h3 className="mt-3 text-3xl font-semibold text-slate-950 sm:text-4xl">Imágenes que transmiten el estilo de Palmares</h3>
               <p className="mt-4 text-base leading-7 text-slate-600">
-                Para un estilo tipo Vista Verde, conviene mostrar accesos, salón, ambientación y detalles. Si después me pasás fotos reales, las conecto en estas tarjetas y queda mucho más potente.
+                Accesos, salón, ambientación y detalles reales para transmitir de inmediato la calidad, la escala y la presentación del lugar.
               </p>
             </Reveal>
 
-            <div className="mt-10 grid gap-4 lg:grid-cols-3">
+            <div className="mt-10 grid gap-4 lg:grid-cols-3 xl:gap-5">
               {galleryCards.map((card) => (
                 <Reveal key={card.title} className="overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_24px_80px_rgba(15,23,42,0.06)]">
                   <div className={`aspect-[4/3] bg-gradient-to-br ${card.tone} relative`}>
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,rgba(52,235,97,0.16),transparent_30%),radial-gradient(circle_at_70%_75%,rgba(15,23,42,0.08),transparent_22%)]" />
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,rgba(34,227,105,0.16),transparent_30%),radial-gradient(circle_at_70%_75%,rgba(15,23,42,0.08),transparent_22%)]" />
                     <div className="absolute bottom-4 left-4 flex items-center gap-3 rounded-full border border-white/60 bg-white/85 px-4 py-2 shadow-sm backdrop-blur">
                       <div className="h-10 w-10 overflow-hidden rounded-full border border-brand-accent/20">
                         <img src={logo} alt="Palmares" className="h-full w-full object-cover" />
@@ -421,19 +421,19 @@ function App() {
             </div>
           </section>
 
-          <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6 lg:px-8">
-            <Reveal className="max-w-2xl">
+          <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-10 xl:px-12">
+            <Reveal className="max-w-3xl">
               <p className="text-sm uppercase tracking-[0.3em] text-brand-accent/90">Tipos de evento</p>
               <h3 className="mt-3 text-3xl font-semibold text-slate-950 sm:text-4xl">Cada celebración merece su propio enfoque</h3>
               <p className="mt-4 text-base leading-7 text-slate-600">
-                Este bloque ayuda a que el visitante se ubique rápido en la oferta y entienda cómo se adapta Palmares a distintos formatos de evento.
+                Casamientos, colaciones, XV y corporativos con una atención pensada para que cada formato se vea elegante, ordenado y listo para disfrutar.
               </p>
             </Reveal>
 
-            <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4 xl:gap-5">
               {eventShowcase.map((item) => (
                 <Reveal key={item.title} className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)] transition hover:-translate-y-1 hover:border-brand-accent/25">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-accent text-brand-dark shadow-[0_10px_30px_rgba(52,235,97,0.18)]">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-accent text-brand-dark shadow-[0_10px_30px_rgba(34,227,105,0.18)]">
                     <CheckCircle className="h-5 w-5" />
                   </div>
                   <h4 className="mt-5 text-xl font-semibold text-slate-950">{item.title}</h4>
@@ -443,13 +443,13 @@ function App() {
             </div>
           </section>
 
-          <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6 lg:px-8">
+          <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-10 xl:px-12">
             <Reveal className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-              <div className="max-w-2xl">
-                <p className="text-sm uppercase tracking-[0.3em] text-brand-accent/90">Instagram</p>
-                <h3 className="mt-3 text-3xl font-semibold text-slate-950 sm:text-4xl">Últimas publicaciones del salón</h3>
+              <div className="max-w-3xl">
+                <p className="text-sm uppercase tracking-[0.3em] text-brand-accent/90">Novedades</p>
+                <h3 className="mt-3 text-3xl font-semibold text-slate-950 sm:text-4xl">Lo último que se vive en Palmares</h3>
                 <p className="mt-4 text-base leading-7 text-slate-600">
-                  El contenido puede actualizarse semanalmente desde la API oficial de Instagram Graph. Si el perfil business está conectado, la galería se llena sola con las 3 publicaciones más recientes.
+                  Una selección de imágenes reales para mostrar el ambiente, la escala y la presencia visual que hacen destacar al salón.
                 </p>
               </div>
               <a href={facebookUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 self-start rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-900">
@@ -458,11 +458,11 @@ function App() {
               </a>
             </Reveal>
 
-            <div className="mt-10 grid gap-4 md:grid-cols-3">
+            <div className="mt-10 grid gap-4 md:grid-cols-3 xl:gap-5">
               {(instagramStatus === 'ready' ? instagramPosts : galleryCards).map((post, index) => {
                 const title = instagramStatus === 'ready' ? `Publicación ${index + 1}` : post.title;
                 const description = instagramStatus === 'ready'
-                  ? (post.caption ? post.caption.slice(0, 120) : 'Publicación reciente de Instagram.')
+                  ? (post.caption ? post.caption.slice(0, 120) : 'Momento reciente del salón.')
                   : post.description;
                 const imageUrl = instagramStatus === 'ready'
                   ? (post.mediaType === 'VIDEO' ? post.thumbnailUrl || post.mediaUrl : post.mediaUrl)
@@ -480,7 +480,7 @@ function App() {
                         )}
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent" />
                         <div className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-slate-700 backdrop-blur">
-                          {instagramStatus === 'ready' ? 'Instagram' : 'Preview'}
+                          {instagramStatus === 'ready' ? 'Nuevo' : 'Galería'}
                         </div>
                       </div>
                       <div className="p-5">
@@ -493,15 +493,10 @@ function App() {
               })}
             </div>
 
-            {instagramStatus === 'fallback' ? (
-              <Reveal className="mt-4 rounded-3xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm text-amber-900">
-                La API de Instagram todavía no está conectada. Cuando carguemos `IG_USER_ID` y `IG_ACCESS_TOKEN` en Vercel, esta grilla mostrará las 3 publicaciones más recientes automáticamente.
-              </Reveal>
-            ) : null}
           </section>
 
           <section className="border-y border-white/5 bg-white/[0.02]">
-            <div className="mx-auto grid max-w-6xl gap-4 px-4 py-8 sm:grid-cols-3 sm:px-6 lg:px-8">
+            <div className="mx-auto grid max-w-7xl gap-4 px-4 py-8 sm:grid-cols-3 sm:px-6 lg:px-10 xl:px-12">
               {proofItems.map((item) => {
                 const Icon = item.icon;
                 return (
@@ -521,13 +516,13 @@ function App() {
             </div>
           </section>
 
-          <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-            <Reveal className="max-w-2xl">
+          <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-10 lg:py-20 xl:px-12">
+            <Reveal className="max-w-3xl">
               <p className="text-sm uppercase tracking-[0.3em] text-brand-accent/90">Redes y ubicación</p>
               <h3 className="mt-3 text-3xl font-semibold text-slate-950 sm:text-4xl">Encontrá el salón y contactá al equipo en un solo lugar</h3>
             </Reveal>
 
-            <div className="mt-10 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+            <div className="mt-10 grid gap-6 lg:grid-cols-[0.88fr_1.12fr] xl:gap-8">
               <Reveal className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_24px_80px_rgba(15,23,42,0.06)] sm:p-8">
                 <div className="space-y-4">
                   {socialLinks.map((item) => {
@@ -542,7 +537,7 @@ function App() {
                         className="flex items-center justify-between gap-4 rounded-3xl border border-slate-200 bg-slate-50 px-4 py-4 transition hover:-translate-y-0.5 hover:border-brand-accent/25 hover:bg-white"
                       >
                         <div className="flex items-center gap-4">
-                          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-accent text-brand-dark shadow-[0_10px_30px_rgba(52,235,97,0.18)]">
+                          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-accent text-brand-dark shadow-[0_10px_30px_rgba(34,227,105,0.18)]">
                             <Icon className="h-5 w-5" />
                           </div>
                           <div>
@@ -587,13 +582,13 @@ function App() {
             </div>
           </section>
 
-          <section className="mx-auto max-w-6xl px-4 pb-20 sm:px-6 lg:px-8 lg:pb-24">
+          <section className="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-10 lg:pb-24 xl:px-12">
             <Reveal className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_24px_80px_rgba(15,23,42,0.06)] sm:p-8">
               <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                 <div>
                   <p className="text-sm uppercase tracking-[0.3em] text-brand-accent/90">Contacto rápido</p>
                   <h3 className="mt-3 text-3xl font-semibold text-slate-950">Escribinos y vemos tu fecha disponible</h3>
-                  <p className="mt-3 max-w-2xl text-base leading-7 text-slate-600">
+                  <p className="mt-3 max-w-3xl text-base leading-7 text-slate-600">
                     WhatsApp para el cierre rápido, Facebook para ver actividad del salón y ubicación directa para llegar sin vueltas.
                   </p>
                 </div>
@@ -613,26 +608,26 @@ function App() {
             </Reveal>
           </section>
 
-          <section id="diferenciales" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-            <Reveal className="max-w-2xl">
+          <section id="diferenciales" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-10 lg:py-20 xl:px-12">
+            <Reveal className="max-w-3xl">
               <p className="text-sm uppercase tracking-[0.3em] text-brand-accent/90">Diferenciales</p>
               <h3 className="mt-3 text-3xl font-semibold text-slate-950 sm:text-4xl">Todo lo que tu evento necesita para elevar su nivel</h3>
               <p className="mt-4 text-base leading-7 text-slate-600">
-                La estructura sigue la lógica de una landing de referencia: un inicio fuerte, beneficios claros, prueba social y un cierre de conversión. La diferencia está en la identidad propia de Palmares.
+                Palmares combina comodidad, presentación y atención para que el evento se vea bien, se sienta cómodo y se recuerde con buena impresión.
               </p>
             </Reveal>
 
-            <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4 xl:gap-5">
               {differentiators.map((item) => {
                 const Icon = item.icon;
                 return (
                   <article
                     key={item.title}
-                    className="group relative overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)] transition duration-300 hover:-translate-y-1 hover:border-brand-accent/20 hover:shadow-[0_24px_70px_rgba(52,235,97,0.08)]"
+                    className="group relative overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)] transition duration-300 hover:-translate-y-1 hover:border-brand-accent/20 hover:shadow-[0_24px_70px_rgba(34,227,105,0.08)]"
                   >
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(52,235,97,0.12),transparent_35%)] opacity-0 transition duration-300 group-hover:opacity-100" />
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(34,227,105,0.12),transparent_35%)] opacity-0 transition duration-300 group-hover:opacity-100" />
                     <div className="relative">
-                      <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-brand-accent/15 bg-white/5 text-brand-accent transition duration-300 group-hover:scale-105 group-hover:shadow-[0_0_30px_rgba(52,235,97,0.18)]">
+                      <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-brand-accent/15 bg-white/5 text-brand-accent transition duration-300 group-hover:scale-105 group-hover:shadow-[0_0_30px_rgba(34,227,105,0.18)]">
                         <Icon className="h-6 w-6" />
                       </div>
                       <h4 className="mt-5 text-xl font-semibold text-slate-950">{item.title}</h4>
@@ -644,13 +639,13 @@ function App() {
             </div>
           </section>
 
-          <section id="presupuesto" className="mx-auto max-w-6xl px-4 pb-20 sm:px-6 lg:px-8 lg:pb-24">
-            <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
+          <section id="presupuesto" className="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-10 lg:pb-24 xl:px-12">
+            <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start xl:gap-10">
               <Reveal className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_24px_80px_rgba(15,23,42,0.06)] sm:p-8">
                 <p className="text-sm uppercase tracking-[0.3em] text-brand-accent/90">Presupuesto automatizado</p>
                 <h3 className="mt-3 text-3xl font-semibold text-slate-950">Solicitá tu cotización en menos de un minuto</h3>
                 <p className="mt-4 text-base leading-7 text-slate-600">
-                  Completá tus datos y enviá la consulta por WhatsApp. Así te respondemos con una propuesta más precisa, clara y útil para decidir.
+                  Dejanos tus datos y te respondemos por WhatsApp con una propuesta clara, rápida y pensada para tu tipo de evento.
                 </p>
 
                 <div className="mt-8 space-y-4">
@@ -737,14 +732,14 @@ function App() {
 
                 <button
                   type="submit"
-                  className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-brand-accent px-5 py-4 text-sm font-semibold text-brand-dark shadow-[0_18px_45px_rgba(52,235,97,0.25)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_22px_55px_rgba(52,235,97,0.32)]"
+                  className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-brand-accent px-5 py-4 text-sm font-semibold text-brand-dark shadow-[0_18px_45px_rgba(34,227,105,0.25)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_22px_55px_rgba(34,227,105,0.32)]"
                 >
                   Enviar a WhatsApp
                   <MessageSquare className="h-4 w-4" />
                 </button>
 
                 <p className="mt-4 text-center text-xs leading-5 text-slate-500">
-                  Al enviar, se abrirá WhatsApp con tu presupuesto precompletado para agilizar la atención.
+                  Al enviar, te contactamos por WhatsApp con la información de tu evento ya lista para continuar.
                 </p>
               </Reveal>
             </div>
