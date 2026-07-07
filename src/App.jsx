@@ -446,7 +446,7 @@ function App() {
                           <span className="text-xs font-semibold uppercase tracking-wider text-[#8a7a6a]">Interior</span>
                           <span className="text-xs font-semibold uppercase tracking-wider text-[#8BC34A]">Elegante</span>
                         </div>
-                        <p className="text-sm sm:text-base leading-6 text-[#5a4e42]">Salón amplio y vacío para que montes tu evento a tu gusto. Espacio versátil, listo para cualquier celebración.</p>
+                        <p className="text-sm sm:text-base leading-6 text-[#5a4e42]">Salón amplio para que montes tu evento a tu gusto. Espacio versátil, listo para cualquier celebración.</p>
                       </div>
 
                       <div className="grid grid-cols-2 gap-4">
