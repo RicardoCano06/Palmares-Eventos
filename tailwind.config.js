@@ -6,7 +6,7 @@ module.exports = {
       colors: {
         brand: {
           bg: '#F9F9F5',
-          surface: '#f0f0ea',
+          surface: '#F2F2EC',
           text: '#111215',
           dark: '#111215',
           green: '#3A5A24',

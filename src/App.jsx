@@ -14,30 +14,30 @@ const socialProof = [
   { value: '4.7 ★', label: 'Google' },
   { value: '161+', label: 'Reseñas' },
   { value: '2021', label: 'Desde' },
-  { value: '80+', label: 'Eventos' },
+  { value: '200+', label: 'Eventos' },
 ];
 
 const testimonials = [
   {
-    name: 'María & Carlos',
-    event: 'Boda · 80 invitados',
-    text: 'El salón superó todas nuestras expectativas. El generador propio nos salvó cuando cortaron la luz, y el quincho fue lo más aplaudido de la noche.',
+    name: 'Carmen Ferreira',
+    event: 'Cliente · 43 reseñas en Google',
+    text: 'Muy lindo lugar, limpio, sus sanitarios como corresponde y buena atención del personal. Recomendadísimo. Buena ubicación.',
     rating: 5,
-    image: 'https://images.unsplash.com/photo-1583939003579-730e3918ea45?w=120&q=80',
+    link: 'https://maps.app.goo.gl/2QkaVC2oQ1xVUADEA',
   },
   {
-    name: 'Laura Martínez',
-    event: 'Colación · 60 invitados',
-    text: 'Todo impecable. Los invitados quedaron re contentos con el espacio y la pileta iluminada. El colegio nos pidió el contacto para futuros eventos.',
+    name: 'Dream\'s By Ofely Ocampo',
+    event: 'Cliente · 17 reseñas en Google',
+    text: 'Excelente lugar, los dueños súper atentos y muy cordiales. Especial para cualquier acontecimiento social.',
     rating: 5,
-    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&q=80',
+    link: 'https://maps.app.goo.gl/GfsT5d7CseSe1UCT8',
   },
   {
-    name: 'Pedro & Ana',
-    event: 'Cumpleaños de 15 · 100 invitados',
-    text: 'Buscábamos un lugar con parrilla y pileta para los 15 de nuestra hija. Palmares fue perfecto. La atención de principio a fin.',
+    name: 'Ma. Eugenia Romero',
+    event: 'Cliente · 96 reseñas en Google',
+    text: 'Bello el salón, muy amables los propietarios, excelente en cuanto a higiene, bien equipado el quincho para realizar cualquier tipo de eventos.',
     rating: 5,
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&q=80',
+    link: 'https://maps.app.goo.gl/ze6wLGsa7KxkrDVA8',
   },
 ];
 
@@ -233,11 +233,11 @@ function App() {
     <div className="min-h-screen bg-brand-bg text-brand-text selection:bg-brand-green/25 selection:text-brand-text">
       <div className="relative isolate overflow-hidden">
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-brand-bg via-brand-surface to-brand-bg" />
-        <div className="absolute inset-x-0 top-0 -z-10 h-80 bg-[radial-gradient(circle,_rgba(184,148,60,0.06),_transparent_60%)] blur-3xl" />
+        <div className="absolute inset-x-0 top-0 -z-10 h-80 bg-[radial-gradient(circle,_rgba(58,90,36,0.04),_transparent_60%)]" />
 
         {scrolled && <div className="h-20" />}
 
-        <header className={`z-50 transition-all duration-500 ${scrolled ? 'fixed left-1/2 -translate-x-1/2 top-4 w-[calc(100%-3rem)] max-w-6xl rounded-xl bg-white shadow-[0_8px_40px_rgba(0,0,0,0.1)]' : 'relative bg-white/80 backdrop-blur-xl'}`}>
+        <header className={`z-50 transition-all duration-500 ${scrolled ? 'fixed left-1/2 -translate-x-1/2 top-4 w-[calc(100%-3rem)] max-w-7xl rounded-xl bg-white shadow-lg' : 'relative bg-white/90'}`}>
           <div className={`mx-auto flex items-center justify-between px-4 sm:px-6 transition-all duration-300 ${scrolled ? 'py-3' : 'py-4 lg:px-8'}`}>
             <a href="#inicio" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="flex items-center gap-3">
               <div className={`overflow-hidden rounded-full border border-brand-surface bg-white transition-all duration-300 ${scrolled ? 'h-10 w-10' : 'h-12 w-12 shadow-[0_0_30px_rgba(184,148,60,0.12)]'}`}>
@@ -290,8 +290,7 @@ function App() {
         </header>
 
         <main id="inicio">
-          <section className="mx-auto px-4 pb-14 pt-8 sm:px-6 lg:px-8 lg:pb-20">
-            <div className="mx-auto max-w-7xl">
+          <section className="mx-auto max-w-7xl px-4 pb-14 pt-8 sm:px-6 lg:px-8 lg:pb-20">
               <div className="flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-16">
                 <div className="flex-1 lg:max-w-[55%]">
                   <h2 className="animate-fade-up font-display text-5xl font-extrabold leading-[1.05] text-brand-text sm:text-6xl lg:text-7xl xl:text-8xl">
@@ -306,7 +305,7 @@ function App() {
                       href={`https://wa.me/${whatsappNumber}`}
                       target="_blank"
                       rel="noreferrer"
-                      className="animate-pulse-glow inline-flex items-center gap-2 rounded-full bg-brand-text px-7 py-4 text-sm font-semibold text-white shadow-lg transition hover:opacity-90 w-fit"
+                      className="animate-pulse-glow inline-flex items-center gap-2 rounded-full bg-brand-green px-7 py-4 text-sm font-semibold text-white shadow-lg transition hover:opacity-90 w-fit"
                     >
                       Cotizar ahora
                       <FaWhatsapp className="h-4 w-4" />
@@ -326,7 +325,7 @@ function App() {
                     <span className="w-px h-4 bg-brand-surface" />
                     <span><strong className="text-brand-text font-semibold">161+</strong> Reseñas</span>
                     <span className="w-px h-4 bg-brand-surface" />
-                    <span><strong className="text-brand-text font-semibold">80+</strong> Eventos</span>
+                    <span><strong className="text-brand-text font-semibold">200+</strong> Eventos</span>
                     <span className="w-px h-4 bg-brand-surface" />
                     <span><strong className="text-brand-text font-semibold">2021</strong> Trayectoria</span>
                   </div>
@@ -343,10 +342,9 @@ function App() {
                   </div>
                 </div>
               </div>
-            </div>
           </section>
 
-          <section id="diferenciales" className="mx-auto px-4 pb-16 sm:px-6 lg:px-8">
+          <section id="diferenciales" className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
             <Reveal>
               <SectionHeading
                 eyebrow="Diferenciales"
@@ -378,7 +376,7 @@ function App() {
             </Reveal>
           </section>
 
-          <section id="testimonios" className="mx-auto px-4 pb-16 sm:px-6 lg:px-8">
+          <section id="testimonios" className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
             <Reveal>
               <SectionHeading
                 eyebrow="Testimonios"
@@ -395,20 +393,23 @@ function App() {
                   </div>
                   <p className="text-sm leading-6 text-brand-muted">"{t.text}"</p>
                   <div className="mt-5 flex items-center gap-3 pt-4">
-                    <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full border border-brand-surface">
-                      <img src={t.image} alt={t.name} className="h-full w-full object-cover" />
+                    <div className="h-10 w-10 shrink-0 rounded-full border border-brand-surface bg-brand-surface flex items-center justify-center">
+                      <svg className="h-5 w-5 text-brand-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
                     </div>
-                    <div>
+                    <div className="flex-1">
                       <p className="text-sm font-semibold text-brand-text">{t.name}</p>
                       <p className="text-xs text-brand-muted">{t.event}</p>
                     </div>
+                    <a href={t.link} target="_blank" rel="noreferrer" className="shrink-0 text-brand-muted hover:text-brand-green transition text-xs font-semibold" aria-label="Ver reseña en Google">
+                      Google ↗
+                    </a>
                   </div>
                 </Reveal>
               ))}
             </div>
           </section>
 
-          <section id="galeria" className="mx-auto px-4 pb-16 sm:px-6 lg:px-8">
+          <section id="galeria" className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
             <Reveal>
               <SectionHeading
                 eyebrow="Galería"
@@ -459,7 +460,7 @@ function App() {
             </div>
           </section>
 
-          <section id="instagram" className="mx-auto px-4 pb-16 sm:px-6 lg:px-8">
+          <section id="instagram" className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
             <Reveal className="rounded-2xl bg-white p-6 sm:p-8 lg:p-10 shadow-lg">
               <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
                 <div>
@@ -477,7 +478,7 @@ function App() {
             </Reveal>
           </section>
 
-          <section id="ubicacion" className="mx-auto px-4 pb-20 sm:px-6 lg:px-8 lg:pb-24">
+          <section id="ubicacion" className="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8 lg:pb-24">
             <Reveal>
               <SectionHeading
                 eyebrow="Ubicación"
@@ -538,7 +539,7 @@ function App() {
 
                   {formError && (<div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-xs text-red-600">{formError}</div>)}
 
-                  <button type="submit" className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand-text py-4 text-sm font-semibold text-white shadow-lg transition hover:opacity-90 active:scale-[0.99]">
+                  <button type="submit" className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand-green py-4 text-sm font-semibold text-white shadow-lg transition hover:opacity-90 active:scale-[0.99]">
                     Cotizar por WhatsApp
                     <FaWhatsapp className="h-4 w-4" />
                   </button>
@@ -549,7 +550,7 @@ function App() {
         </main>
 
         <footer className="bg-brand-green py-12">
-          <div className="mx-auto px-4 sm:px-6 lg:px-8">
+           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
               <div>
                 <div className="flex items-center gap-3 mb-4">
