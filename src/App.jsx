@@ -174,7 +174,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 500);
+    const onScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -235,12 +235,14 @@ function App() {
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-brand-bg via-brand-surface to-brand-bg" />
         <div className="absolute inset-x-0 top-0 -z-10 h-80 bg-[radial-gradient(circle,_rgba(58,90,36,0.04),_transparent_60%)]" />
 
-        {scrolled && <div className="h-20" />}
-
-        <header className={`z-50 transition-all duration-500 ${scrolled ? 'fixed left-1/2 -translate-x-1/2 top-4 w-[calc(100%-3rem)] max-w-7xl rounded-xl bg-white shadow-lg' : 'relative bg-white/90'}`}>
-          <div className={`mx-auto flex items-center justify-between px-4 sm:px-6 transition-all duration-300 ${scrolled ? 'py-3' : 'py-4 lg:px-8'}`}>
+        <header className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-500 ease-in-out ${scrolled ? 'py-3 px-4' : 'py-4 px-0'}`}>
+          <div className={`mx-auto flex items-center justify-between transition-all duration-500 ease-in-out ${
+            scrolled
+              ? 'max-w-6xl rounded-xl bg-[#F9F9F5]/80 backdrop-blur-md shadow-lg border border-brand-text/5 px-6 py-2'
+              : 'max-w-full bg-transparent px-8 py-2'
+          }`}>
             <a href="#inicio" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="flex items-center gap-3">
-              <div className={`overflow-hidden rounded-full border border-brand-surface bg-white transition-all duration-300 ${scrolled ? 'h-10 w-10' : 'h-12 w-12 shadow-[0_0_30px_rgba(184,148,60,0.12)]'}`}>
+              <div className={`overflow-hidden rounded-full border border-brand-surface bg-white transition-all duration-300 ${scrolled ? 'h-10 w-10' : 'h-12 w-12'}`}>
                 <img src={logo} alt="Palmares - Salón de Eventos" className="h-full w-full object-cover" />
               </div>
               <div>
@@ -279,7 +281,7 @@ function App() {
 
           {mobileMenuOpen ? (
             <div className="border-t border-brand-surface bg-white md:hidden">
-              <nav className="flex flex-col px-4 sm:px-6">
+              <nav className="flex flex-col px-4 sm:px-6 max-w-6xl mx-auto">
                 <a href="#diferenciales" className="py-4 text-sm text-brand-text border-b border-brand-surface/50 transition hover:text-brand-green" onClick={(e) => { setMobileMenuOpen(false); scrollTo('diferenciales')(e); }}>Diferenciales</a>
                 <a href="#galeria" className="py-4 text-sm text-brand-text border-b border-brand-surface/50 transition hover:text-brand-green" onClick={(e) => { setMobileMenuOpen(false); scrollTo('galeria')(e); }}>Galería</a>
                 <a href="#ubicacion" className="py-4 text-sm text-brand-text border-b border-brand-surface/50 transition hover:text-brand-green" onClick={(e) => { setMobileMenuOpen(false); scrollTo('ubicacion')(e); }}>Ubicación</a>
@@ -288,13 +290,15 @@ function App() {
             </div>
           ) : null}
         </header>
+        <div className="h-16" />
 
         <main id="inicio">
           <section className="mx-auto max-w-7xl px-4 pb-14 pt-8 sm:px-6 lg:px-8 lg:pb-20">
               <div className="flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-16">
                 <div className="flex-1 lg:max-w-[55%]">
-                  <h2 className="animate-fade-up font-display text-5xl font-extrabold leading-[1.05] text-brand-text sm:text-6xl lg:text-7xl xl:text-8xl">
-                    El lugar perfecto para tu evento en Fernando de la Mora
+                  <p className="animate-fade-up text-sm uppercase tracking-[0.35em] text-brand-green font-bold mb-4">Palmares Eventos</p>
+                  <h2 className="animate-fade-up font-display text-4xl font-bold leading-[1.1] text-brand-text sm:text-5xl lg:text-6xl xl:text-7xl">
+                    Creamos el espacio para tus mejores recuerdos
                   </h2>
                   <p className="animate-fade-up-1 mt-6 text-lg leading-7 text-brand-muted max-w-xl">
                     Bodas, cumpleaños, colaciones y eventos de empresa. Salón con quincho, parrilla, pileta y generador propio.
