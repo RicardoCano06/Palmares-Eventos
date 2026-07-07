@@ -664,7 +664,7 @@ function App() {
                   <FaInstagram className="h-4 w-4" />
                 </a>
               </div>
-              <div className="mt-8 grid grid-cols-3 gap-3 sm:grid-cols-6">
+              <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-6">
                 {instagramPosts.map((item, index) => (
                   <InstagramCard key={index} item={item} />
                 ))}
