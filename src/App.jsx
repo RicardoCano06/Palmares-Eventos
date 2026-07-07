@@ -2,57 +2,137 @@ import { useEffect, useRef, useState } from 'react';
 import {
   Award,
   CheckCircle,
-  MapPin,
   Menu,
   MessageSquare,
+  MapPin,
   Shield,
-  Snowflake,
   Star,
   X,
 } from 'lucide-react';
 import logo from '/Imagen1.png';
-import { FaFacebookF, FaInstagram, FaWhatsapp, FaLocationDot } from 'react-icons/fa6';
+import { FaFacebookF, FaInstagram, FaWhatsapp } from 'react-icons/fa6';
 
 const whatsappNumber = '595000000000';
 const facebookUrl = 'https://www.facebook.com/p/Palmares-Sal%C3%B3n-de-eventos-100069641632947/';
 const mapsUrl = 'https://www.google.com/maps/place/Palmares+-+Salón+de+eventos/@-25.3342363,-57.5742762,16z';
+const heroImage = 'https://images.unsplash.com/photo-1519167758481-83f29c2eab2a?auto=format&fit=crop&w=1800&q=80';
 
 const eventTypes = ['Boda', 'Quinceaños', 'Colación', 'Corporativo', 'Otro'];
 
 const eventShowcase = [
   {
     title: 'Casamientos',
-    description: 'Una estética elegante para ceremonias íntimas o celebraciones amplias con presencia y orden.',
+    description: 'Mesa principal elegante, flores y una puesta pensada para una noche inolvidable.',
+    image: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
   },
   {
     title: 'Colaciones',
-    description: 'Un espacio preparado para festejar logros con un ingreso claro, buena circulación y fotos que se ven bien.',
+    description: 'Ingreso ordenado, fotos lindas y un ambiente que celebra el logro con presencia.',
+    image: 'https://images.unsplash.com/photo-1523438097201-512ae7d59c2f?auto=format&fit=crop&w=1200&q=80',
   },
   {
     title: 'XV años',
-    description: 'Ideal para celebraciones con montaje llamativo, pista protagonista y una experiencia memorable.',
+    description: 'Pista protagonista, luces aéreas y una celebración que se siente grande desde el inicio.',
+    image: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1200&q=80',
   },
   {
     title: 'Corporativos',
-    description: 'Formato funcional para encuentros de empresas, presentaciones, lanzamientos o reconocimientos.',
+    description: 'Montaje funcional y elegante para encuentros de empresas, lanzamientos y reconocimientos.',
+    image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80',
   },
 ];
 
 const galleryCards = [
   {
-    title: 'Ingreso principal',
-    description: 'Un acceso limpio y elegante que anticipa una experiencia premium desde el primer paso.',
-    tone: 'from-brand-accent/35 via-white to-slate-100',
+    title: 'Pista de baile',
+    description: 'La energía del evento, con luces y amplitud para que la pista se vea imponente.',
+    image: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1400&q=80',
+    span: 'lg:col-span-7',
   },
   {
-    title: 'Salón principal',
-    description: 'Espacio pensado para lucir decoración, iluminación y mesas con una presencia más sofisticada.',
-    tone: 'from-emerald-200 via-white to-slate-50',
+    title: 'Mesa principal',
+    description: 'Una composición refinada para bodas y XV que centra todas las miradas.',
+    image: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1400&q=80',
+    span: 'lg:col-span-5',
   },
   {
-    title: 'Detalle de evento',
-    description: 'Una composición visual ideal para mostrar ambientación, mesas, torta o pista de baile.',
-    tone: 'from-lime-100 via-white to-slate-50',
+    title: 'Zona de recepción',
+    description: 'El primer contacto con el salón: limpio, claro y con una presencia muy cuidada.',
+    image: 'https://images.unsplash.com/photo-1519167758481-83f29c2eab2a?auto=format&fit=crop&w=1400&q=80',
+    span: 'lg:col-span-4',
+  },
+  {
+    title: 'Vista general',
+    description: 'La infraestructura completa para dimensionar el espacio y la circulación.',
+    image: 'https://images.unsplash.com/photo-1505236858219-8359eb29e329?auto=format&fit=crop&w=1400&q=80',
+    span: 'lg:col-span-8',
+  },
+];
+
+const benefitPanels = [
+  {
+    title: 'Climatización total',
+    description: 'Confort parejo durante todo el evento para que todos disfruten de verdad.',
+    image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1400&q=80',
+  },
+  {
+    title: 'Ubicación estratégica',
+    description: 'Llegada cómoda en Fernando de la Mora, con accesos simples para tus invitados.',
+    image: 'https://images.unsplash.com/photo-1464219222984-216ebffaaf85?auto=format&fit=crop&w=1400&q=80',
+  },
+  {
+    title: 'Iluminación de impacto',
+    description: 'Un ambiente cálido que viste el salón y hace que la pista se destaque.',
+    image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1400&q=80',
+  },
+  {
+    title: 'Atención personalizada',
+    description: 'Acompañamiento claro para resolver cada detalle con tranquilidad.',
+    image: 'https://images.unsplash.com/photo-1523438097201-512ae7d59c2f?auto=format&fit=crop&w=1400&q=80',
+  },
+];
+
+const differentiators = [
+  {
+    title: 'Confort durante todo el evento',
+    description: 'Un ambiente pensado para que todos se sientan bien de principio a fin.',
+    image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1400&q=80',
+  },
+  {
+    title: 'Pista protagonista',
+    description: 'La energía del evento se concentra en una pista que se ve imponente.',
+    image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1400&q=80',
+  },
+  {
+    title: 'Mesa y ambientación',
+    description: 'Montajes elegantes que levantan la presentación de cualquier celebración.',
+    image: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1400&q=80',
+  },
+  {
+    title: 'Ingreso con presencia',
+    description: 'La primera impresión del salón marca el tono de toda la noche.',
+    image: 'https://images.unsplash.com/photo-1464219222984-216ebffaaf85?auto=format&fit=crop&w=1400&q=80',
+  },
+];
+
+const testimonialCards = [
+  {
+    name: 'Carolina M.',
+    event: 'Boda',
+    date: '12 abril 2026',
+    quote: 'La ambientación quedó hermosa y la noche se sintió elegante de principio a fin.',
+  },
+  {
+    name: 'Mónica R.',
+    event: 'XV años',
+    date: '21 febrero 2026',
+    quote: 'La pista y las luces hicieron que todo se vea impresionante en fotos y video.',
+  },
+  {
+    name: 'Roberto y Vane',
+    event: 'Boda',
+    date: '7 febrero 2026',
+    quote: 'Nos acompañaron con mucha atención y el evento salió más lindo de lo que imaginamos.',
   },
 ];
 
@@ -72,7 +152,7 @@ const socialLinks = [
   {
     label: 'Ubicación',
     href: mapsUrl,
-    icon: FaLocationDot,
+    icon: MapPin,
     description: 'Abrir en Google Maps.',
   },
 ];
@@ -81,29 +161,6 @@ const proofItems = [
   { value: '4.7', label: 'Calificación en Google', icon: Star },
   { value: '161+', label: 'Reseñas Verificadas', icon: Award },
   { value: 'Desde 2021', label: 'Creando Momentos', icon: Shield },
-];
-
-const differentiators = [
-  {
-    title: 'Zona Estratégica',
-    description: 'Fernando de la Mora, Zona Sur, con accesos ágiles para que tus invitados lleguen cómodos y sin desvíos innecesarios.',
-    icon: MapPin,
-  },
-  {
-    title: 'Climatización Total',
-    description: 'Ambientes frescos y estables para sostener el confort durante toda la celebración, sin depender del clima exterior.',
-    icon: Snowflake,
-  },
-  {
-    title: 'Iluminación Escénica',
-    description: 'Líneas visuales sobrias y elegantes para vestir el salón con presencia, fondo y una pista de baile memorable.',
-    icon: Star,
-  },
-  {
-    title: 'Respaldo Absoluto',
-    description: 'Un equipo atento que acompaña cada etapa del evento para que la experiencia se sienta ordenada y confiable.',
-    icon: Shield,
-  },
 ];
 
 function useRevealOnScroll() {
@@ -225,13 +282,13 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-brand-dark text-slate-900 selection:bg-brand-accent/25 selection:text-slate-900">
+    <div className="min-h-screen text-slate-900 selection:bg-brand-accent/25 selection:text-slate-900">
       <div className="relative isolate overflow-hidden">
-        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(34,227,105,0.14),_transparent_24%),radial-gradient(circle_at_80%_10%,rgba(255,255,255,0.85),transparent_30%),linear-gradient(to_bottom,_#f7faf7,_#f1f5ef_45%,_#edf2eb_100%)]" />
-        <div className="absolute inset-x-0 top-0 -z-10 h-96 bg-[linear-gradient(180deg,rgba(34,227,105,0.1),transparent)] blur-3xl" />
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(34,227,105,0.12),_transparent_24%),radial-gradient(circle_at_80%_10%,rgba(255,255,255,0.85),transparent_30%),linear-gradient(to_bottom,_#fbf7f1,_#f6efe5_42%,_#f0e6d8_100%)]" />
+        <div className="absolute inset-x-0 top-0 -z-10 h-96 bg-[linear-gradient(180deg,rgba(34,227,105,0.08),transparent)] blur-3xl" />
         <div className="absolute inset-x-0 top-20 -z-10 h-px bg-gradient-to-r from-transparent via-brand-accent/40 to-transparent" />
 
-        <header className="border-b border-slate-200/80 bg-white/70 backdrop-blur-xl">
+        <header className="border-b border-white/70 bg-white/65 backdrop-blur-xl">
           <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-10 xl:px-12">
             <a href="#inicio" className="flex items-center gap-3">
               <div className="flex h-12 w-12 overflow-hidden rounded-full border border-brand-accent/25 bg-brand-card shadow-[0_0_35px_rgba(34,227,105,0.14)]">
@@ -239,7 +296,7 @@ function App() {
               </div>
               <div>
                 <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Salón de Eventos</p>
-                <h1 className="text-sm font-semibold tracking-[0.35em] text-slate-900 sm:text-base">PALMARES</h1>
+                <h1 className="text-sm font-semibold tracking-[0.35em] text-slate-950 sm:text-base">PALMARES</h1>
               </div>
             </a>
 
@@ -304,117 +361,102 @@ function App() {
         </header>
 
         <main id="inicio">
-          <section className="mx-auto max-w-7xl px-4 pb-14 pt-12 sm:px-6 sm:pb-16 lg:px-10 lg:pb-20 lg:pt-16 xl:px-12">
-            <div className="grid items-center gap-10 lg:grid-cols-[1.12fr_0.88fr] lg:gap-16 xl:gap-20">
-              <div className="space-y-8">
-                <div className="inline-flex items-center gap-2 rounded-full border border-brand-accent/20 bg-white px-4 py-2 text-sm text-slate-600 shadow-[0_0_0_1px_rgba(15,23,42,0.03)] backdrop-blur">
-                  <CheckCircle className="h-4 w-4 text-brand-accent" />
-                  Prestigio, confort y atención desde 2021
-                </div>
-
-                <div className="space-y-5">
-                  <h2 className="max-w-4xl text-4xl font-semibold leading-tight tracking-tight text-slate-950 sm:text-5xl lg:text-6xl xl:text-7xl">
-                    Hacemos realidad tu evento soñado en Fernando de la Mora
+          <section className="mx-auto max-w-7xl px-4 pb-14 pt-8 sm:px-6 lg:px-10 lg:pb-20 xl:px-12">
+            <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:gap-8">
+              <Reveal className="relative overflow-hidden rounded-[2.25rem] border border-white/70 bg-slate-950 text-white shadow-[0_30px_90px_rgba(15,23,42,0.18)] lg:min-h-[720px]">
+                <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${heroImage})` }} />
+                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,10,12,0.28),rgba(10,10,12,0.76))]" />
+                <div className="relative flex min-h-[620px] flex-col justify-end p-6 sm:p-10 lg:p-12">
+                  <div className="inline-flex w-fit items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm text-white/90 backdrop-blur">
+                    <Star className="h-4 w-4 text-brand-gold" />
+                    Desde 2021 creando celebraciones inolvidables
+                  </div>
+                  <h2 className="mt-5 max-w-3xl text-4xl font-semibold leading-[0.95] text-white sm:text-5xl lg:text-6xl xl:text-7xl">
+                    Tu evento soñado, con la elegancia que merece
                   </h2>
-                  <p className="max-w-3xl text-base leading-7 text-slate-600 sm:text-lg xl:text-xl">
-                    Un salón con presencia, verde visual y una propuesta más humana. Inspirado en la estructura clara de sitios de referencia, pero adaptado a Palmares para que la marca se sienta propia desde el primer scroll.
+                  <p className="mt-5 max-w-2xl text-base leading-7 text-white/82 sm:text-lg">
+                    Palmares combina imagen, comodidad y una atención cercana para bodas, XV, colaciones y eventos corporativos que quieren verse memorables desde la primera foto.
                   </p>
-                </div>
 
-                <div className="flex flex-col gap-4 sm:flex-row">
-                  <a
-                    href="#presupuesto"
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-accent px-6 py-4 text-sm font-semibold text-brand-dark shadow-[0_18px_45px_rgba(34,227,105,0.22)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_22px_55px_rgba(34,227,105,0.3)]"
-                  >
-                    Cotizar por WhatsApp
-                    <MessageSquare className="h-4 w-4" />
-                  </a>
-                  <div className="inline-flex items-center gap-3 rounded-full border border-slate-200 bg-white px-5 py-4 text-sm text-slate-600 backdrop-blur">
-                    <MapPin className="h-4 w-4 text-brand-accent" />
-                    Fernando de la Mora, Zona Sur, Paraguay
-                  </div>
-                </div>
-
-                <div className="grid gap-3 sm:grid-cols-3">
-                  {proofItems.map((item) => {
-                    const Icon = item.icon;
-                    return (
-                      <div
-                        key={item.label}
-                        className="rounded-3xl border border-slate-200 bg-white p-4 shadow-[0_20px_60px_rgba(15,23,42,0.06)] transition duration-300 hover:-translate-y-1 hover:border-brand-accent/20 hover:shadow-[0_28px_80px_rgba(34,227,105,0.1)]"
-                      >
-                        <Icon className="h-5 w-5 text-brand-accent" />
-                        <p className="mt-4 text-2xl font-semibold text-slate-950">{item.value}</p>
-                        <p className="mt-1 text-sm text-slate-500">{item.label}</p>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <div className="relative">
-                <div className="absolute -inset-4 -z-10 rounded-[2rem] bg-[radial-gradient(circle,_rgba(34,227,105,0.14),_transparent_65%)] blur-2xl" />
-                <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_30px_90px_rgba(15,23,42,0.08)] backdrop-blur-xl sm:p-8">
-                  <div className="flex items-center gap-4">
-                    <div className="h-16 w-16 overflow-hidden rounded-2xl border border-brand-accent/20 bg-white shadow-[0_0_30px_rgba(34,227,105,0.1)]">
-                      <img src={logo} alt="Logo Palmares" className="h-full w-full object-cover" />
-                    </div>
-                    <div>
-                      <p className="text-sm uppercase tracking-[0.25em] text-slate-500">Palmares</p>
-                      <h3 className="mt-1 text-2xl font-semibold text-slate-950">Salón de Eventos</h3>
-                    </div>
+                  <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                    <a
+                      href="#presupuesto"
+                      className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-accent px-6 py-4 text-sm font-semibold text-brand-dark shadow-[0_18px_45px_rgba(34,227,105,0.22)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_15px_rgba(212,175,55,0.35)]"
+                    >
+                      Cotizar por WhatsApp
+                      <MessageSquare className="h-4 w-4" />
+                    </a>
+                    <a
+                      href="#espacios"
+                      className="inline-flex items-center justify-center rounded-full border border-white/25 bg-white/10 px-6 py-4 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/15"
+                    >
+                      Ver espacios
+                    </a>
                   </div>
 
-                  <div className="mt-8 grid gap-4 sm:grid-cols-2">
-                    <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
-                      <p className="text-xs uppercase tracking-[0.28em] text-brand-accent/90">Ambiente</p>
-                      <p className="mt-3 text-base leading-7 text-slate-600">
-                        Diseño sobrio, fondo claro y detalles verdes para una imagen más propia de un salón premium.
-                      </p>
+                  <div className="mt-8 grid gap-3 sm:grid-cols-3">
+                    <div className="rounded-2xl border border-white/15 bg-white/10 px-4 py-4 backdrop-blur">
+                      <p className="text-xs uppercase tracking-[0.3em] text-white/65">Calificación</p>
+                      <p className="mt-1 text-lg font-semibold text-white">4.7 en Google</p>
                     </div>
-                    <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
-                      <p className="text-xs uppercase tracking-[0.28em] text-brand-accent/90">Atención</p>
-                      <p className="mt-3 text-base leading-7 text-slate-600">
-                        Respuesta directa por WhatsApp para cotizaciones rápidas y una coordinación más simple.
-                      </p>
+                    <div className="rounded-2xl border border-white/15 bg-white/10 px-4 py-4 backdrop-blur">
+                      <p className="text-xs uppercase tracking-[0.3em] text-white/65">Reseñas</p>
+                      <p className="mt-1 text-lg font-semibold text-white">161+ opiniones</p>
                     </div>
-                  </div>
-
-                  <div className="mt-6 rounded-3xl border border-brand-accent/15 bg-[linear-gradient(180deg,rgba(34,227,105,0.08),rgba(34,227,105,0.03))] p-5">
-                    <p className="text-xs uppercase tracking-[0.3em] text-brand-accent/90">Desde 2021</p>
-                    <p className="mt-2 text-lg font-medium text-slate-950">Una propuesta elegante y funcional para eventos que necesitan verse bien y organizarse mejor.</p>
+                    <div className="rounded-2xl border border-white/15 bg-white/10 px-4 py-4 backdrop-blur">
+                      <p className="text-xs uppercase tracking-[0.3em] text-white/65">Ubicación</p>
+                      <p className="mt-1 text-lg font-semibold text-white">Fernando de la Mora</p>
+                    </div>
                   </div>
                 </div>
+              </Reveal>
+
+              <div className="grid gap-6">
+                <Reveal className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
+                  <div className="grid grid-cols-2 gap-3 p-4 sm:p-5">
+                    <div className="overflow-hidden rounded-[1.5rem] bg-slate-100">
+                      <img src="https://images.unsplash.com/photo-1519167758481-83f29c2eab2a?auto=format&fit=crop&w=900&q=80" alt="Mesa principal" className="h-full w-full object-cover" />
+                    </div>
+                    <div className="overflow-hidden rounded-[1.5rem] bg-slate-100">
+                      <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=900&q=80" alt="Pista de baile" className="h-full w-full object-cover" />
+                    </div>
+                    <div className="col-span-2 overflow-hidden rounded-[1.5rem] bg-slate-100">
+                      <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1200&q=80" alt="Recepción elegante" className="h-full w-full object-cover" />
+                    </div>
+                  </div>
+                </Reveal>
+
+                <Reveal className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
+                  <p className="text-sm uppercase tracking-[0.3em] text-brand-accent/90">Palmares</p>
+                  <h3 className="mt-3 text-2xl font-semibold text-slate-950">Un salón pensado para eventos que quieren verse de verdad</h3>
+                  <p className="mt-4 text-base leading-7 text-slate-600">
+                    Ambientes cuidados, una pista protagonista y un equipo que acompaña el evento para que todo se vea bien y fluya con tranquilidad.
+                  </p>
+                </Reveal>
               </div>
             </div>
           </section>
 
-          <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-10 xl:px-12">
+          <section id="espacios" className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-10 xl:px-12">
             <Reveal className="max-w-3xl">
-              <p className="text-sm uppercase tracking-[0.3em] text-brand-accent/90">Galería</p>
-              <h3 className="mt-3 text-3xl font-semibold text-slate-950 sm:text-4xl">Imágenes que transmiten el estilo de Palmares</h3>
+              <p className="text-sm uppercase tracking-[0.3em] text-brand-accent/90">Espacios e infraestructura</p>
+              <h3 className="mt-3 text-3xl font-semibold text-slate-950 sm:text-4xl">Una mirada clara al salón, la pista y la recepción</h3>
               <p className="mt-4 text-base leading-7 text-slate-600">
-                Accesos, salón, ambientación y detalles reales para transmitir de inmediato la calidad, la escala y la presentación del lugar.
+                Mostrá el lugar como se vive en un evento real: con amplitud, luz, circulación cómoda y una puesta visual que hace subir el deseo de reservar.
               </p>
             </Reveal>
 
-            <div className="mt-10 grid gap-4 lg:grid-cols-3 xl:gap-5">
+            <div className="mt-10 grid gap-4 lg:grid-cols-12 xl:gap-5">
               {galleryCards.map((card) => (
-                <Reveal key={card.title} className="overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_24px_80px_rgba(15,23,42,0.06)]">
-                  <div className={`aspect-[4/3] bg-gradient-to-br ${card.tone} relative`}>
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,rgba(34,227,105,0.16),transparent_30%),radial-gradient(circle_at_70%_75%,rgba(15,23,42,0.08),transparent_22%)]" />
-                    <div className="absolute bottom-4 left-4 flex items-center gap-3 rounded-full border border-white/60 bg-white/85 px-4 py-2 shadow-sm backdrop-blur">
-                      <div className="h-10 w-10 overflow-hidden rounded-full border border-brand-accent/20">
-                        <img src={logo} alt="Palmares" className="h-full w-full object-cover" />
-                      </div>
-                      <div>
-                        <p className="text-xs uppercase tracking-[0.25em] text-slate-500">Palmares</p>
-                        <p className="text-sm font-semibold text-slate-900">{card.title}</p>
-                      </div>
+                <Reveal key={card.title} className={`group relative overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_24px_80px_rgba(15,23,42,0.06)] ${card.span}`}>
+                  <div className="relative h-full min-h-[240px] overflow-hidden sm:min-h-[280px]">
+                    <img src={card.image} alt={card.title} className="h-full w-full object-cover transition duration-700 group-hover:scale-105 group-hover:brightness-110" />
+                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,23,42,0.02),rgba(15,23,42,0.7))] transition duration-300 group-hover:bg-[linear-gradient(180deg,rgba(15,23,42,0.08),rgba(15,23,42,0.45))]" />
+                    <div className="absolute inset-x-0 bottom-0 p-5 text-white sm:p-6">
+                      <p className="text-xs uppercase tracking-[0.3em] text-white/70">Ver detalles del montaje</p>
+                      <h4 className="mt-2 text-2xl font-semibold">{card.title}</h4>
+                      <p className="mt-2 max-w-xl text-sm leading-6 text-white/85">{card.description}</p>
                     </div>
-                  </div>
-                  <div className="p-5">
-                    <p className="text-sm leading-6 text-slate-600">{card.description}</p>
                   </div>
                 </Reveal>
               ))}
@@ -423,21 +465,24 @@ function App() {
 
           <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-10 xl:px-12">
             <Reveal className="max-w-3xl">
-              <p className="text-sm uppercase tracking-[0.3em] text-brand-accent/90">Tipos de evento</p>
-              <h3 className="mt-3 text-3xl font-semibold text-slate-950 sm:text-4xl">Cada celebración merece su propio enfoque</h3>
+              <p className="text-sm uppercase tracking-[0.3em] text-brand-accent/90">Celebraciones</p>
+              <h3 className="mt-3 text-3xl font-semibold text-slate-950 sm:text-4xl">El lugar se adapta a cada tipo de festejo</h3>
               <p className="mt-4 text-base leading-7 text-slate-600">
-                Casamientos, colaciones, XV y corporativos con una atención pensada para que cada formato se vea elegante, ordenado y listo para disfrutar.
+                Casamientos, colaciones, XV y corporativos con ambientaciones que se sienten pensadas para cada momento.
               </p>
             </Reveal>
 
             <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4 xl:gap-5">
               {eventShowcase.map((item) => (
-                <Reveal key={item.title} className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)] transition hover:-translate-y-1 hover:border-brand-accent/25">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-accent text-brand-dark shadow-[0_10px_30px_rgba(34,227,105,0.18)]">
-                    <CheckCircle className="h-5 w-5" />
+                <Reveal key={item.title} className="group overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_20px_60px_rgba(15,23,42,0.06)] transition hover:-translate-y-1 hover:border-brand-accent/20">
+                  <div className="relative aspect-[4/5] overflow-hidden">
+                    <img src={item.image} alt={item.title} className="h-full w-full object-cover transition duration-700 group-hover:scale-105 group-hover:brightness-110" />
+                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,23,42,0.08),rgba(15,23,42,0.78))]" />
+                    <div className="absolute inset-x-0 bottom-0 p-5 text-white">
+                      <p className="text-xs uppercase tracking-[0.3em] text-white/70">{item.title}</p>
+                      <p className="mt-2 text-sm leading-6 text-white/85">{item.description}</p>
+                    </div>
                   </div>
-                  <h4 className="mt-5 text-xl font-semibold text-slate-950">{item.title}</h4>
-                  <p className="mt-3 text-sm leading-6 text-slate-600">{item.description}</p>
                 </Reveal>
               ))}
             </div>
@@ -446,10 +491,10 @@ function App() {
           <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-10 xl:px-12">
             <Reveal className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
               <div className="max-w-3xl">
-                <p className="text-sm uppercase tracking-[0.3em] text-brand-accent/90">Novedades</p>
-                <h3 className="mt-3 text-3xl font-semibold text-slate-950 sm:text-4xl">Lo último que se vive en Palmares</h3>
+                <p className="text-sm uppercase tracking-[0.3em] text-brand-accent/90">Galería viva</p>
+                <h3 className="mt-3 text-3xl font-semibold text-slate-950 sm:text-4xl">Momentos reales que muestran el salón en acción</h3>
                 <p className="mt-4 text-base leading-7 text-slate-600">
-                  Una selección de imágenes reales para mostrar el ambiente, la escala y la presencia visual que hacen destacar al salón.
+                  Una selección de escenas reales para que la experiencia se vea antes de reservar.
                 </p>
               </div>
               <a href={facebookUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 self-start rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-900">
@@ -459,14 +504,14 @@ function App() {
             </Reveal>
 
             <div className="mt-10 grid gap-4 md:grid-cols-3 xl:gap-5">
-              {(instagramStatus === 'ready' ? instagramPosts : galleryCards).map((post, index) => {
+              {(instagramStatus === 'ready' ? instagramPosts : galleryCards.slice(0, 3)).map((post, index) => {
                 const title = instagramStatus === 'ready' ? `Publicación ${index + 1}` : post.title;
                 const description = instagramStatus === 'ready'
                   ? (post.caption ? post.caption.slice(0, 120) : 'Momento reciente del salón.')
                   : post.description;
                 const imageUrl = instagramStatus === 'ready'
                   ? (post.mediaType === 'VIDEO' ? post.thumbnailUrl || post.mediaUrl : post.mediaUrl)
-                  : undefined;
+                  : post.image;
                 const href = instagramStatus === 'ready' ? post.permalink : facebookUrl;
 
                 return (
@@ -476,7 +521,7 @@ function App() {
                         {imageUrl ? (
                           <img src={imageUrl} alt={title} className="h-full w-full object-cover" />
                         ) : (
-                          <div className={`h-full w-full bg-gradient-to-br ${post.tone || 'from-brand-accent/35 via-white to-slate-100'}`} />
+                          <div className="h-full w-full bg-gradient-to-br from-brand-accent/35 via-white to-slate-100" />
                         )}
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent" />
                         <div className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-slate-700 backdrop-blur">
@@ -492,10 +537,67 @@ function App() {
                 );
               })}
             </div>
-
           </section>
 
-          <section className="border-y border-white/5 bg-white/[0.02]">
+          <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-10 xl:px-12">
+            <Reveal className="max-w-3xl">
+              <p className="text-sm uppercase tracking-[0.3em] text-brand-accent/90">Por qué elegir Palmares</p>
+              <h3 className="mt-3 text-3xl font-semibold text-slate-950 sm:text-4xl">Beneficios que se ven y se sienten en el evento</h3>
+              <p className="mt-4 text-base leading-7 text-slate-600">
+                Cada detalle suma a la experiencia: confort, acceso, iluminación y atención para que todo acompañe la celebración.
+              </p>
+            </Reveal>
+
+            <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4 xl:gap-5">
+              {benefitPanels.map((item) => (
+                <Reveal key={item.title} className="group overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_20px_60px_rgba(15,23,42,0.06)] transition hover:-translate-y-1 hover:border-brand-accent/20">
+                  <div className="relative aspect-[4/5] overflow-hidden">
+                    <img src={item.image} alt={item.title} className="h-full w-full object-cover transition duration-700 group-hover:scale-105 group-hover:brightness-110" />
+                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,23,42,0.1),rgba(15,23,42,0.82))]" />
+                    <div className="absolute inset-x-0 bottom-0 p-5 text-white">
+                      <p className="text-xs uppercase tracking-[0.3em] text-white/70">{item.title}</p>
+                      <p className="mt-2 text-sm leading-6 text-white/85">{item.description}</p>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </section>
+
+          <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-10 xl:px-12">
+            <Reveal className="max-w-3xl">
+              <p className="text-sm uppercase tracking-[0.3em] text-brand-accent/90">Opiniones destacadas</p>
+              <h3 className="mt-3 text-3xl font-semibold text-slate-950 sm:text-4xl">Lo que más recuerdan quienes ya celebraron acá</h3>
+            </Reveal>
+
+            <div className="mt-10 grid gap-4 lg:grid-cols-3 xl:gap-5">
+              {testimonialCards.map((item) => (
+                <Reveal key={item.name} className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
+                  <div className="flex items-center gap-4">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-brand-accent to-brand-gold text-sm font-bold text-brand-dark">
+                      {item.name
+                        .split(' ')
+                        .map((part) => part[0])
+                        .slice(0, 2)
+                        .join('')}
+                    </div>
+                    <div>
+                      <p className="font-semibold text-slate-950">{item.name}</p>
+                      <p className="text-sm text-slate-500">{item.event} · {item.date}</p>
+                    </div>
+                  </div>
+                  <div className="mt-4 flex items-center gap-1 text-brand-gold">
+                    {Array.from({ length: 5 }).map((_, index) => (
+                      <Star key={index} className="h-4 w-4 fill-current" />
+                    ))}
+                  </div>
+                  <p className="mt-4 text-sm leading-6 text-slate-600">“{item.quote}”</p>
+                </Reveal>
+              ))}
+            </div>
+          </section>
+
+          <section className="border-y border-white/60 bg-white/50">
             <div className="mx-auto grid max-w-7xl gap-4 px-4 py-8 sm:grid-cols-3 sm:px-6 lg:px-10 xl:px-12">
               {proofItems.map((item) => {
                 const Icon = item.icon;
@@ -601,7 +703,7 @@ function App() {
                     <FaFacebookF className="h-4 w-4" /> Facebook
                   </a>
                   <a href={mapsUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-900">
-                    <FaLocationDot className="h-4 w-4" /> Ubicación
+                    <MapPin className="h-4 w-4" /> Ubicación
                   </a>
                 </div>
               </div>
@@ -610,28 +712,27 @@ function App() {
 
           <section id="diferenciales" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-10 lg:py-20 xl:px-12">
             <Reveal className="max-w-3xl">
-              <p className="text-sm uppercase tracking-[0.3em] text-brand-accent/90">Diferenciales</p>
-              <h3 className="mt-3 text-3xl font-semibold text-slate-950 sm:text-4xl">Todo lo que tu evento necesita para elevar su nivel</h3>
+              <p className="text-sm uppercase tracking-[0.3em] text-brand-accent/90">Por qué elegir Palmares</p>
+              <h3 className="mt-3 text-3xl font-semibold text-slate-950 sm:text-4xl">Detalles que hacen que el evento se vea mejor</h3>
               <p className="mt-4 text-base leading-7 text-slate-600">
-                Palmares combina comodidad, presentación y atención para que el evento se vea bien, se sienta cómodo y se recuerde con buena impresión.
+                Cada espacio del salón suma para que la celebración tenga presencia, comodidad y una puesta visual que invite a reservar.
               </p>
             </Reveal>
 
             <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4 xl:gap-5">
               {differentiators.map((item) => {
-                const Icon = item.icon;
                 return (
                   <article
                     key={item.title}
-                    className="group relative overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)] transition duration-300 hover:-translate-y-1 hover:border-brand-accent/20 hover:shadow-[0_24px_70px_rgba(34,227,105,0.08)]"
+                    className="group relative overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_20px_60px_rgba(15,23,42,0.06)] transition duration-300 hover:-translate-y-1 hover:border-brand-accent/20 hover:shadow-[0_24px_70px_rgba(34,227,105,0.08)]"
                   >
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(34,227,105,0.12),transparent_35%)] opacity-0 transition duration-300 group-hover:opacity-100" />
-                    <div className="relative">
-                      <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-brand-accent/15 bg-white/5 text-brand-accent transition duration-300 group-hover:scale-105 group-hover:shadow-[0_0_30px_rgba(34,227,105,0.18)]">
-                        <Icon className="h-6 w-6" />
+                    <div className="relative aspect-[4/5] overflow-hidden">
+                      <img src={item.image} alt={item.title} className="h-full w-full object-cover transition duration-700 group-hover:scale-105 group-hover:brightness-110" />
+                      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,23,42,0.08),rgba(15,23,42,0.8))]" />
+                      <div className="absolute inset-x-0 bottom-0 p-5 text-white">
+                        <p className="text-xs uppercase tracking-[0.3em] text-white/70">{item.title}</p>
+                        <p className="mt-2 text-sm leading-6 text-white/85">{item.description}</p>
                       </div>
-                      <h4 className="mt-5 text-xl font-semibold text-slate-950">{item.title}</h4>
-                      <p className="mt-3 text-sm leading-6 text-slate-600">{item.description}</p>
                     </div>
                   </article>
                 );
