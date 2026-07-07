@@ -243,7 +243,7 @@ function App() {
           }`}>
             <a href="#inicio" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="flex items-center gap-3">
               <div className={`overflow-hidden rounded-full border border-brand-surface bg-white transition-all duration-300 ${scrolled ? 'h-10 w-10' : 'h-12 w-12'}`}>
-                <img src={logo} alt="Palmares - Salón de Eventos" className="h-full w-full object-cover" />
+                <img src={logo} alt="Palmares - Salón de Eventos" fetchpriority="high" loading="eager" className="h-full w-full object-cover" />
               </div>
               <div>
                 <p className={`uppercase tracking-[0.45em] text-[#5a5a5a] transition-all duration-300 ${scrolled ? 'text-[0.55rem]' : 'text-[0.62rem]'}`}>Salón de Eventos</p>
