@@ -10,13 +10,6 @@ const eventTypes = ['Boda', 'Quinceaños', 'Colación', 'Cumpleaños', 'Evento d
 
 const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
-const socialProof = [
-  { value: '4.7 ★', label: 'Google' },
-  { value: '161+', label: 'Reseñas' },
-  { value: '2021', label: 'Desde' },
-  { value: '200+', label: 'Eventos' },
-];
-
 const testimonials = [
   {
     name: 'Carmen Ferreira',
