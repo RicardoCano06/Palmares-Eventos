@@ -15,13 +15,6 @@ const decimalFormatter = new Intl.NumberFormat('es-PY', {
   maximumFractionDigits: 1,
 });
 
-const stats = [
-  { to: 4.7, from: 0, decimals: 1, label: 'Google', detail: 'Calificación' },
-  { to: 161, from: 0, suffix: '+', label: 'Reseñas', detail: 'en Google' },
-  { to: 200, from: 0, suffix: '+', label: 'Eventos', detail: 'celebrados' },
-  { to: 5, from: 0, suffix: '+', label: 'Años', detail: 'desde 2021' },
-];
-
 function CountUp({ from = 0, to, decimals = 0, suffix = '', start, duration = 1600 }) {
   const [value, setValue] = useState(from);
   const frameRef = useRef(null);
@@ -182,14 +175,10 @@ function Reveal({ as: Component = 'div', className = '', children, ...props }) {
   );
 }
 
-function SectionHeading({ eyebrow, title, description }) {
+function SectionHeading({ title, description }) {
   return (
     <div className="max-w-3xl">
-      <p className="flex items-center gap-3 text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-brand-green">
-        <span className="h-px w-8 bg-brand-accent" aria-hidden="true" />
-        {eyebrow}
-      </p>
-      <h2 className="mt-4 text-balance font-display text-4xl font-light leading-[1.02] tracking-[-0.03em] text-brand-text sm:text-5xl">{title}</h2>
+      <h2 className="text-balance font-display text-4xl font-light leading-[1.02] tracking-[-0.03em] text-brand-text sm:text-5xl">{title}</h2>
       <p className="mt-4 max-w-2xl text-base leading-7 text-brand-muted">{description}</p>
     </div>
   );
@@ -561,7 +550,7 @@ function App() {
   };
 
   const headerOnDark = mobileMenuOpen || !scrolled;
-  const navLinkClass = `${headerOnDark ? 'text-white/70 hover:text-white' : 'text-brand-muted hover:text-brand-text'} relative after:absolute after:-bottom-1.5 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 hover:after:scale-x-100`;
+  const navLinkClass = `${headerOnDark ? 'text-white/80 hover:text-white' : 'text-brand-muted hover:text-brand-text'} relative after:absolute after:-bottom-1.5 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 hover:after:scale-x-100`;
   const mobileButtonClass = headerOnDark
     ? 'border-white/25 text-white transition-[background-color,border-color] hover:bg-white/10'
     : 'border-brand-text/15 text-brand-text transition-[background-color,border-color] hover:bg-brand-text/5';
@@ -591,7 +580,7 @@ function App() {
                 <img src={logo} alt="" width="170" height="161" loading="eager" className="h-full w-full object-cover" />
               </div>
               <div>
-                <p className={`text-[0.55rem] uppercase tracking-[0.35em] ${headerOnDark ? 'text-white/60' : 'text-brand-muted'}`}>Salón de Eventos</p>
+                <p className={`text-[0.55rem] uppercase tracking-[0.35em] ${headerOnDark ? 'text-white/75' : 'text-brand-muted'}`}>Salón de Eventos</p>
                 <p translate="no" className={`font-display text-lg font-medium tracking-[0.14em] ${headerOnDark ? 'text-white' : 'text-brand-text'}`}>PALMARES</p>
               </div>
             </a>
@@ -663,7 +652,7 @@ function App() {
                 <h1 id="hero-title" tabIndex={-1} className="animate-fade-up-1 mt-6 text-balance font-display text-5xl font-light leading-[0.95] tracking-[-0.03em] text-white sm:text-6xl lg:text-7xl xl:text-8xl">
                   La noche empieza en <em className="italic text-brand-accent" translate="no">Palmares</em>.
                 </h1>
-                <p className="animate-fade-up-2 mt-6 max-w-xl text-base leading-7 text-white/80 sm:text-lg">
+                <p className="animate-fade-up-2 mt-6 max-w-xl text-base leading-7 text-white/90 sm:text-lg">
                   Salón, quincho y pileta en un solo lugar. Bodas, XV años, colaciones y eventos de empresa con hasta 120 invitados.
                 </p>
                 <div className="animate-fade-up-3 mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -686,7 +675,7 @@ function App() {
                 </div>
               </div>
 
-              <div className="mt-12 flex flex-wrap items-center justify-between gap-3 border-t border-white/15 pt-5 text-[0.7rem] uppercase tracking-[0.2em] text-white/60">
+              <div className="mt-12 flex flex-wrap items-center justify-between gap-3 border-t border-white/15 pt-5 text-[0.7rem] uppercase tracking-[0.2em] text-white/75">
                 <p>Bodas · XV años · Colaciones · Empresas</p>
                 <p className="hidden sm:block">Hasta 120 invitados</p>
                 <p>Fernando de la Mora</p>
@@ -695,22 +684,27 @@ function App() {
           </section>
 
           <section ref={statsRef} aria-label="Palmares en números" className="border-b border-brand-text/10 bg-brand-bg">
-            <div className="mx-auto grid max-w-7xl grid-cols-2 gap-y-8 px-4 py-10 sm:px-6 lg:grid-cols-4 lg:px-8">
-              {stats.map((stat, index) => (
-                <div key={stat.label} className={`lg:px-8 ${index > 0 ? 'lg:border-l lg:border-brand-text/10' : ''}`}>
-                  <p className="font-display text-4xl font-light leading-none tracking-[-0.03em] text-brand-text tabular-nums sm:text-5xl">
-                    <CountUp
-                      from={stat.from}
-                      to={stat.to}
-                      decimals={stat.decimals}
-                      suffix={stat.suffix}
-                      start={statsVisible}
-                    />
-                  </p>
-                  <p className="mt-3 text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-brand-green">{stat.label}</p>
-                  <p className="mt-1 text-xs text-brand-muted">{stat.detail}</p>
-                </div>
-              ))}
+            <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+              <p className="max-w-5xl text-balance font-display text-3xl font-light leading-[1.12] tracking-[-0.02em] text-brand-text sm:text-4xl lg:text-5xl">
+                Desde 2021 celebramos{' '}
+                <strong className="font-normal text-brand-green tabular-nums"><CountUp to={200} suffix="+" start={statsVisible} /></strong>{' '}
+                eventos y reunimos{' '}
+                <strong className="font-normal text-brand-green tabular-nums"><CountUp to={161} suffix="+" start={statsVisible} /></strong>{' '}
+                reseñas que promedian{' '}
+                <strong className="font-normal text-brand-green tabular-nums"><CountUp to={4.7} decimals={1} start={statsVisible} /></strong>{' '}
+                en Google.
+              </p>
+              <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-brand-muted">
+                <span>
+                  <strong className="font-semibold text-brand-text tabular-nums"><CountUp to={5} suffix="+" start={statsVisible} /></strong>{' '}
+                  años de trayectoria
+                </span>
+                <span aria-hidden="true">·</span>
+                <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 border-b border-brand-green/30 pb-0.5 font-semibold text-brand-green transition hover:border-brand-green">
+                  Ver reseñas en Google
+                  <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+                </a>
+              </div>
             </div>
           </section>
 
@@ -719,7 +713,6 @@ function App() {
               <div className="lg:sticky lg:top-28 lg:self-start">
                 <Reveal>
                   <SectionHeading
-                    eyebrow="Diferenciales"
                     title="Por qué elegir Palmares para tu evento"
                     description="Seguridad, espacio, ubicación y un ambiente que tus invitados van a recordar."
                   />
@@ -736,19 +729,16 @@ function App() {
               </div>
 
               <div>
-                {differentiators.map((item, index) => (
+                {differentiators.map((item) => (
                   <Reveal
                     key={item.title}
-                    className="group grid grid-cols-[2rem_1fr] gap-5 border-t border-brand-text/15 py-8 transition-colors last:border-b hover:bg-brand-surface/50 sm:grid-cols-[2.5rem_1fr] sm:gap-6"
+                    className="group border-t border-brand-text/15 py-8 transition-colors last:border-b hover:bg-brand-surface/50"
                   >
-                    <span className="font-display text-sm text-brand-green">0{index + 1}</span>
-                    <div>
-                      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
-                        <h3 className="font-display text-3xl font-light tracking-[-0.02em] text-brand-text">{item.title}</h3>
-                        <span className="text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-brand-muted">{item.badge}</span>
-                      </div>
-                      <p className="mt-3 max-w-xl text-sm leading-6 text-brand-muted">{item.description}</p>
+                    <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
+                      <h3 className="font-display text-3xl font-light tracking-[-0.02em] text-brand-text">{item.title}</h3>
+                      <span className="text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-brand-muted">{item.badge}</span>
                     </div>
+                    <p className="mt-3 max-w-xl text-sm leading-6 text-brand-muted">{item.description}</p>
                   </Reveal>
                 ))}
               </div>
@@ -759,7 +749,6 @@ function App() {
             <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16 lg:px-8 lg:py-24">
               <Reveal>
                 <SectionHeading
-                  eyebrow="Testimonios"
                   title="Lo que dicen los que ya celebraron en Palmares"
                   description="Esto nos escriben después de vivir su evento. Sin filtro."
                 />
@@ -812,7 +801,6 @@ function App() {
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <Reveal>
                 <SectionHeading
-                  eyebrow="Galería"
                   title="Conocé cada rincón de Palmares"
                   description="Desde el salón principal hasta el quincho con parrilla y la pileta. Tocá cada foto para ampliarla."
                 />
@@ -840,10 +828,9 @@ function App() {
                       aria-label={`Ampliar foto: ${foto.title}`}
                     />
                     <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/35 to-transparent p-5 sm:p-6">
-                      <span className="text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-brand-accentSoft">0{index + 1}</span>
-                      <h3 className="mt-1 font-display text-2xl font-light text-white">{foto.title}</h3>
-                      <p className="mt-1 hidden max-w-md text-sm text-white/70 sm:block">{foto.desc}</p>
-                      <span className="mt-2 inline-flex text-[0.6rem] font-semibold uppercase tracking-[0.25em] text-white/60 opacity-0 transition group-hover:opacity-100 group-focus-within:opacity-100">Ampliar ↗</span>
+                      <h3 className="font-display text-2xl font-light text-white">{foto.title}</h3>
+                      <p className="mt-1 hidden max-w-md text-sm text-white/80 sm:block">{foto.desc}</p>
+                      <span className="mt-2 inline-flex text-[0.6rem] font-semibold uppercase tracking-[0.25em] text-white/75 opacity-0 transition group-hover:opacity-100 group-focus-within:opacity-100">Ampliar ↗</span>
                     </figcaption>
                   </figure>
                 );
@@ -854,11 +841,7 @@ function App() {
           <section id="instagram" className="scroll-mt-24 overflow-hidden border-y border-brand-text/10 bg-brand-surface py-16 lg:py-20">
             <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 sm:px-6 lg:flex-row lg:items-end lg:justify-between lg:px-8">
               <Reveal>
-                <p className="flex items-center gap-3 text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-brand-green">
-                  <span className="h-px w-8 bg-brand-accent" aria-hidden="true" />
-                  Redes
-                </p>
-                <h2 className="mt-4 max-w-3xl text-balance font-display text-4xl font-light leading-[1.02] tracking-[-0.03em] text-brand-text sm:text-5xl">
+                <h2 className="max-w-3xl text-balance font-display text-4xl font-light leading-[1.02] tracking-[-0.03em] text-brand-text sm:text-5xl">
                   Viví el ambiente en <span className="italic" translate="no">@palmarespyeventos</span>
                 </h2>
               </Reveal>
@@ -894,12 +877,8 @@ function App() {
             <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16 lg:px-8">
               <div>
                 <Reveal>
-                  <p className="flex items-center gap-3 text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-brand-accentSoft">
-                    <span className="h-px w-8 bg-brand-accent" aria-hidden="true" />
-                    Ubicación
-                  </p>
-                  <h2 className="mt-4 text-balance font-display text-4xl font-light leading-[1.02] tracking-[-0.03em] text-brand-bg sm:text-5xl">Vení a conocer Palmares</h2>
-                  <p className="mt-4 max-w-md text-sm leading-6 text-brand-bg/70">Yataity Cora esq. Fortín Toledo, Fernando de la Mora. Acceso rápido desde Asunción, San Lorenzo y Luque.</p>
+                  <h2 className="text-balance font-display text-4xl font-light leading-[1.02] tracking-[-0.03em] text-brand-bg sm:text-5xl">Vení a conocer Palmares</h2>
+                  <p className="mt-4 max-w-md text-sm leading-6 text-brand-bg/85">Yataity Cora esq. Fortín Toledo, Fernando de la Mora. Acceso rápido desde Asunción, San Lorenzo y Luque.</p>
                 </Reveal>
 
                 <Reveal className="mt-8 overflow-hidden border border-white/15 bg-brand-dark/20">
@@ -921,44 +900,43 @@ function App() {
 
               <div>
                 <Reveal>
-                  <p className="text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-brand-accentSoft">Cotizá tu evento</p>
-                  <h3 className="mt-4 text-balance font-display text-3xl font-light leading-[1.05] tracking-[-0.02em] text-brand-bg sm:text-4xl">Contanos qué tenés en mente</h3>
-                  <p className="mt-3 max-w-md text-sm leading-6 text-brand-bg/70">Completá tus datos y te abrimos WhatsApp con todo listo para enviar.</p>
+                  <h3 className="text-balance font-display text-3xl font-light leading-[1.05] tracking-[-0.02em] text-brand-bg sm:text-4xl">Contanos qué tenés en mente</h3>
+                  <p className="mt-3 max-w-md text-sm leading-6 text-brand-bg/85">Completá tus datos y te abrimos WhatsApp con todo listo para enviar.</p>
                 </Reveal>
 
                 <Reveal as="form" onSubmit={handleSubmit} noValidate className="mt-8">
                   <div className="space-y-5">
                     <div>
-                      <label htmlFor="name" className="block text-xs font-semibold uppercase tracking-wider text-brand-bg/80">Nombre Completo</label>
-                      <input type="text" id="name" name="name" autoComplete="name" value={form.name} onChange={handleChange('name')} placeholder="Ej. Juan Pérez…" className="mt-2 block w-full rounded-sm border border-white/15 bg-white/5 px-4 py-3.5 text-sm text-brand-bg placeholder-white/50 transition focus:border-brand-accent focus:outline-none focus:ring-1 focus:ring-brand-accent/40" required {...errorProps('name')} />
+                      <label htmlFor="name" className="block text-xs font-semibold uppercase tracking-wider text-brand-bg/90">Nombre Completo</label>
+                      <input type="text" id="name" name="name" autoComplete="name" value={form.name} onChange={handleChange('name')} placeholder="Ej. Juan Pérez…" className="mt-2 block w-full rounded-sm border border-white/15 bg-white/5 px-4 py-3.5 text-sm text-brand-bg placeholder-white/60 transition focus:border-brand-accent focus:outline-none focus:ring-1 focus:ring-brand-accent/40" required {...errorProps('name')} />
                       <FieldError field="name" invalidField={invalidField} message={formError} />
                     </div>
 
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div>
-                        <label htmlFor="eventType" className="block text-xs font-semibold uppercase tracking-wider text-brand-bg/80">Tipo de Evento</label>
+                        <label htmlFor="eventType" className="block text-xs font-semibold uppercase tracking-wider text-brand-bg/90">Tipo de Evento</label>
                         <select id="eventType" name="eventType" autoComplete="off" value={form.eventType} onChange={handleChange('eventType')} className="mt-2 block w-full rounded-sm border border-white/15 bg-white/5 px-4 py-3.5 text-sm text-brand-bg transition [color-scheme:dark] focus:border-brand-accent focus:outline-none focus:ring-1 focus:ring-brand-accent/40" required {...errorProps('eventType')}>
                           {eventTypes.map((type) => (<option key={type} value={type} className="bg-brand-dark text-brand-bg">{type}</option>))}
                         </select>
                         <FieldError field="eventType" invalidField={invalidField} message={formError} />
                       </div>
                       <div>
-                        <label htmlFor="guests" className="block text-xs font-semibold uppercase tracking-wider text-brand-bg/80">Invitados (Máx. 120)</label>
-                        <input type="number" id="guests" name="guests" autoComplete="off" inputMode="numeric" step="1" min="1" max="120" value={form.guests} onChange={handleChange('guests')} placeholder="Ej. 80…" className="mt-2 block w-full rounded-sm border border-white/15 bg-white/5 px-4 py-3.5 text-sm text-brand-bg placeholder-white/50 transition focus:border-brand-accent focus:outline-none focus:ring-1 focus:ring-brand-accent/40" required {...errorProps('guests')} />
+                        <label htmlFor="guests" className="block text-xs font-semibold uppercase tracking-wider text-brand-bg/90">Invitados (Máx. 120)</label>
+                        <input type="number" id="guests" name="guests" autoComplete="off" inputMode="numeric" step="1" min="1" max="120" value={form.guests} onChange={handleChange('guests')} placeholder="Ej. 80…" className="mt-2 block w-full rounded-sm border border-white/15 bg-white/5 px-4 py-3.5 text-sm text-brand-bg placeholder-white/60 transition focus:border-brand-accent focus:outline-none focus:ring-1 focus:ring-brand-accent/40" required {...errorProps('guests')} />
                         <FieldError field="guests" invalidField={invalidField} message={formError} />
                       </div>
                     </div>
 
                     {isColacion && (
                       <div>
-                        <label htmlFor="institution" className="block text-xs font-semibold uppercase tracking-wider text-brand-bg/80">Institución Educativa / Colegio</label>
-                        <input type="text" id="institution" name="institution" autoComplete="organization" value={form.institution} onChange={handleChange('institution')} placeholder="Ej. Colegio Nacional de la Capital…" className="mt-2 block w-full rounded-sm border border-white/20 bg-white/5 px-4 py-3.5 text-sm text-brand-bg placeholder-white/50 transition focus:border-brand-accent focus:outline-none focus:ring-1 focus:ring-brand-accent/40" required={isColacion} {...errorProps('institution')} />
+                        <label htmlFor="institution" className="block text-xs font-semibold uppercase tracking-wider text-brand-bg/90">Institución Educativa / Colegio</label>
+                        <input type="text" id="institution" name="institution" autoComplete="organization" value={form.institution} onChange={handleChange('institution')} placeholder="Ej. Colegio Nacional de la Capital…" className="mt-2 block w-full rounded-sm border border-white/20 bg-white/5 px-4 py-3.5 text-sm text-brand-bg placeholder-white/60 transition focus:border-brand-accent focus:outline-none focus:ring-1 focus:ring-brand-accent/40" required={isColacion} {...errorProps('institution')} />
                         <FieldError field="institution" invalidField={invalidField} message={formError} />
                       </div>
                     )}
 
                     <div>
-                      <label htmlFor="date" className="block text-xs font-semibold uppercase tracking-wider text-brand-bg/80">Fecha Tentativa</label>
+                      <label htmlFor="date" className="block text-xs font-semibold uppercase tracking-wider text-brand-bg/90">Fecha Tentativa</label>
                       <input type="date" id="date" name="date" autoComplete="off" min={getTodayInputValue()} value={form.date} onChange={handleChange('date')} className="mt-2 block w-full rounded-sm border border-white/15 bg-white/5 px-4 py-3.5 text-sm text-brand-bg transition [color-scheme:dark] focus:border-brand-accent focus:outline-none focus:ring-1 focus:ring-brand-accent/40" required {...errorProps('date')} />
                       <FieldError field="date" invalidField={invalidField} message={formError} />
                     </div>
@@ -985,25 +963,25 @@ function App() {
                   </div>
                   <div>
                     <p translate="no" className="font-display text-lg font-medium tracking-[0.14em] text-white">PALMARES</p>
-                    <p className="text-[0.55rem] uppercase tracking-[0.35em] text-white/60">Salón de Eventos</p>
+                    <p className="text-[0.55rem] uppercase tracking-[0.35em] text-white/75">Salón de Eventos</p>
                   </div>
                 </div>
-                <p className="max-w-xs text-sm leading-6 text-white/70">Salón de eventos en Fernando de la Mora. Espacio único con quincho, pileta y generador propio.</p>
-                <p className="mt-3 text-sm text-white/70">Yataity Cora esq. Fortín Toledo, Fernando de la Mora</p>
+                <p className="max-w-xs text-sm leading-6 text-white/80">Salón de eventos en Fernando de la Mora. Espacio único con quincho, pileta y generador propio.</p>
+                <p className="mt-3 text-sm text-white/80">Yataity Cora esq. Fortín Toledo, Fernando de la Mora</p>
               </div>
 
               <div>
-                <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-white/80">Contacto</h3>
-                <div className="space-y-3 text-sm text-white/80">
-                  <a href={instagramUrl} target="_blank" rel="noopener noreferrer" translate="no" className="flex w-fit items-center gap-2 text-white/85 transition hover:text-white"><FaInstagram className="h-4 w-4" aria-hidden="true" /> @palmarespyeventos</a>
-                  <a href="https://www.facebook.com/profile.php?id=100069641632947" target="_blank" rel="noopener noreferrer" translate="no" className="flex w-fit items-center gap-2 text-white/85 transition hover:text-white"><FaFacebookF className="h-4 w-4" aria-hidden="true" /> Palmares Salón de Eventos</a>
-                  <a href="mailto:palmarespyeventos@gmail.com" translate="no" className="flex w-fit items-center gap-2 text-white/85 transition hover:text-white"><span className="text-sm" aria-hidden="true">✉</span> palmarespyeventos@gmail.com</a>
+                <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-white/90">Contacto</h3>
+                <div className="space-y-3 text-sm text-white/90">
+                  <a href={instagramUrl} target="_blank" rel="noopener noreferrer" translate="no" className="flex w-fit items-center gap-2 text-white/90 transition hover:text-white"><FaInstagram className="h-4 w-4" aria-hidden="true" /> @palmarespyeventos</a>
+                  <a href="https://www.facebook.com/profile.php?id=100069641632947" target="_blank" rel="noopener noreferrer" translate="no" className="flex w-fit items-center gap-2 text-white/90 transition hover:text-white"><FaFacebookF className="h-4 w-4" aria-hidden="true" /> Palmares Salón de Eventos</a>
+                  <a href="mailto:palmarespyeventos@gmail.com" translate="no" className="flex w-fit items-center gap-2 text-white/90 transition hover:text-white"><span className="text-sm" aria-hidden="true">✉</span> palmarespyeventos@gmail.com</a>
                 </div>
               </div>
 
               <div>
-                <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-white/80">Explorá</h3>
-                <nav className="flex flex-col gap-3 text-sm text-white/80" aria-label="Navegación del pie">
+                <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-white/90">Explorá</h3>
+                <nav className="flex flex-col gap-3 text-sm text-white/90" aria-label="Navegación del pie">
                   <a href="#diferenciales" className="w-fit transition hover:text-white">Diferenciales</a>
                   <a href="#galeria" className="w-fit transition hover:text-white">Galería</a>
                   <a href="#testimonios" className="w-fit transition hover:text-white">Testimonios</a>
@@ -1012,7 +990,7 @@ function App() {
               </div>
             </div>
 
-            <div className="mt-12 flex flex-col gap-2 border-t border-white/10 pt-6 text-xs text-white/60 sm:flex-row sm:items-center sm:justify-between">
+            <div className="mt-12 flex flex-col gap-2 border-t border-white/10 pt-6 text-xs text-white/75 sm:flex-row sm:items-center sm:justify-between">
               <p>&copy; {new Date().getFullYear()} Palmares Salón de Eventos. Fernando de la Mora, Paraguay.</p>
               <p>Salón · Quincho · Pileta</p>
             </div>
@@ -1050,7 +1028,7 @@ function App() {
             <div aria-live="polite">
               <p className="text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-brand-accentSoft">0{lightboxIndex + 1} / 0{galeriaFotos.length}</p>
               <h3 id="lightbox-title" className="mt-1 font-display text-2xl font-light text-brand-bg">{galeriaFotos[lightboxIndex].title}</h3>
-              <p id="lightbox-description" className="mt-1 text-sm text-brand-bg/70">{galeriaFotos[lightboxIndex].desc}</p>
+              <p id="lightbox-description" className="mt-1 text-sm text-brand-bg/85">{galeriaFotos[lightboxIndex].desc}</p>
             </div>
             <div className="flex shrink-0 items-center gap-2">
               <button type="button" onClick={showPrevPhoto} className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-brand-bg transition hover:border-brand-accent hover:text-brand-accent" aria-label="Foto anterior">
