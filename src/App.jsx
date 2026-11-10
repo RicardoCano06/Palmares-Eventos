@@ -992,7 +992,21 @@ function App() {
 
             <div className="mt-12 flex flex-col gap-2 border-t border-white/10 pt-6 text-xs text-white/75 sm:flex-row sm:items-center sm:justify-between">
               <p>&copy; {new Date().getFullYear()} Palmares Salón de Eventos. Fernando de la Mora, Paraguay.</p>
-              <p>Salón · Quincho · Pileta</p>
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+                <p>Salón · Quincho · Pileta</p>
+                <p>
+                  Desarrollado por:{' '}
+                  <a
+                    href="https://ricardocano.tech"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Ver portfolio de Ricardo Cano"
+                    className="font-semibold text-white/90 underline decoration-white/25 underline-offset-2 transition hover:text-white hover:decoration-white"
+                  >
+                    Ricardo Cano
+                  </a>
+                </p>
+              </div>
             </div>
           </div>
         </footer>
