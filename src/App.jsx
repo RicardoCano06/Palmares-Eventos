@@ -5,7 +5,7 @@ import logo from '/Imagen1.webp';
 import { WHATSAPP_BASE_URL, buildWhatsAppUrl } from './config';
 
 const instagramUrl = 'https://www.instagram.com/palmarespyeventos/';
-const mapsUrl = 'https://www.google.com/maps/place/Palmares+-+Sal%C3%B3n+de+eventos/@-25.3342363,-57.5742762,17z';
+const mapsUrl = 'https://www.google.com/maps?cid=17230703157230988933&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAMYASAF';
 
 const eventTypes = ['Boda', 'Quinceaños', 'Colación', 'Cumpleaños', 'Evento de Día con Piscina', 'Otro'];
 
