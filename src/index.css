@@ -7,6 +7,12 @@ html {
   scrollbar-gutter: stable;
 }
 
+@media (pointer: fine) {
+  html {
+    overscroll-behavior: none;
+  }
+}
+
 body {
   margin: 0;
   overflow-x: hidden;
@@ -55,6 +61,16 @@ button:focus-visible {
 
 .safe-bottom {
   bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+}
+
+.safe-pb {
+  padding-bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
+}
+
+@media (min-width: 1024px) {
+  .safe-pb-lg {
+    padding-bottom: calc(3rem + env(safe-area-inset-bottom, 0px));
+  }
 }
 
 .no-scrollbar {

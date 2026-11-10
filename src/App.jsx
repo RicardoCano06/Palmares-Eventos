@@ -132,6 +132,13 @@ const galeriaFotos = [
   { src: '/galeria/montajemesa.webp', title: 'Montaje de Mesas', desc: 'Amplio espacio para montar tu evento a tu gusto.', width: 1443, height: 1090 },
 ];
 
+function getPhotoIndexFromUrl() {
+  if (typeof window === 'undefined') return null;
+
+  const value = Number(new URLSearchParams(window.location.search).get('foto'));
+  return Number.isInteger(value) && value >= 1 && value <= galeriaFotos.length ? value - 1 : null;
+}
+
 const instagramPosts = [
   { thumb: '/miniaturas_ig/post1.webp', link: 'https://www.instagram.com/p/DYVaDqUAVK6/', width: 1440, height: 1080 },
   { thumb: '/miniaturas_ig/post2.webp', link: 'https://www.instagram.com/p/DYInS99DmmE/', width: 1440, height: 1080 },
@@ -215,9 +222,15 @@ function InstagramCard({ item, index }) {
   );
 }
 
+function FieldError({ field, invalidField, message }) {
+  if (invalidField !== field || !message) return null;
+
+  return <p id="form-error" role="alert" className="mt-2 text-xs font-medium text-red-200">{message}</p>;
+}
+
 function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [scrolled, setScrolled] = useState(() => (typeof window !== 'undefined' ? window.scrollY > 50 : false));
   const [form, setForm] = useState({
     name: '',
     eventType: 'Boda',
@@ -227,21 +240,52 @@ function App() {
   });
   const [formError, setFormError] = useState('');
   const [invalidField, setInvalidField] = useState('');
-  const [lightboxIndex, setLightboxIndex] = useState(null);
+  const [lightboxIndex, setLightboxIndex] = useState(getPhotoIndexFromUrl);
   const [instagramDragging, setInstagramDragging] = useState(false);
   const [statsVisible, setStatsVisible] = useState(false);
   const menuButtonRef = useRef(null);
   const lightboxRef = useRef(null);
   const lightboxTriggerRef = useRef(null);
+  const openedFromPageRef = useRef(false);
   const instagramStripRef = useRef(null);
   const statsRef = useRef(null);
   const instagramDragRef = useRef({ active: false, captured: false, startX: 0, startScrollLeft: 0, moved: false, pointerId: null });
 
   const isColacion = form.eventType === 'Colación';
   const lightboxOpen = lightboxIndex !== null;
+  const hasUnsavedForm = Boolean(
+    form.name.trim()
+    || form.guests
+    || form.date
+    || form.institution.trim()
+    || form.eventType !== 'Boda',
+  );
 
   const showPrevPhoto = () => setLightboxIndex((current) => (current - 1 + galeriaFotos.length) % galeriaFotos.length);
   const showNextPhoto = () => setLightboxIndex((current) => (current + 1) % galeriaFotos.length);
+
+  const openLightbox = (index) => {
+    openedFromPageRef.current = true;
+
+    const url = new URL(window.location.href);
+    url.searchParams.set('foto', String(index + 1));
+    window.history.pushState({}, '', url);
+
+    setLightboxIndex(index);
+  };
+
+  const closeLightbox = () => {
+    const trigger = lightboxTriggerRef.current;
+
+    if (openedFromPageRef.current) {
+      openedFromPageRef.current = false;
+      window.history.back();
+    } else {
+      setLightboxIndex(null);
+    }
+
+    window.setTimeout(() => trigger?.focus(), 0);
+  };
 
   const handleInstagramPointerDown = (event) => {
     if (event.pointerType !== 'mouse') return;
@@ -311,6 +355,7 @@ function App() {
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
+    onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -322,8 +367,37 @@ function App() {
     const target = document.getElementById(hash.slice(1));
     if (!target) return;
 
-    window.setTimeout(() => target.scrollIntoView({ behavior: 'instant', block: 'start' }), 0);
+    window.setTimeout(() => {
+      target.scrollIntoView({ behavior: 'instant', block: 'start' });
+      setScrolled(window.scrollY > 50);
+    }, 0);
   }, []);
+
+  useEffect(() => {
+    const onPopState = () => {
+      const index = getPhotoIndexFromUrl();
+      openedFromPageRef.current = index !== null;
+      setLightboxIndex(index);
+    };
+
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
+
+  useEffect(() => {
+    const url = new URL(window.location.href);
+
+    if (lightboxIndex !== null) {
+      url.searchParams.set('foto', String(lightboxIndex + 1));
+      window.history.replaceState({}, '', url);
+      return;
+    }
+
+    if (!openedFromPageRef.current) {
+      url.searchParams.delete('foto');
+      window.history.replaceState({}, '', url);
+    }
+  }, [lightboxIndex]);
 
   useEffect(() => {
     const element = statsRef.current;
@@ -341,6 +415,18 @@ function App() {
     observer.observe(element);
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    if (!hasUnsavedForm) return;
+
+    const onBeforeUnload = (event) => {
+      event.preventDefault();
+      event.returnValue = '';
+    };
+
+    window.addEventListener('beforeunload', onBeforeUnload);
+    return () => window.removeEventListener('beforeunload', onBeforeUnload);
+  }, [hasUnsavedForm]);
 
   useEffect(() => {
     if (!mobileMenuOpen) return;
@@ -379,7 +465,7 @@ function App() {
     const onKey = (event) => {
       if (event.key === 'Escape') {
         event.preventDefault();
-        setLightboxIndex(null);
+        closeLightbox();
         return;
       }
       if (event.key === 'ArrowLeft') {
@@ -475,23 +561,23 @@ function App() {
   };
 
   const headerOnDark = mobileMenuOpen || !scrolled;
-  const navLinkClass = `${headerOnDark ? 'text-white/70 hover:text-white' : 'text-brand-muted hover:text-brand-text'} relative transition after:absolute after:-bottom-1.5 after:left-0 after:h-px after:w-0 after:bg-current after:transition-[width] after:duration-300 hover:after:w-full`;
+  const navLinkClass = `${headerOnDark ? 'text-white/70 hover:text-white' : 'text-brand-muted hover:text-brand-text'} relative after:absolute after:-bottom-1.5 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 hover:after:scale-x-100`;
   const mobileButtonClass = headerOnDark
-    ? 'border-white/25 text-white transition hover:bg-white/10'
-    : 'border-brand-text/15 text-brand-text transition hover:bg-brand-text/5';
+    ? 'border-white/25 text-white transition-[background-color,border-color] hover:bg-white/10'
+    : 'border-brand-text/15 text-brand-text transition-[background-color,border-color] hover:bg-brand-text/5';
 
   return (
     <div className="min-h-screen bg-brand-bg text-brand-text selection:bg-brand-accent/30 selection:text-brand-dark">
       <div className="relative isolate overflow-hidden">
         <a
-          href="#inicio"
+          href="#hero-title"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-brand-green focus:px-4 focus:py-3 focus:text-sm focus:font-semibold focus:text-white"
         >
           Saltar al contenido
         </a>
 
         <header
-          className={`safe-top fixed left-0 right-0 top-0 z-50 border-b transition-colors duration-300 ${
+          className={`safe-top fixed left-0 right-0 top-0 z-50 border-b transition-[background-color,border-color] duration-300 ${
             mobileMenuOpen
               ? 'border-white/10 bg-brand-dark text-brand-bg'
               : scrolled
@@ -502,11 +588,11 @@ function App() {
           <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
             <a href="#inicio" className="flex items-center gap-3 transition hover:opacity-90">
               <div className="h-10 w-10 overflow-hidden rounded-full border border-white/20 bg-white">
-                <img src={logo} alt="Palmares - Salón de Eventos" width="170" height="161" loading="eager" className="h-full w-full object-cover" />
+                <img src={logo} alt="" width="170" height="161" loading="eager" className="h-full w-full object-cover" />
               </div>
               <div>
                 <p className={`text-[0.55rem] uppercase tracking-[0.35em] ${headerOnDark ? 'text-white/60' : 'text-brand-muted'}`}>Salón de Eventos</p>
-                <p className={`font-display text-lg font-medium tracking-[0.14em] ${headerOnDark ? 'text-white' : 'text-brand-text'}`}>PALMARES</p>
+                <p translate="no" className={`font-display text-lg font-medium tracking-[0.14em] ${headerOnDark ? 'text-white' : 'text-brand-text'}`}>PALMARES</p>
               </div>
             </a>
 
@@ -543,9 +629,9 @@ function App() {
           {mobileMenuOpen ? (
             <div id="mobile-menu" className="border-t border-white/10 bg-brand-dark md:hidden">
               <nav className="mx-auto flex max-w-7xl flex-col px-4 pb-8 pt-2 sm:px-6" aria-label="Navegación móvil">
-                <a href="#diferenciales" className="border-b border-white/10 py-5 font-display text-3xl font-light text-brand-bg" onClick={() => setMobileMenuOpen(false)}>Diferenciales</a>
-                <a href="#galeria" className="border-b border-white/10 py-5 font-display text-3xl font-light text-brand-bg" onClick={() => setMobileMenuOpen(false)}>Galería</a>
-                <a href="#ubicacion" className="border-b border-white/10 py-5 font-display text-3xl font-light text-brand-bg" onClick={() => setMobileMenuOpen(false)}>Ubicación</a>
+                <a href="#diferenciales" className="border-b border-white/10 py-5 font-display text-3xl font-light text-brand-bg transition-colors hover:text-brand-accentSoft" onClick={() => setMobileMenuOpen(false)}>Diferenciales</a>
+                <a href="#galeria" className="border-b border-white/10 py-5 font-display text-3xl font-light text-brand-bg transition-colors hover:text-brand-accentSoft" onClick={() => setMobileMenuOpen(false)}>Galería</a>
+                <a href="#ubicacion" className="border-b border-white/10 py-5 font-display text-3xl font-light text-brand-bg transition-colors hover:text-brand-accentSoft" onClick={() => setMobileMenuOpen(false)}>Ubicación</a>
                 <a href={WHATSAPP_BASE_URL} target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-brand-accent px-6 py-4 text-sm font-semibold text-brand-dark transition hover:-translate-y-0.5 hover:bg-brand-accentSoft">
                   <FaWhatsapp className="h-4 w-4" aria-hidden="true" />
                   Reservá tu fecha
@@ -555,7 +641,7 @@ function App() {
           ) : null}
         </header>
 
-        <main id="inicio" tabIndex={-1} className="focus:outline-none">
+        <main id="inicio">
           <section aria-labelledby="hero-title" className="hero-screen relative isolate flex flex-col justify-end overflow-hidden bg-brand-dark">
             <img
               src="/galeria/fachadasalon.webp"
@@ -568,14 +654,14 @@ function App() {
             />
             <div className="absolute inset-0 -z-10 bg-gradient-to-t from-brand-dark via-brand-dark/55 to-black/25" aria-hidden="true" />
 
-            <div className="mx-auto w-full max-w-7xl px-4 pb-8 pt-32 sm:px-6 lg:px-8 lg:pb-12">
+            <div className="safe-pb safe-pb-lg mx-auto w-full max-w-7xl px-4 pt-32 sm:px-6 lg:px-8">
               <div className="max-w-3xl lg:ml-auto lg:max-w-2xl lg:pl-6">
                 <p className="animate-fade-up flex items-center gap-3 text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-brand-accent">
                   <span className="h-px w-10 bg-brand-accent/70" aria-hidden="true" />
                   Fernando de la Mora · Zona Sur
                 </p>
-                <h1 id="hero-title" className="animate-fade-up-1 mt-6 text-balance font-display text-5xl font-light leading-[0.95] tracking-[-0.03em] text-white sm:text-6xl lg:text-7xl xl:text-8xl">
-                  La noche empieza en <em className="italic text-brand-accent">Palmares</em>.
+                <h1 id="hero-title" tabIndex={-1} className="animate-fade-up-1 mt-6 text-balance font-display text-5xl font-light leading-[0.95] tracking-[-0.03em] text-white sm:text-6xl lg:text-7xl xl:text-8xl">
+                  La noche empieza en <em className="italic text-brand-accent" translate="no">Palmares</em>.
                 </h1>
                 <p className="animate-fade-up-2 mt-6 max-w-xl text-base leading-7 text-white/80 sm:text-lg">
                   Salón, quincho y pileta en un solo lugar. Bodas, XV años, colaciones y eventos de empresa con hasta 120 invitados.
@@ -749,7 +835,7 @@ function App() {
                     />
                     <button
                       type="button"
-                      onClick={(event) => { lightboxTriggerRef.current = event.currentTarget; setLightboxIndex(index); }}
+                      onClick={(event) => { lightboxTriggerRef.current = event.currentTarget; openLightbox(index); }}
                       className="absolute inset-0 z-10 cursor-zoom-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-accent"
                       aria-label={`Ampliar foto: ${foto.title}`}
                     />
@@ -773,7 +859,7 @@ function App() {
                   Redes
                 </p>
                 <h2 className="mt-4 max-w-3xl text-balance font-display text-4xl font-light leading-[1.02] tracking-[-0.03em] text-brand-text sm:text-5xl">
-                  Viví el ambiente en <span className="italic">@palmarespyeventos</span>
+                  Viví el ambiente en <span className="italic" translate="no">@palmarespyeventos</span>
                 </h2>
               </Reveal>
               <Reveal className="flex items-center gap-5">
@@ -844,7 +930,8 @@ function App() {
                   <div className="space-y-5">
                     <div>
                       <label htmlFor="name" className="block text-xs font-semibold uppercase tracking-wider text-brand-bg/80">Nombre Completo</label>
-                      <input type="text" id="name" name="name" autoComplete="name" value={form.name} onChange={handleChange('name')} placeholder="Ej. Juan Pérez" className="mt-2 block w-full rounded-sm border border-white/15 bg-white/5 px-4 py-3.5 text-sm text-brand-bg placeholder-white/50 transition focus:border-brand-accent focus:outline-none focus:ring-1 focus:ring-brand-accent/40" required {...errorProps('name')} />
+                      <input type="text" id="name" name="name" autoComplete="name" value={form.name} onChange={handleChange('name')} placeholder="Ej. Juan Pérez…" className="mt-2 block w-full rounded-sm border border-white/15 bg-white/5 px-4 py-3.5 text-sm text-brand-bg placeholder-white/50 transition focus:border-brand-accent focus:outline-none focus:ring-1 focus:ring-brand-accent/40" required {...errorProps('name')} />
+                      <FieldError field="name" invalidField={invalidField} message={formError} />
                     </div>
 
                     <div className="grid gap-4 sm:grid-cols-2">
@@ -853,26 +940,28 @@ function App() {
                         <select id="eventType" name="eventType" autoComplete="off" value={form.eventType} onChange={handleChange('eventType')} className="mt-2 block w-full rounded-sm border border-white/15 bg-white/5 px-4 py-3.5 text-sm text-brand-bg transition [color-scheme:dark] focus:border-brand-accent focus:outline-none focus:ring-1 focus:ring-brand-accent/40" required {...errorProps('eventType')}>
                           {eventTypes.map((type) => (<option key={type} value={type} className="bg-brand-dark text-brand-bg">{type}</option>))}
                         </select>
+                        <FieldError field="eventType" invalidField={invalidField} message={formError} />
                       </div>
                       <div>
                         <label htmlFor="guests" className="block text-xs font-semibold uppercase tracking-wider text-brand-bg/80">Invitados (Máx. 120)</label>
-                        <input type="number" id="guests" name="guests" autoComplete="off" inputMode="numeric" step="1" min="1" max="120" value={form.guests} onChange={handleChange('guests')} placeholder="Ej. 80" className="mt-2 block w-full rounded-sm border border-white/15 bg-white/5 px-4 py-3.5 text-sm text-brand-bg placeholder-white/50 transition focus:border-brand-accent focus:outline-none focus:ring-1 focus:ring-brand-accent/40" required {...errorProps('guests')} />
+                        <input type="number" id="guests" name="guests" autoComplete="off" inputMode="numeric" step="1" min="1" max="120" value={form.guests} onChange={handleChange('guests')} placeholder="Ej. 80…" className="mt-2 block w-full rounded-sm border border-white/15 bg-white/5 px-4 py-3.5 text-sm text-brand-bg placeholder-white/50 transition focus:border-brand-accent focus:outline-none focus:ring-1 focus:ring-brand-accent/40" required {...errorProps('guests')} />
+                        <FieldError field="guests" invalidField={invalidField} message={formError} />
                       </div>
                     </div>
 
                     {isColacion && (
                       <div>
                         <label htmlFor="institution" className="block text-xs font-semibold uppercase tracking-wider text-brand-bg/80">Institución Educativa / Colegio</label>
-                        <input type="text" id="institution" name="institution" autoComplete="organization" value={form.institution} onChange={handleChange('institution')} placeholder="Ej. Colegio Nacional de la Capital" className="mt-2 block w-full rounded-sm border border-white/20 bg-white/5 px-4 py-3.5 text-sm text-brand-bg placeholder-white/50 transition focus:border-brand-accent focus:outline-none focus:ring-1 focus:ring-brand-accent/40" required={isColacion} {...errorProps('institution')} />
+                        <input type="text" id="institution" name="institution" autoComplete="organization" value={form.institution} onChange={handleChange('institution')} placeholder="Ej. Colegio Nacional de la Capital…" className="mt-2 block w-full rounded-sm border border-white/20 bg-white/5 px-4 py-3.5 text-sm text-brand-bg placeholder-white/50 transition focus:border-brand-accent focus:outline-none focus:ring-1 focus:ring-brand-accent/40" required={isColacion} {...errorProps('institution')} />
+                        <FieldError field="institution" invalidField={invalidField} message={formError} />
                       </div>
                     )}
 
                     <div>
                       <label htmlFor="date" className="block text-xs font-semibold uppercase tracking-wider text-brand-bg/80">Fecha Tentativa</label>
                       <input type="date" id="date" name="date" autoComplete="off" min={getTodayInputValue()} value={form.date} onChange={handleChange('date')} className="mt-2 block w-full rounded-sm border border-white/15 bg-white/5 px-4 py-3.5 text-sm text-brand-bg transition [color-scheme:dark] focus:border-brand-accent focus:outline-none focus:ring-1 focus:ring-brand-accent/40" required {...errorProps('date')} />
+                      <FieldError field="date" invalidField={invalidField} message={formError} />
                     </div>
-
-                    {formError && (<div id="form-error" role="alert" className="rounded-sm border border-red-300/40 bg-red-500/10 px-4 py-3 text-xs text-red-100">{formError}</div>)}
 
                     <button type="submit" className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-accent py-4 text-sm font-semibold text-brand-dark transition hover:-translate-y-0.5 hover:bg-brand-accentSoft active:scale-[0.99]">
                       Cotizar por WhatsApp
@@ -887,15 +976,15 @@ function App() {
         </main>
 
         <footer className="bg-brand-dark text-brand-bg">
-          <div className="mx-auto max-w-7xl px-4 pb-8 pt-16 sm:px-6 lg:px-8 lg:pt-20">
+          <div className="safe-pb mx-auto max-w-7xl px-4 pt-16 sm:px-6 lg:px-8 lg:pt-20">
             <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
               <div>
                 <div className="mb-4 flex items-center gap-3">
                   <div className="flex h-10 w-10 overflow-hidden rounded-full border border-white/10">
-                    <img src={logo} alt="Palmares" width="170" height="161" loading="lazy" decoding="async" className="h-full w-full object-cover" />
+                    <img src={logo} alt="" width="170" height="161" loading="lazy" decoding="async" className="h-full w-full object-cover" />
                   </div>
                   <div>
-                    <p className="font-display text-lg font-medium tracking-[0.14em] text-white">PALMARES</p>
+                    <p translate="no" className="font-display text-lg font-medium tracking-[0.14em] text-white">PALMARES</p>
                     <p className="text-[0.55rem] uppercase tracking-[0.35em] text-white/60">Salón de Eventos</p>
                   </div>
                 </div>
@@ -906,9 +995,9 @@ function App() {
               <div>
                 <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-white/80">Contacto</h3>
                 <div className="space-y-3 text-sm text-white/80">
-                  <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className="flex w-fit items-center gap-2 text-white/85 transition hover:text-white"><FaInstagram className="h-4 w-4" aria-hidden="true" /> @palmarespyeventos</a>
-                  <a href="https://www.facebook.com/profile.php?id=100069641632947" target="_blank" rel="noopener noreferrer" className="flex w-fit items-center gap-2 text-white/85 transition hover:text-white"><FaFacebookF className="h-4 w-4" aria-hidden="true" /> Palmares Salón de Eventos</a>
-                  <a href="mailto:palmarespyeventos@gmail.com" className="flex w-fit items-center gap-2 text-white/85 transition hover:text-white"><span className="text-sm" aria-hidden="true">✉</span> palmarespyeventos@gmail.com</a>
+                  <a href={instagramUrl} target="_blank" rel="noopener noreferrer" translate="no" className="flex w-fit items-center gap-2 text-white/85 transition hover:text-white"><FaInstagram className="h-4 w-4" aria-hidden="true" /> @palmarespyeventos</a>
+                  <a href="https://www.facebook.com/profile.php?id=100069641632947" target="_blank" rel="noopener noreferrer" translate="no" className="flex w-fit items-center gap-2 text-white/85 transition hover:text-white"><FaFacebookF className="h-4 w-4" aria-hidden="true" /> Palmares Salón de Eventos</a>
+                  <a href="mailto:palmarespyeventos@gmail.com" translate="no" className="flex w-fit items-center gap-2 text-white/85 transition hover:text-white"><span className="text-sm" aria-hidden="true">✉</span> palmarespyeventos@gmail.com</a>
                 </div>
               </div>
 
@@ -934,16 +1023,16 @@ function App() {
       {lightboxOpen && (
         <dialog
           ref={lightboxRef}
-          className="m-auto w-[min(94vw,64rem)] max-w-none overflow-hidden border border-white/10 bg-brand-dark p-0 text-brand-bg shadow-2xl backdrop:bg-brand-dark/95 backdrop:backdrop-blur-sm"
+          className="m-auto w-[min(94vw,64rem)] max-w-none overscroll-contain overflow-hidden border border-white/10 bg-brand-dark p-0 text-brand-bg shadow-2xl backdrop:bg-brand-dark/95 backdrop:backdrop-blur-sm"
           aria-labelledby="lightbox-title"
           aria-describedby="lightbox-description"
-          onClose={() => setLightboxIndex(null)}
-          onClick={(event) => { if (event.target === event.currentTarget) setLightboxIndex(null); }}
+          onClose={closeLightbox}
+          onClick={(event) => { if (event.target === event.currentTarget) closeLightbox(); }}
         >
           <div className="relative flex max-h-[76vh] items-center justify-center bg-black/30">
             <button
               type="button"
-              onClick={() => setLightboxIndex(null)}
+              onClick={closeLightbox}
               className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-brand-bg/90 text-brand-dark transition hover:bg-brand-bg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
               aria-label="Cerrar galería"
             >
