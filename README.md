@@ -10,7 +10,7 @@ Sitio web de una página (SPA) diseñado para promocionar un salón de eventos y
 
 ### Secciones
 
-- **Hero** — Presentación del salón con llamado a la acción y estadísticas (4.7★ Google, 161+ reseñas, 200+ eventos)
+- **Hero** — Presentación del salón con llamado a la acción y estadísticas (4,7★ Google, 161+ reseñas, 200+ eventos)
 - **Diferenciales** — Generador propio, capacidad hasta 120 invitados, complejo interior/exterior, ubicación estratégica
 - **Testimonios** — 3 reseñas verificadas de Google con links directos
 - **Galería** — Carrusel interactivo con navegación por flechas y teclado (4 fotos del salón)
@@ -21,7 +21,7 @@ Sitio web de una página (SPA) diseñado para promocionar un salón de eventos y
 
 | Capa | Tecnología |
 |------|-----------|
-| Framework | React 18 |
+| Framework | React 19 |
 | Bundler | Vite |
 | CSS | Tailwind CSS |
 | Iconos | lucide-react, react-icons |
@@ -31,8 +31,19 @@ Sitio web de una página (SPA) diseñado para promocionar un salón de eventos y
 
 ```bash
 npm install
+cp .env.example .env
 npm run dev
 ```
+
+## Variables de entorno
+
+El número de WhatsApp se configura en `.env` y no está hardcodeado en el código:
+
+```bash
+VITE_WHATSAPP_NUMBER=595000000000
+```
+
+El valor de `.env.example` es un placeholder: reemplazalo por el número real en `.env` (local) y en las variables de entorno del build de Cloudflare. Usá el formato internacional y solo dígitos. Si la variable falta, los enlaces de WhatsApp quedan sin destinatario.
 
 ## Build y deploy
 

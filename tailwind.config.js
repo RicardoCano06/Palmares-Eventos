@@ -10,7 +10,7 @@ module.exports = {
           text: '#111215',
           dark: '#111215',
           green: '#3A5A24',
-          muted: '#7a7a7a',
+          muted: '#66665f',
         },
       },
       fontFamily: {
