@@ -532,15 +532,17 @@ function App() {
     }
 
     const lines = [
-      'Hola Palmares, quiero cotizar mi evento con estos datos:',
+      'Hola Palmares,',
       '',
-      `Nombre: ${name}`,
-      `Tipo de evento: ${form.eventType}`,
-      `Cantidad de invitados: ${guestsNumber}`,
-      `Fecha tentativa: ${formatEventDate(date)}`,
+      'Quiero cotizar mi evento:',
+      '',
+      `• *Nombre:* ${name}`,
+      `• *Tipo de evento:* ${form.eventType}`,
+      `• *Invitados:* ${guestsNumber}`,
+      `• *Fecha tentativa:* ${formatEventDate(date)}`,
     ];
 
-    if (isColacion) lines.push(`Institución o colegio: ${institution}`);
+    if (isColacion) lines.push(`• *Institución:* ${institution}`);
 
     lines.push('', 'Quedo atento/a para recibir disponibilidad y presupuesto.');
 
