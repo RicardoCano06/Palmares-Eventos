@@ -1,17 +1,59 @@
 import { useEffect, useRef, useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, Menu, X } from 'lucide-react';
 import { FaWhatsapp, FaInstagram, FaFacebookF, FaStar } from 'react-icons/fa6';
 import logo from '/Imagen1.webp';
 import { WHATSAPP_BASE_URL, buildWhatsAppUrl } from './config';
 
 const instagramUrl = 'https://www.instagram.com/palmarespyeventos/';
+const mapsUrl = 'https://www.google.com/maps/place/Palmares+-+Sal%C3%B3n+de+eventos/@-25.3342363,-57.5742762,17z';
 
 const eventTypes = ['Boda', 'Quinceaños', 'Colación', 'Cumpleaños', 'Evento de Día con Piscina', 'Otro'];
 
-const googleRating = new Intl.NumberFormat('es-PY', {
+const integerFormatter = new Intl.NumberFormat('es-PY', { maximumFractionDigits: 0 });
+const decimalFormatter = new Intl.NumberFormat('es-PY', {
   minimumFractionDigits: 1,
   maximumFractionDigits: 1,
-}).format(4.7);
+});
+
+const stats = [
+  { to: 4.7, from: 0, decimals: 1, label: 'Google', detail: 'Calificación' },
+  { to: 161, from: 0, suffix: '+', label: 'Reseñas', detail: 'en Google' },
+  { to: 200, from: 0, suffix: '+', label: 'Eventos', detail: 'celebrados' },
+  { to: 5, from: 0, suffix: '+', label: 'Años', detail: 'desde 2021' },
+];
+
+function CountUp({ from = 0, to, decimals = 0, suffix = '', start, duration = 1600 }) {
+  const [value, setValue] = useState(from);
+  const frameRef = useRef(null);
+
+  useEffect(() => {
+    if (!start) return;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setValue(to);
+      return;
+    }
+
+    const startTime = performance.now();
+    const tick = (now) => {
+      const progress = Math.min((now - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setValue(from + (to - from) * eased);
+
+      if (progress < 1) {
+        frameRef.current = requestAnimationFrame(tick);
+      }
+    };
+
+    frameRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frameRef.current);
+  }, [start, from, to, duration]);
+
+  const formatter = decimals > 0 ? decimalFormatter : integerFormatter;
+  const formatted = formatter.format(value);
+
+  return <>{formatted}{suffix}</>;
+}
 
 function getTodayInputValue() {
   const now = new Date();
@@ -62,17 +104,17 @@ const testimonials = [
 
 const differentiators = [
   {
-    badge: 'Exclusivo',
+    badge: 'Generador propio',
     title: 'Energía Asegurada',
     description: 'Se corta la luz y la fiesta sigue. El generador propio aguanta sonido, luces y todo lo necesario.',
   },
   {
-    badge: 'Hasta 120',
+    badge: 'Hasta 120 invitados',
     title: 'Capacidad Ideal',
     description: 'Hasta 120 invitados cómodos. Ideal para bodas, XV años, cumpleaños, colaciones y eventos de empresa.',
   },
   {
-    badge: 'Mixto',
+    badge: 'Interior + exterior',
     title: 'Complejo Interior y Exterior',
     description: 'Salón cerrado más quincho con parrilla y pileta iluminada. La gente puede bailar, comer asado o charlar al aire libre.',
   },
@@ -84,8 +126,8 @@ const differentiators = [
 ];
 
 const galeriaFotos = [
-  { src: '/galeria/fachadasalon.webp', title: 'Entrada del Salón', desc: 'La puerta de entrada a un evento inolvidable.', width: 1461, height: 1076 },
   { src: '/galeria/piscinanocturna.webp', title: 'Piscina Nocturna', desc: 'La pileta iluminada le da otro ambiente a la noche.', width: 1448, height: 1086 },
+  { src: '/galeria/fachadasalon.webp', title: 'Entrada del Salón', desc: 'La puerta de entrada a un evento inolvidable.', width: 1461, height: 1076 },
   { src: '/galeria/quinchoparrilla.webp', title: 'El Quincho y la Parrilla', desc: 'Asado, música y buena compañía.', width: 1372, height: 1147 },
   { src: '/galeria/montajemesa.webp', title: 'Montaje de Mesas', desc: 'Amplio espacio para montar tu evento a tu gusto.', width: 1443, height: 1090 },
 ];
@@ -135,10 +177,13 @@ function Reveal({ as: Component = 'div', className = '', children, ...props }) {
 
 function SectionHeading({ eyebrow, title, description }) {
   return (
-    <div className="mx-auto text-center max-w-4xl">
-      <p className="text-sm uppercase tracking-[0.32em] text-brand-muted">{eyebrow}</p>
-      <h3 className="mt-3 text-balance font-display text-3xl font-bold tracking-[-0.03em] text-brand-text sm:text-4xl">{title}</h3>
-      <p className="mt-4 text-base leading-7 text-brand-muted">{description}</p>
+    <div className="max-w-3xl">
+      <p className="flex items-center gap-3 text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-brand-green">
+        <span className="h-px w-8 bg-brand-accent" aria-hidden="true" />
+        {eyebrow}
+      </p>
+      <h2 className="mt-4 text-balance font-display text-4xl font-light leading-[1.02] tracking-[-0.03em] text-brand-text sm:text-5xl">{title}</h2>
+      <p className="mt-4 max-w-2xl text-base leading-7 text-brand-muted">{description}</p>
     </div>
   );
 }
@@ -150,19 +195,21 @@ function InstagramCard({ item, index }) {
       target="_blank"
       rel="noopener noreferrer"
       aria-label={`Ver publicación ${index + 1} de Palmares en Instagram`}
-      className="group relative aspect-square overflow-hidden rounded-xl bg-brand-surface block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
+      className="group relative block aspect-square w-[17rem] shrink-0 cursor-grab snap-start overflow-hidden bg-brand-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent active:cursor-grabbing sm:w-[20rem]"
     >
       <img
         src={item.thumb}
         alt={`Publicación ${index + 1} de Palmares en Instagram`}
         width={item.width}
         height={item.height}
-        className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+        className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
         loading="lazy"
         decoding="async"
+        draggable="false"
       />
-      <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 transition duration-300 group-hover:opacity-100 rounded-xl" aria-hidden="true">
+      <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-brand-dark/55 opacity-0 transition duration-300 group-hover:opacity-100 group-focus-visible:opacity-100" aria-hidden="true">
         <FaInstagram className="h-6 w-6 text-white" aria-hidden="true" />
+        <span className="text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-white">Ver post</span>
       </div>
     </a>
   );
@@ -171,7 +218,6 @@ function InstagramCard({ item, index }) {
 function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [galeriaIdx, setGaleriaIdx] = useState(0);
   const [form, setForm] = useState({
     name: '',
     eventType: 'Boda',
@@ -181,35 +227,119 @@ function App() {
   });
   const [formError, setFormError] = useState('');
   const [invalidField, setInvalidField] = useState('');
+  const [lightboxIndex, setLightboxIndex] = useState(null);
+  const [instagramDragging, setInstagramDragging] = useState(false);
+  const [statsVisible, setStatsVisible] = useState(false);
   const menuButtonRef = useRef(null);
+  const lightboxRef = useRef(null);
+  const lightboxTriggerRef = useRef(null);
+  const instagramStripRef = useRef(null);
+  const statsRef = useRef(null);
+  const instagramDragRef = useRef({ active: false, captured: false, startX: 0, startScrollLeft: 0, moved: false, pointerId: null });
 
   const isColacion = form.eventType === 'Colación';
+  const lightboxOpen = lightboxIndex !== null;
 
-  const prevFoto = () => setGaleriaIdx((i) => (i === 0 ? galeriaFotos.length - 1 : i - 1));
-  const nextFoto = () => setGaleriaIdx((i) => (i === galeriaFotos.length - 1 ? 0 : i + 1));
+  const showPrevPhoto = () => setLightboxIndex((current) => (current - 1 + galeriaFotos.length) % galeriaFotos.length);
+  const showNextPhoto = () => setLightboxIndex((current) => (current + 1) % galeriaFotos.length);
 
-  useEffect(() => {
-    const onKey = (event) => {
-      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
-      if (event.metaKey || event.ctrlKey || event.altKey) return;
+  const handleInstagramPointerDown = (event) => {
+    if (event.pointerType !== 'mouse') return;
 
-      const target = event.target;
-      if (target instanceof HTMLElement && target.closest('input, textarea, select, [contenteditable="true"]')) {
-        return;
-      }
+    const strip = instagramStripRef.current;
+    if (!strip) return;
 
-      if (event.key === 'ArrowLeft') prevFoto();
-      else nextFoto();
+    instagramDragRef.current = {
+      active: true,
+      captured: false,
+      startX: event.clientX,
+      startScrollLeft: strip.scrollLeft,
+      moved: false,
+      pointerId: event.pointerId,
     };
+    setInstagramDragging(true);
+  };
 
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, []);
+  const handleInstagramPointerMove = (event) => {
+    const drag = instagramDragRef.current;
+    const strip = instagramStripRef.current;
+    if (!strip || !drag.active) return;
+
+    const delta = event.clientX - drag.startX;
+    if (Math.abs(delta) < 4) return;
+
+    drag.moved = true;
+
+    if (!drag.captured) {
+      try {
+        strip.setPointerCapture(drag.pointerId);
+        drag.captured = true;
+      } catch {
+        // Pointer capture can fail for synthetic events; dragging still works inside the strip.
+      }
+    }
+
+    event.preventDefault();
+    strip.scrollLeft = drag.startScrollLeft - delta;
+  };
+
+  const endInstagramDrag = () => {
+    const drag = instagramDragRef.current;
+    const strip = instagramStripRef.current;
+    if (!drag.active) return;
+
+    if (drag.captured && strip?.hasPointerCapture?.(drag.pointerId)) {
+      strip.releasePointerCapture(drag.pointerId);
+    }
+
+    drag.active = false;
+    drag.captured = false;
+    setInstagramDragging(false);
+  };
+
+  const handleInstagramPointerLeave = () => {
+    const drag = instagramDragRef.current;
+    if (drag.active && !drag.captured) endInstagramDrag();
+  };
+
+  const handleInstagramClick = (event) => {
+    if (!instagramDragRef.current.moved) return;
+
+    event.preventDefault();
+    instagramDragRef.current.moved = false;
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (!hash) return;
+
+    const target = document.getElementById(hash.slice(1));
+    if (!target) return;
+
+    window.setTimeout(() => target.scrollIntoView({ behavior: 'instant', block: 'start' }), 0);
+  }, []);
+
+  useEffect(() => {
+    const element = statsRef.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setStatsVisible(true);
+        observer.disconnect();
+      },
+      { threshold: 0.35 },
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -224,6 +354,47 @@ function App() {
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [mobileMenuOpen]);
+
+  useEffect(() => {
+    if (!lightboxOpen) return;
+
+    const dialog = lightboxRef.current;
+    if (!dialog) return;
+
+    if (!dialog.open) dialog.showModal();
+    dialog.querySelector('button[aria-label="Cerrar galería"]')?.focus();
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      lightboxTriggerRef.current?.focus();
+    };
+  }, [lightboxOpen]);
+
+  useEffect(() => {
+    if (!lightboxOpen) return;
+
+    const onKey = (event) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        setLightboxIndex(null);
+        return;
+      }
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        showPrevPhoto();
+      }
+      if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        showNextPhoto();
+      }
+    };
+
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [lightboxOpen]);
 
   const handleChange = (field) => (event) => {
     const value = event.target.value;
@@ -303,12 +474,15 @@ function App() {
     window.open(buildWhatsAppUrl(lines.join('\n')), '_blank', 'noopener,noreferrer');
   };
 
-  return (
-    <div className="min-h-screen bg-brand-bg text-brand-text selection:bg-brand-green/25 selection:text-brand-text">
-      <div className="relative isolate overflow-hidden">
-        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-brand-bg via-brand-surface to-brand-bg" />
-        <div className="absolute inset-x-0 top-0 -z-10 h-80 bg-[radial-gradient(circle,_rgba(58,90,36,0.04),_transparent_60%)]" />
+  const headerOnDark = mobileMenuOpen || !scrolled;
+  const navLinkClass = `${headerOnDark ? 'text-white/70 hover:text-white' : 'text-brand-muted hover:text-brand-text'} relative transition after:absolute after:-bottom-1.5 after:left-0 after:h-px after:w-0 after:bg-current after:transition-[width] after:duration-300 hover:after:w-full`;
+  const mobileButtonClass = headerOnDark
+    ? 'border-white/25 text-white transition hover:bg-white/10'
+    : 'border-brand-text/15 text-brand-text transition hover:bg-brand-text/5';
 
+  return (
+    <div className="min-h-screen bg-brand-bg text-brand-text selection:bg-brand-accent/30 selection:text-brand-dark">
+      <div className="relative isolate overflow-hidden">
         <a
           href="#inicio"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-brand-green focus:px-4 focus:py-3 focus:text-sm focus:font-semibold focus:text-white"
@@ -316,34 +490,38 @@ function App() {
           Saltar al contenido
         </a>
 
-        <header className={`safe-top fixed left-0 right-0 top-0 z-50 w-full transition-[padding] duration-500 ease-in-out ${scrolled ? 'py-3 px-4' : 'py-4 px-0'}`}>
-          <div className={`mx-auto flex items-center justify-between transition-[max-width,padding,background-color,box-shadow,border-color,border-radius] duration-500 ease-in-out ${
-            scrolled
-              ? 'max-w-6xl rounded-xl bg-[#F9F9F5]/80 backdrop-blur-md shadow-lg border border-brand-text/5 px-6 py-2'
-              : 'max-w-full bg-transparent px-8 py-2'
-          }`}>
-            <a href="#inicio" className="flex items-center gap-3">
-              <div className={`overflow-hidden rounded-full border border-brand-surface bg-white transition-[height,width] duration-300 ${scrolled ? 'h-10 w-10' : 'h-12 w-12'}`}>
-                <img src={logo} alt="Palmares - Salón de Eventos" width="170" height="161" fetchPriority="high" loading="eager" className="h-full w-full object-cover" />
+        <header
+          className={`safe-top fixed left-0 right-0 top-0 z-50 border-b transition-colors duration-300 ${
+            mobileMenuOpen
+              ? 'border-white/10 bg-brand-dark text-brand-bg'
+              : scrolled
+                ? 'border-brand-text/10 bg-brand-bg/95 text-brand-text backdrop-blur-md'
+                : 'border-transparent bg-transparent text-white'
+          }`}
+        >
+          <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+            <a href="#inicio" className="flex items-center gap-3 transition hover:opacity-90">
+              <div className="h-10 w-10 overflow-hidden rounded-full border border-white/20 bg-white">
+                <img src={logo} alt="Palmares - Salón de Eventos" width="170" height="161" loading="eager" className="h-full w-full object-cover" />
               </div>
               <div>
-                <p className={`uppercase tracking-[0.45em] text-[#5a5a5a] transition-[font-size] duration-300 ${scrolled ? 'text-[0.55rem]' : 'text-[0.62rem]'}`}>Salón de Eventos</p>
-                <h1 className={`font-semibold tracking-[0.35em] text-brand-text transition-[font-size,margin] duration-300 ${scrolled ? 'text-sm' : 'mt-1 text-sm sm:text-base'}`}>PALMARES</h1>
+                <p className={`text-[0.55rem] uppercase tracking-[0.35em] ${headerOnDark ? 'text-white/60' : 'text-brand-muted'}`}>Salón de Eventos</p>
+                <p className={`font-display text-lg font-medium tracking-[0.14em] ${headerOnDark ? 'text-white' : 'text-brand-text'}`}>PALMARES</p>
               </div>
             </a>
 
-            <div className="hidden md:flex md:items-center md:gap-6">
+            <div className="hidden md:flex md:items-center md:gap-8">
               <nav className="flex items-center gap-8" aria-label="Navegación principal">
-                <a href="#diferenciales" className="text-sm text-brand-muted transition hover:text-brand-text">Diferenciales</a>
-                <a href="#galeria" className="text-sm text-brand-muted transition hover:text-brand-text">Galería</a>
-                <a href="#ubicacion" className="text-sm text-brand-muted transition hover:text-brand-text">Ubicación</a>
+                <a href="#diferenciales" className={`text-sm ${navLinkClass}`}>Diferenciales</a>
+                <a href="#galeria" className={`text-sm ${navLinkClass}`}>Galería</a>
+                <a href="#ubicacion" className={`text-sm ${navLinkClass}`}>Ubicación</a>
                 <a
                   href={WHATSAPP_BASE_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-brand-green px-5 py-3 text-sm font-semibold text-white transition hover:opacity-90"
+                  className="inline-flex items-center gap-2 rounded-full bg-brand-accent px-5 py-3 text-sm font-semibold text-brand-dark transition hover:-translate-y-0.5 hover:bg-brand-accentSoft"
                 >
-                  Cotizar Ahora
+                  Reservá tu fecha
                   <FaWhatsapp className="h-4 w-4" aria-hidden="true" />
                 </a>
               </nav>
@@ -352,7 +530,7 @@ function App() {
             <button
               ref={menuButtonRef}
               type="button"
-              className="inline-flex items-center justify-center rounded-full border border-brand-surface bg-white/80 p-3 text-brand-text transition hover:border-brand-green/30 hover:bg-white md:hidden"
+              className={`inline-flex items-center justify-center rounded-full border p-3 md:hidden ${mobileButtonClass}`}
               onClick={() => setMobileMenuOpen((current) => !current)}
               aria-label={mobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
               aria-expanded={mobileMenuOpen}
@@ -363,329 +541,445 @@ function App() {
           </div>
 
           {mobileMenuOpen ? (
-            <div id="mobile-menu" className="border-t border-brand-surface bg-white md:hidden">
-              <nav className="flex flex-col px-4 sm:px-6 max-w-6xl mx-auto" aria-label="Navegación móvil">
-                <a href="#diferenciales" className="py-4 text-sm text-brand-text border-b border-brand-surface/50 transition hover:text-brand-green" onClick={() => setMobileMenuOpen(false)}>Diferenciales</a>
-                <a href="#galeria" className="py-4 text-sm text-brand-text border-b border-brand-surface/50 transition hover:text-brand-green" onClick={() => setMobileMenuOpen(false)}>Galería</a>
-                <a href="#ubicacion" className="py-4 text-sm text-brand-text border-b border-brand-surface/50 transition hover:text-brand-green" onClick={() => setMobileMenuOpen(false)}>Ubicación</a>
-                <a href={WHATSAPP_BASE_URL} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 py-4 text-sm font-semibold text-brand-green transition hover:text-brand-green/80"><FaWhatsapp className="h-4 w-4" aria-hidden="true" /> Cotizar por WhatsApp</a>
+            <div id="mobile-menu" className="border-t border-white/10 bg-brand-dark md:hidden">
+              <nav className="mx-auto flex max-w-7xl flex-col px-4 pb-8 pt-2 sm:px-6" aria-label="Navegación móvil">
+                <a href="#diferenciales" className="border-b border-white/10 py-5 font-display text-3xl font-light text-brand-bg" onClick={() => setMobileMenuOpen(false)}>Diferenciales</a>
+                <a href="#galeria" className="border-b border-white/10 py-5 font-display text-3xl font-light text-brand-bg" onClick={() => setMobileMenuOpen(false)}>Galería</a>
+                <a href="#ubicacion" className="border-b border-white/10 py-5 font-display text-3xl font-light text-brand-bg" onClick={() => setMobileMenuOpen(false)}>Ubicación</a>
+                <a href={WHATSAPP_BASE_URL} target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-brand-accent px-6 py-4 text-sm font-semibold text-brand-dark transition hover:-translate-y-0.5 hover:bg-brand-accentSoft">
+                  <FaWhatsapp className="h-4 w-4" aria-hidden="true" />
+                  Reservá tu fecha
+                </a>
               </nav>
             </div>
           ) : null}
         </header>
-        <div className="safe-header-spacer" />
 
-        <main id="inicio" tabIndex={-1} className="scroll-mt-24 focus:outline-none">
-          <section className="mx-auto max-w-7xl px-4 pb-14 pt-8 sm:px-6 lg:px-8 lg:pb-20">
-              <div className="flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-16">
-                <div className="flex-1 lg:max-w-[55%]">
-                  <p className="animate-fade-up text-sm uppercase tracking-[0.35em] text-brand-green font-bold mb-4">Palmares Eventos</p>
-                  <h2 className="animate-fade-up text-balance font-display text-4xl font-bold leading-[1.1] text-brand-text sm:text-5xl lg:text-6xl xl:text-7xl">
-                    Creamos el espacio para tus mejores recuerdos
-                  </h2>
-                  <p className="animate-fade-up-1 mt-6 text-lg leading-7 text-brand-muted max-w-xl">
-                    Bodas, cumpleaños, colaciones y eventos de empresa. Salón con quincho, parrilla, pileta y generador propio.
-                  </p>
+        <main id="inicio" tabIndex={-1} className="focus:outline-none">
+          <section aria-labelledby="hero-title" className="hero-screen relative isolate flex flex-col justify-end overflow-hidden bg-brand-dark">
+            <img
+              src="/galeria/fachadasalon.webp"
+              alt="Fachada nocturna de Palmares Salón de Eventos"
+              width="1461"
+              height="1076"
+              fetchPriority="high"
+              loading="eager"
+              className="absolute inset-0 -z-20 h-full w-full object-cover object-center"
+            />
+            <div className="absolute inset-0 -z-10 bg-gradient-to-t from-brand-dark via-brand-dark/55 to-black/25" aria-hidden="true" />
 
-                  <div className="animate-fade-up-2 mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
-                    <a
-                      href={WHATSAPP_BASE_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="animate-pulse-glow inline-flex items-center gap-2 rounded-full bg-brand-green px-7 py-4 text-sm font-semibold text-white shadow-lg transition hover:opacity-90 w-fit"
-                    >
-                      Cotizar ahora
-                      <FaWhatsapp className="h-4 w-4" aria-hidden="true" />
-                    </a>
-                    <a
-                      href="#galeria"
-                      className="inline-flex items-center gap-2 text-sm font-semibold text-brand-muted transition hover:text-brand-text"
-                    >
-                      Ver fotos del salón
-                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-                    </a>
-                  </div>
-
-                  <div className="animate-fade-up-3 mt-10 flex flex-wrap items-center gap-x-8 gap-y-2 text-sm text-brand-muted">
-                    <span><strong className="font-semibold text-brand-text">{googleRating} ★</strong> Google</span>
-                    <span className="w-px h-4 bg-brand-surface" />
-                    <span><strong className="text-brand-text font-semibold">161+</strong> Reseñas</span>
-                    <span className="w-px h-4 bg-brand-surface" />
-                    <span><strong className="text-brand-text font-semibold">200+</strong> Eventos</span>
-                    <span className="w-px h-4 bg-brand-surface" />
-                    <span><strong className="text-brand-text font-semibold">2021</strong> Trayectoria</span>
-                  </div>
-                </div>
-
-                <div className="animate-fade-up-3 lg:max-w-[45%] w-full">
-                  <div className="relative overflow-hidden rounded-[2.5rem] bg-brand-surface shadow-2xl aspect-[4/5] lg:aspect-[5/6]">
-                    <img
-                      src="/galeria/fachadasalon.webp"
-                      alt="Entrada de Palmares Salón de Eventos"
-                      width="1461"
-                      height="1076"
-                      fetchPriority="high"
-                      loading="eager"
-                      className="h-full w-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" aria-hidden="true" />
-                  </div>
+            <div className="mx-auto w-full max-w-7xl px-4 pb-8 pt-32 sm:px-6 lg:px-8 lg:pb-12">
+              <div className="max-w-3xl lg:ml-auto lg:max-w-2xl lg:pl-6">
+                <p className="animate-fade-up flex items-center gap-3 text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-brand-accent">
+                  <span className="h-px w-10 bg-brand-accent/70" aria-hidden="true" />
+                  Fernando de la Mora · Zona Sur
+                </p>
+                <h1 id="hero-title" className="animate-fade-up-1 mt-6 text-balance font-display text-5xl font-light leading-[0.95] tracking-[-0.03em] text-white sm:text-6xl lg:text-7xl xl:text-8xl">
+                  La noche empieza en <em className="italic text-brand-accent">Palmares</em>.
+                </h1>
+                <p className="animate-fade-up-2 mt-6 max-w-xl text-base leading-7 text-white/80 sm:text-lg">
+                  Salón, quincho y pileta en un solo lugar. Bodas, XV años, colaciones y eventos de empresa con hasta 120 invitados.
+                </p>
+                <div className="animate-fade-up-3 mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <a
+                    href={WHATSAPP_BASE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-accent px-7 py-4 text-sm font-semibold text-brand-dark transition hover:-translate-y-0.5 hover:bg-brand-accentSoft"
+                  >
+                    Reservá tu fecha
+                    <FaWhatsapp className="h-4 w-4" aria-hidden="true" />
+                  </a>
+                  <a
+                    href="#diferenciales"
+                    className="group inline-flex items-center justify-center gap-2 rounded-full border border-white/25 px-7 py-4 text-sm font-semibold text-white transition hover:border-white/60 hover:bg-white/10"
+                  >
+                    Conocé el espacio
+                    <ArrowDown className="h-4 w-4 transition group-hover:translate-y-0.5" aria-hidden="true" />
+                  </a>
                 </div>
               </div>
-          </section>
 
-          <section id="diferenciales" className="mx-auto max-w-7xl scroll-mt-24 px-4 pb-16 sm:px-6 lg:px-8">
-            <Reveal>
-              <SectionHeading
-                eyebrow="Diferenciales"
-                title="Por qué elegir Palmares para tu evento"
-                description="Seguridad, espacio, ubicación y un ambiente que tus invitados van a recordar."
-              />
-            </Reveal>
-
-            <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4 xl:gap-5">
-              {differentiators.map((item) => (
-                <Reveal key={item.title} className="rounded-2xl bg-brand-surface px-6 py-7 transition hover:bg-[#efeae0]">
-                  <span className="inline-flex rounded-full bg-brand-green/10 px-3 py-1 text-[0.65rem] uppercase tracking-[0.36em] text-brand-green font-semibold">{item.badge}</span>
-                  <h4 className="mt-4 font-display text-xl font-bold text-brand-text">{item.title}</h4>
-                  <p className="mt-3 text-sm leading-6 text-brand-muted">{item.description}</p>
-                </Reveal>
-              ))}
+              <div className="mt-12 flex flex-wrap items-center justify-between gap-3 border-t border-white/15 pt-5 text-[0.7rem] uppercase tracking-[0.2em] text-white/60">
+                <p>Bodas · XV años · Colaciones · Empresas</p>
+                <p className="hidden sm:block">Hasta 120 invitados</p>
+                <p>Fernando de la Mora</p>
+              </div>
             </div>
-
-            <Reveal className="mt-10 text-center">
-              <a
-                href={WHATSAPP_BASE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-green px-8 py-4 text-sm font-semibold text-white shadow-lg transition hover:opacity-90"
-              >
-                Consultá disponibilidad para tu evento
-                <FaWhatsapp className="h-4 w-4" aria-hidden="true" />
-              </a>
-            </Reveal>
           </section>
 
-          <section id="testimonios" className="mx-auto max-w-7xl scroll-mt-24 px-4 pb-16 sm:px-6 lg:px-8">
-            <Reveal>
-              <SectionHeading
-                eyebrow="Testimonios"
-                title="Lo que dicen los que ya celebraron en Palmares"
-                description="Esto nos escriben después de vivir su evento. Sin filtro."
-              />
-            </Reveal>
-
-            <div className="mt-10 grid gap-5 md:grid-cols-3">
-              {testimonials.map((t) => (
-                <Reveal key={t.name} className="rounded-2xl bg-brand-surface p-7 transition hover:bg-[#efeae0]">
-                  <div className="mb-4 flex items-center gap-1" role="img" aria-label={`${t.rating} de 5 estrellas`}>
-                    {Array.from({ length: t.rating }).map((_, i) => (<FaStar key={i} className="h-4 w-4 text-brand-green" aria-hidden="true" />))}
-                  </div>
-                  <p className="text-sm leading-6 text-brand-muted">“{t.text}”</p>
-                  <div className="mt-5 flex items-center gap-3 pt-4">
-                    <div className="h-10 w-10 shrink-0 rounded-full border border-brand-surface bg-brand-surface flex items-center justify-center" aria-hidden="true">
-                      <svg className="h-5 w-5 text-brand-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-semibold text-brand-text">{t.name}</p>
-                      <p className="truncate text-xs text-brand-muted">{t.event}</p>
-                    </div>
-                    <a href={t.link} target="_blank" rel="noopener noreferrer" className="shrink-0 text-brand-muted hover:text-brand-green transition text-xs font-semibold" aria-label={`Ver reseña de ${t.name} en Google`}>
-                      Google ↗
-                    </a>
-                  </div>
-                </Reveal>
+          <section ref={statsRef} aria-label="Palmares en números" className="border-b border-brand-text/10 bg-brand-bg">
+            <div className="mx-auto grid max-w-7xl grid-cols-2 gap-y-8 px-4 py-10 sm:px-6 lg:grid-cols-4 lg:px-8">
+              {stats.map((stat, index) => (
+                <div key={stat.label} className={`lg:px-8 ${index > 0 ? 'lg:border-l lg:border-brand-text/10' : ''}`}>
+                  <p className="font-display text-4xl font-light leading-none tracking-[-0.03em] text-brand-text tabular-nums sm:text-5xl">
+                    <CountUp
+                      from={stat.from}
+                      to={stat.to}
+                      decimals={stat.decimals}
+                      suffix={stat.suffix}
+                      start={statsVisible}
+                    />
+                  </p>
+                  <p className="mt-3 text-[0.7rem] font-semibold uppercase tracking-[0.25em] text-brand-green">{stat.label}</p>
+                  <p className="mt-1 text-xs text-brand-muted">{stat.detail}</p>
+                </div>
               ))}
             </div>
           </section>
 
-          <section id="galeria" className="mx-auto max-w-7xl scroll-mt-24 px-4 pb-16 sm:px-6 lg:px-8">
-            <Reveal>
-              <SectionHeading
-                eyebrow="Galería"
-                title="Conocé cada rincón de Palmares"
-                description="Desde el salón principal hasta el quincho con parrilla y la pileta."
-              />
-            </Reveal>
+          <section id="diferenciales" className="mx-auto max-w-7xl scroll-mt-24 px-4 pb-16 pt-16 sm:px-6 lg:px-8 lg:pb-24 lg:pt-24">
+            <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+              <div className="lg:sticky lg:top-28 lg:self-start">
+                <Reveal>
+                  <SectionHeading
+                    eyebrow="Diferenciales"
+                    title="Por qué elegir Palmares para tu evento"
+                    description="Seguridad, espacio, ubicación y un ambiente que tus invitados van a recordar."
+                  />
+                  <a
+                    href={WHATSAPP_BASE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group mt-8 inline-flex items-center gap-3 text-sm font-semibold text-brand-text"
+                  >
+                    <span className="border-b border-brand-green/40 pb-1 transition group-hover:border-brand-green">Consultá disponibilidad</span>
+                    <FaWhatsapp className="h-4 w-4 text-brand-green transition group-hover:translate-x-0.5" aria-hidden="true" />
+                  </a>
+                </Reveal>
+              </div>
 
-            <div className="mt-10">
-              <div className="relative rounded-2xl overflow-hidden bg-brand-surface shadow-lg">
-                <div className="relative w-full aspect-[4/3] md:aspect-[16/9] max-h-[85vh]">
-                  {galeriaFotos.map((foto, i) => (
+              <div>
+                {differentiators.map((item, index) => (
+                  <Reveal
+                    key={item.title}
+                    className="group grid grid-cols-[2rem_1fr] gap-5 border-t border-brand-text/15 py-8 transition-colors last:border-b hover:bg-brand-surface/50 sm:grid-cols-[2.5rem_1fr] sm:gap-6"
+                  >
+                    <span className="font-display text-sm text-brand-green">0{index + 1}</span>
+                    <div>
+                      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
+                        <h3 className="font-display text-3xl font-light tracking-[-0.02em] text-brand-text">{item.title}</h3>
+                        <span className="text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-brand-muted">{item.badge}</span>
+                      </div>
+                      <p className="mt-3 max-w-xl text-sm leading-6 text-brand-muted">{item.description}</p>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section id="testimonios" className="scroll-mt-24 border-y border-brand-text/10 bg-brand-surface">
+            <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16 lg:px-8 lg:py-24">
+              <Reveal>
+                <SectionHeading
+                  eyebrow="Testimonios"
+                  title="Lo que dicen los que ya celebraron en Palmares"
+                  description="Esto nos escriben después de vivir su evento. Sin filtro."
+                />
+              </Reveal>
+
+              <div>
+                <Reveal className="relative">
+                  <div className="relative">
+                    <div className="flex items-center gap-1" role="img" aria-label={`${testimonials[0].rating} de 5 estrellas`}>
+                      {Array.from({ length: testimonials[0].rating }).map((_, i) => (<FaStar key={i} className="h-4 w-4 text-brand-green" aria-hidden="true" />))}
+                    </div>
+                    <blockquote className="mt-6 font-display text-3xl font-light leading-[1.12] tracking-[-0.02em] text-brand-text sm:text-4xl">
+                      “{testimonials[0].text}”
+                    </blockquote>
+                    <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
+                      <span className="font-semibold text-brand-text">{testimonials[0].name}</span>
+                      <span className="text-brand-muted">·</span>
+                      <span className="text-brand-muted">{testimonials[0].event}</span>
+                      <a href={testimonials[0].link} target="_blank" rel="noopener noreferrer" className="ml-auto text-xs font-semibold text-brand-muted transition hover:text-brand-green" aria-label={`Ver reseña de ${testimonials[0].name} en Google`}>
+                        Google ↗
+                      </a>
+                    </div>
+                  </div>
+                </Reveal>
+
+                <div className="mt-10 grid gap-8 border-t border-brand-text/15 pt-8 sm:grid-cols-2">
+                  {testimonials.slice(1).map((t) => (
+                    <Reveal key={t.name}>
+                      <div className="flex items-center gap-1" role="img" aria-label={`${t.rating} de 5 estrellas`}>
+                        {Array.from({ length: t.rating }).map((_, i) => (<FaStar key={i} className="h-3.5 w-3.5 text-brand-green" aria-hidden="true" />))}
+                      </div>
+                      <blockquote className="mt-4 text-sm leading-6 text-brand-muted">“{t.text}”</blockquote>
+                      <div className="mt-4 flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <p className="truncate text-sm font-semibold text-brand-text">{t.name}</p>
+                          <p className="truncate text-xs text-brand-muted">{t.event}</p>
+                        </div>
+                        <a href={t.link} target="_blank" rel="noopener noreferrer" className="shrink-0 text-xs font-semibold text-brand-muted transition hover:text-brand-green" aria-label={`Ver reseña de ${t.name} en Google`}>
+                          Google ↗
+                        </a>
+                      </div>
+                    </Reveal>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="galeria" className="scroll-mt-24 pb-16 pt-16 lg:pb-24 lg:pt-20">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+              <Reveal>
+                <SectionHeading
+                  eyebrow="Galería"
+                  title="Conocé cada rincón de Palmares"
+                  description="Desde el salón principal hasta el quincho con parrilla y la pileta. Tocá cada foto para ampliarla."
+                />
+              </Reveal>
+            </div>
+
+            <Reveal className="mt-10 grid grid-cols-1 gap-3 px-3 sm:grid-cols-2 lg:grid-cols-12 lg:px-4">
+              {galeriaFotos.map((foto, index) => {
+                const spans = ['lg:col-span-7', 'lg:col-span-5', 'lg:col-span-5', 'lg:col-span-7'];
+                return (
+                  <figure key={foto.src} className={`group relative overflow-hidden bg-brand-surface ${spans[index]}`}>
                     <img
-                      key={foto.src}
                       src={foto.src}
                       alt={foto.title}
                       width={foto.width}
                       height={foto.height}
                       loading="lazy"
                       decoding="async"
-                      aria-hidden={i !== galeriaIdx}
-                      className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${i === galeriaIdx ? 'opacity-100' : 'opacity-0'}`}
+                      className="h-72 w-full object-cover transition duration-700 group-hover:scale-[1.03] group-focus-within:scale-[1.03] sm:h-96 lg:h-[32rem]"
                     />
-                  ))}
-
-                  <button type="button" onClick={prevFoto} className="absolute left-3 top-1/2 -translate-y-1/2 flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full bg-white/90 hover:bg-white text-brand-text shadow-lg transition z-10" aria-label="Anterior">
-                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
-                  </button>
-                  <button type="button" onClick={nextFoto} className="absolute right-3 top-1/2 -translate-y-1/2 flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full bg-white/90 hover:bg-white text-brand-text shadow-lg transition z-10" aria-label="Siguiente">
-                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-                  </button>
-
-                  <div className="absolute top-4 right-4 z-10 rounded-full bg-black/50 px-3 py-1.5 text-xs text-white/90 backdrop-blur-sm" role="status" aria-live="polite">{galeriaIdx + 1} / {galeriaFotos.length}</div>
-
-                  <div className="absolute bottom-0 inset-x-0 z-10 bg-gradient-to-t from-black/60 via-black/20 to-transparent p-6 sm:p-8" aria-live="polite">
-                    <h4 className="font-display text-xl sm:text-2xl font-bold text-white drop-shadow-lg">{galeriaFotos[galeriaIdx].title}</h4>
-                    <p className="mt-1.5 max-w-lg text-sm text-white/80 drop-shadow">{galeriaFotos[galeriaIdx].desc}</p>
-                  </div>
-                </div>
-
-                <div className="flex gap-2 px-4 py-4 overflow-x-auto justify-center bg-white">
-                  {galeriaFotos.map((foto, i) => (
                     <button
-                      key={foto.src}
                       type="button"
-                      onClick={() => setGaleriaIdx(i)}
-                      aria-label={`Ver foto ${i + 1}: ${galeriaFotos[i].title}`}
-                      aria-current={i === galeriaIdx ? 'true' : undefined}
-                      className={`shrink-0 w-14 h-14 md:w-16 md:h-16 rounded-xl overflow-hidden border-2 transition ${i === galeriaIdx ? 'border-brand-green opacity-100 shadow-md' : 'border-transparent opacity-50 hover:opacity-80'}`}
-                    >
-                      <img src={foto.src} alt="" width={foto.width} height={foto.height} loading="lazy" decoding="async" className="h-full w-full object-cover" />
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
+                      onClick={(event) => { lightboxTriggerRef.current = event.currentTarget; setLightboxIndex(index); }}
+                      className="absolute inset-0 z-10 cursor-zoom-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-accent"
+                      aria-label={`Ampliar foto: ${foto.title}`}
+                    />
+                    <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/35 to-transparent p-5 sm:p-6">
+                      <span className="text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-brand-accentSoft">0{index + 1}</span>
+                      <h3 className="mt-1 font-display text-2xl font-light text-white">{foto.title}</h3>
+                      <p className="mt-1 hidden max-w-md text-sm text-white/70 sm:block">{foto.desc}</p>
+                      <span className="mt-2 inline-flex text-[0.6rem] font-semibold uppercase tracking-[0.25em] text-white/60 opacity-0 transition group-hover:opacity-100 group-focus-within:opacity-100">Ampliar ↗</span>
+                    </figcaption>
+                  </figure>
+                );
+              })}
+            </Reveal>
           </section>
 
-          <section id="instagram" className="mx-auto max-w-7xl scroll-mt-24 px-4 pb-16 sm:px-6 lg:px-8">
-            <Reveal className="rounded-2xl bg-white p-6 sm:p-8 lg:p-10 shadow-lg">
-              <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <p className="text-sm uppercase tracking-[0.3em] text-brand-muted">Seguinos en redes</p>
-                  <h3 className="mt-2 font-display text-2xl font-bold text-brand-text">Viví el ambiente en @palmarespyeventos</h3>
-                </div>
-                <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className="inline-flex w-fit items-center gap-2 rounded-full border border-brand-surface bg-white px-5 py-3 text-sm font-semibold text-brand-text transition hover:bg-brand-surface">
+          <section id="instagram" className="scroll-mt-24 overflow-hidden border-y border-brand-text/10 bg-brand-surface py-16 lg:py-20">
+            <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 sm:px-6 lg:flex-row lg:items-end lg:justify-between lg:px-8">
+              <Reveal>
+                <p className="flex items-center gap-3 text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-brand-green">
+                  <span className="h-px w-8 bg-brand-accent" aria-hidden="true" />
+                  Redes
+                </p>
+                <h2 className="mt-4 max-w-3xl text-balance font-display text-4xl font-light leading-[1.02] tracking-[-0.03em] text-brand-text sm:text-5xl">
+                  Viví el ambiente en <span className="italic">@palmarespyeventos</span>
+                </h2>
+              </Reveal>
+              <Reveal className="flex items-center gap-5">
+                <span className="hidden text-[0.65rem] uppercase tracking-[0.25em] text-brand-muted sm:block">Arrastrá →</span>
+                <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className="inline-flex w-fit items-center gap-2 border-b border-brand-text/30 pb-1 text-sm font-semibold text-brand-text transition hover:border-brand-green hover:text-brand-green">
                   Seguinos en Instagram
                   <FaInstagram className="h-4 w-4" aria-hidden="true" />
                 </a>
-              </div>
-              <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-6">
-                {instagramPosts.map((item, index) => (<InstagramCard key={index} item={item} index={index} />))}
-              </div>
-            </Reveal>
+              </Reveal>
+            </div>
+
+            <div
+              ref={instagramStripRef}
+              className={`no-scrollbar mt-8 flex select-none gap-3 overflow-x-auto scroll-px-4 px-4 pb-4 sm:scroll-px-6 sm:px-6 lg:scroll-px-8 lg:px-8 ${
+                instagramDragging ? 'snap-none cursor-grabbing' : 'snap-x snap-mandatory cursor-grab'
+              }`}
+              role="region"
+              aria-label="Publicaciones de Instagram"
+              onPointerDown={handleInstagramPointerDown}
+              onPointerMove={handleInstagramPointerMove}
+              onPointerUp={endInstagramDrag}
+              onPointerCancel={endInstagramDrag}
+              onPointerLeave={handleInstagramPointerLeave}
+              onClick={handleInstagramClick}
+              onDragStart={(event) => event.preventDefault()}
+            >
+              {instagramPosts.map((item, index) => (<InstagramCard key={index} item={item} index={index} />))}
+            </div>
           </section>
 
-          <section id="ubicacion" className="mx-auto max-w-7xl scroll-mt-24 px-4 pb-20 sm:px-6 lg:px-8 lg:pb-24">
-            <Reveal>
-              <SectionHeading
-                eyebrow="Ubicación"
-                title="Vení a conocer Palmares"
-                description="Yataity Cora esq. Fortín Toledo, Fernando de la Mora. Acceso rápido desde Asunción, San Lorenzo y Luque."
-              />
-            </Reveal>
+          <section id="ubicacion" className="scroll-mt-24 bg-brand-green py-16 text-brand-bg lg:py-24">
+            <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16 lg:px-8">
+              <div>
+                <Reveal>
+                  <p className="flex items-center gap-3 text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-brand-accentSoft">
+                    <span className="h-px w-8 bg-brand-accent" aria-hidden="true" />
+                    Ubicación
+                  </p>
+                  <h2 className="mt-4 text-balance font-display text-4xl font-light leading-[1.02] tracking-[-0.03em] text-brand-bg sm:text-5xl">Vení a conocer Palmares</h2>
+                  <p className="mt-4 max-w-md text-sm leading-6 text-brand-bg/70">Yataity Cora esq. Fortín Toledo, Fernando de la Mora. Acceso rápido desde Asunción, San Lorenzo y Luque.</p>
+                </Reveal>
 
-            <div className="mt-10 grid gap-6 lg:grid-cols-[1fr_1.1fr] xl:gap-8">
-              <div className="flex flex-col gap-4">
-                <Reveal className="rounded-2xl border border-brand-surface bg-white overflow-hidden shadow-lg">
+                <Reveal className="mt-8 overflow-hidden border border-white/15 bg-brand-dark/20">
                   <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3604.1636834723734!2d-57.576451!3d-25.3342363!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x945da9ecf732f7d1%3A0xef1fc13ab4f46e85!2sPalmares%20-%20Sal%C3%B3n%20de%20eventos!5e0!3m2!1ses!2spy!4v1"
-                    width="100%"
-                    height="520"
-                    style={{ border: 0, display: 'block' }}
+                    className="block h-[320px] w-full border-0 lg:h-[360px]"
                     allowFullScreen
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
                     title="Mapa de Palmares Salón de Eventos"
                   />
                 </Reveal>
+
+                <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className="group mt-5 inline-flex items-center gap-2 text-sm font-semibold text-brand-bg">
+                  <span className="border-b border-white/30 pb-0.5 transition group-hover:border-brand-accent">Cómo llegar</span>
+                  <ArrowUpRight className="h-4 w-4 text-brand-accentSoft transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
+                </a>
               </div>
 
-              <Reveal as="form" onSubmit={handleSubmit} noValidate className="rounded-2xl border border-brand-surface bg-white p-6 sm:p-8 shadow-lg">
-                <p className="text-sm text-brand-muted mb-6 text-center">Completá tus datos y te abrimos WhatsApp con todo listo para enviar.</p>
+              <div>
+                <Reveal>
+                  <p className="text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-brand-accentSoft">Cotizá tu evento</p>
+                  <h3 className="mt-4 text-balance font-display text-3xl font-light leading-[1.05] tracking-[-0.02em] text-brand-bg sm:text-4xl">Contanos qué tenés en mente</h3>
+                  <p className="mt-3 max-w-md text-sm leading-6 text-brand-bg/70">Completá tus datos y te abrimos WhatsApp con todo listo para enviar.</p>
+                </Reveal>
 
-                <div className="space-y-5">
-                  <div>
-                    <label htmlFor="name" className="block text-xs font-semibold uppercase tracking-wider text-brand-muted">Nombre Completo</label>
-                    <input type="text" id="name" name="name" autoComplete="name" value={form.name} onChange={handleChange('name')} placeholder="Ej. Juan Pérez" className="mt-2 w-full rounded-xl border border-brand-surface bg-brand-surface/50 px-4 py-3.5 text-sm text-brand-text placeholder-brand-muted/50 transition focus:border-brand-green/40 focus:outline-none focus:ring-1 focus:ring-brand-green/40" required {...errorProps('name')} />
-                  </div>
-
-                  <div className="grid gap-4 sm:grid-cols-2">
+                <Reveal as="form" onSubmit={handleSubmit} noValidate className="mt-8">
+                  <div className="space-y-5">
                     <div>
-                      <label htmlFor="eventType" className="block text-xs font-semibold uppercase tracking-wider text-brand-muted">Tipo de Evento</label>
-                      <select id="eventType" name="eventType" autoComplete="off" value={form.eventType} onChange={handleChange('eventType')} className="mt-2 w-full rounded-xl border border-brand-surface bg-brand-surface/50 px-4 py-3.5 text-sm text-brand-text transition focus:border-brand-green/40 focus:outline-none focus:ring-1 focus:ring-brand-green/40" required {...errorProps('eventType')}>
-                        {eventTypes.map((type) => (<option key={type} value={type} className="bg-white">{type}</option>))}
-                      </select>
+                      <label htmlFor="name" className="block text-xs font-semibold uppercase tracking-wider text-brand-bg/80">Nombre Completo</label>
+                      <input type="text" id="name" name="name" autoComplete="name" value={form.name} onChange={handleChange('name')} placeholder="Ej. Juan Pérez" className="mt-2 block w-full rounded-sm border border-white/15 bg-white/5 px-4 py-3.5 text-sm text-brand-bg placeholder-white/50 transition focus:border-brand-accent focus:outline-none focus:ring-1 focus:ring-brand-accent/40" required {...errorProps('name')} />
                     </div>
+
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div>
+                        <label htmlFor="eventType" className="block text-xs font-semibold uppercase tracking-wider text-brand-bg/80">Tipo de Evento</label>
+                        <select id="eventType" name="eventType" autoComplete="off" value={form.eventType} onChange={handleChange('eventType')} className="mt-2 block w-full rounded-sm border border-white/15 bg-white/5 px-4 py-3.5 text-sm text-brand-bg transition [color-scheme:dark] focus:border-brand-accent focus:outline-none focus:ring-1 focus:ring-brand-accent/40" required {...errorProps('eventType')}>
+                          {eventTypes.map((type) => (<option key={type} value={type} className="bg-brand-dark text-brand-bg">{type}</option>))}
+                        </select>
+                      </div>
+                      <div>
+                        <label htmlFor="guests" className="block text-xs font-semibold uppercase tracking-wider text-brand-bg/80">Invitados (Máx. 120)</label>
+                        <input type="number" id="guests" name="guests" autoComplete="off" inputMode="numeric" step="1" min="1" max="120" value={form.guests} onChange={handleChange('guests')} placeholder="Ej. 80" className="mt-2 block w-full rounded-sm border border-white/15 bg-white/5 px-4 py-3.5 text-sm text-brand-bg placeholder-white/50 transition focus:border-brand-accent focus:outline-none focus:ring-1 focus:ring-brand-accent/40" required {...errorProps('guests')} />
+                      </div>
+                    </div>
+
+                    {isColacion && (
+                      <div>
+                        <label htmlFor="institution" className="block text-xs font-semibold uppercase tracking-wider text-brand-bg/80">Institución Educativa / Colegio</label>
+                        <input type="text" id="institution" name="institution" autoComplete="organization" value={form.institution} onChange={handleChange('institution')} placeholder="Ej. Colegio Nacional de la Capital" className="mt-2 block w-full rounded-sm border border-white/20 bg-white/5 px-4 py-3.5 text-sm text-brand-bg placeholder-white/50 transition focus:border-brand-accent focus:outline-none focus:ring-1 focus:ring-brand-accent/40" required={isColacion} {...errorProps('institution')} />
+                      </div>
+                    )}
+
                     <div>
-                      <label htmlFor="guests" className="block text-xs font-semibold uppercase tracking-wider text-brand-muted">Invitados (Máx. 120)</label>
-                      <input type="number" id="guests" name="guests" autoComplete="off" inputMode="numeric" step="1" min="1" max="120" value={form.guests} onChange={handleChange('guests')} placeholder="Ej. 80" className="mt-2 w-full rounded-xl border border-brand-surface bg-brand-surface/50 px-4 py-3.5 text-sm text-brand-text placeholder-brand-muted/50 transition focus:border-brand-green/40 focus:outline-none focus:ring-1 focus:ring-brand-green/40" required {...errorProps('guests')} />
+                      <label htmlFor="date" className="block text-xs font-semibold uppercase tracking-wider text-brand-bg/80">Fecha Tentativa</label>
+                      <input type="date" id="date" name="date" autoComplete="off" min={getTodayInputValue()} value={form.date} onChange={handleChange('date')} className="mt-2 block w-full rounded-sm border border-white/15 bg-white/5 px-4 py-3.5 text-sm text-brand-bg transition [color-scheme:dark] focus:border-brand-accent focus:outline-none focus:ring-1 focus:ring-brand-accent/40" required {...errorProps('date')} />
                     </div>
+
+                    {formError && (<div id="form-error" role="alert" className="rounded-sm border border-red-300/40 bg-red-500/10 px-4 py-3 text-xs text-red-100">{formError}</div>)}
+
+                    <button type="submit" className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-accent py-4 text-sm font-semibold text-brand-dark transition hover:-translate-y-0.5 hover:bg-brand-accentSoft active:scale-[0.99]">
+                      Cotizar por WhatsApp
+                      <FaWhatsapp className="h-4 w-4" aria-hidden="true" />
+                    </button>
                   </div>
-
-                  {isColacion && (
-                    <div>
-                      <label htmlFor="institution" className="block text-xs font-semibold uppercase tracking-wider text-brand-muted">Institución Educativa / Colegio</label>
-                      <input type="text" id="institution" name="institution" autoComplete="organization" value={form.institution} onChange={handleChange('institution')} placeholder="Ej. Colegio Nacional de la Capital" className="mt-2 w-full rounded-xl border border-brand-green/30 bg-brand-surface/50 px-4 py-3.5 text-sm text-brand-text placeholder-brand-muted/50 transition focus:border-brand-green/50 focus:outline-none focus:ring-1 focus:ring-brand-green/50" required={isColacion} {...errorProps('institution')} />
-                    </div>
-                  )}
-
-                  <div>
-                    <label htmlFor="date" className="block text-xs font-semibold uppercase tracking-wider text-brand-muted">Fecha Tentativa</label>
-                    <input type="date" id="date" name="date" autoComplete="off" min={getTodayInputValue()} value={form.date} onChange={handleChange('date')} className="mt-2 w-full rounded-xl border border-brand-surface bg-brand-surface/50 px-4 py-3.5 text-sm text-brand-text transition focus:border-brand-green/40 focus:outline-none focus:ring-1 focus:ring-brand-green/40" required {...errorProps('date')} />
-                  </div>
-
-                  {formError && (<div id="form-error" role="alert" className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-xs text-red-600">{formError}</div>)}
-
-                  <button type="submit" className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand-green py-4 text-sm font-semibold text-white shadow-lg transition hover:opacity-90 active:scale-[0.99]">
-                    Cotizar por WhatsApp
-                    <FaWhatsapp className="h-4 w-4" aria-hidden="true" />
-                  </button>
-                </div>
-              </Reveal>
+                </Reveal>
+              </div>
             </div>
           </section>
+
         </main>
 
-        <footer className="bg-brand-green py-12">
-           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <footer className="bg-brand-dark text-brand-bg">
+          <div className="mx-auto max-w-7xl px-4 pb-8 pt-16 sm:px-6 lg:px-8 lg:pt-20">
+            <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
               <div>
-                <div className="flex items-center gap-3 mb-4">
+                <div className="mb-4 flex items-center gap-3">
                   <div className="flex h-10 w-10 overflow-hidden rounded-full border border-white/10">
                     <img src={logo} alt="Palmares" width="170" height="161" loading="lazy" decoding="async" className="h-full w-full object-cover" />
                   </div>
                   <div>
-                    <p className="text-xs font-semibold tracking-[0.3em] text-white">PALMARES</p>
-                    <p className="text-[0.6rem] uppercase tracking-[0.4em] text-white/85">Salón de Eventos</p>
+                    <p className="font-display text-lg font-medium tracking-[0.14em] text-white">PALMARES</p>
+                    <p className="text-[0.55rem] uppercase tracking-[0.35em] text-white/60">Salón de Eventos</p>
                   </div>
                 </div>
-                <p className="text-sm leading-6 text-white/80">Salón de eventos en Fernando de la Mora. Espacio único con quincho, pileta y generador propio.</p>
+                <p className="max-w-xs text-sm leading-6 text-white/70">Salón de eventos en Fernando de la Mora. Espacio único con quincho, pileta y generador propio.</p>
                 <p className="mt-3 text-sm text-white/70">Yataity Cora esq. Fortín Toledo, Fernando de la Mora</p>
               </div>
 
               <div>
-                <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-white/80 mb-4">Contacto</h4>
+                <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-white/80">Contacto</h3>
                 <div className="space-y-3 text-sm text-white/80">
-                  <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white/85 transition hover:text-white"><FaInstagram className="h-4 w-4" aria-hidden="true" /> @palmarespyeventos</a>
-                  <a href="https://www.facebook.com/profile.php?id=100069641632947" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white/85 transition hover:text-white"><FaFacebookF className="h-4 w-4" aria-hidden="true" /> Palmares Salón de Eventos</a>
-                  <a href="mailto:palmarespyeventos@gmail.com" className="flex items-center gap-2 text-white/85 transition hover:text-white"><span className="text-sm" aria-hidden="true">✉</span> palmarespyeventos@gmail.com</a>
+                  <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className="flex w-fit items-center gap-2 text-white/85 transition hover:text-white"><FaInstagram className="h-4 w-4" aria-hidden="true" /> @palmarespyeventos</a>
+                  <a href="https://www.facebook.com/profile.php?id=100069641632947" target="_blank" rel="noopener noreferrer" className="flex w-fit items-center gap-2 text-white/85 transition hover:text-white"><FaFacebookF className="h-4 w-4" aria-hidden="true" /> Palmares Salón de Eventos</a>
+                  <a href="mailto:palmarespyeventos@gmail.com" className="flex w-fit items-center gap-2 text-white/85 transition hover:text-white"><span className="text-sm" aria-hidden="true">✉</span> palmarespyeventos@gmail.com</a>
                 </div>
+              </div>
+
+              <div>
+                <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-white/80">Explorá</h3>
+                <nav className="flex flex-col gap-3 text-sm text-white/80" aria-label="Navegación del pie">
+                  <a href="#diferenciales" className="w-fit transition hover:text-white">Diferenciales</a>
+                  <a href="#galeria" className="w-fit transition hover:text-white">Galería</a>
+                  <a href="#testimonios" className="w-fit transition hover:text-white">Testimonios</a>
+                  <a href="#ubicacion" className="w-fit transition hover:text-white">Ubicación y contacto</a>
+                </nav>
               </div>
             </div>
 
-            <div className="border-t border-white/10 mt-10 pt-6">
-              <p className="text-xs text-white/70">&copy; {new Date().getFullYear()} Palmares Salón de Eventos. Fernando de la Mora, Paraguay.</p>
+            <div className="mt-12 flex flex-col gap-2 border-t border-white/10 pt-6 text-xs text-white/60 sm:flex-row sm:items-center sm:justify-between">
+              <p>&copy; {new Date().getFullYear()} Palmares Salón de Eventos. Fernando de la Mora, Paraguay.</p>
+              <p>Salón · Quincho · Pileta</p>
             </div>
           </div>
         </footer>
       </div>
 
+      {lightboxOpen && (
+        <dialog
+          ref={lightboxRef}
+          className="m-auto w-[min(94vw,64rem)] max-w-none overflow-hidden border border-white/10 bg-brand-dark p-0 text-brand-bg shadow-2xl backdrop:bg-brand-dark/95 backdrop:backdrop-blur-sm"
+          aria-labelledby="lightbox-title"
+          aria-describedby="lightbox-description"
+          onClose={() => setLightboxIndex(null)}
+          onClick={(event) => { if (event.target === event.currentTarget) setLightboxIndex(null); }}
+        >
+          <div className="relative flex max-h-[76vh] items-center justify-center bg-black/30">
+            <button
+              type="button"
+              onClick={() => setLightboxIndex(null)}
+              className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-brand-bg/90 text-brand-dark transition hover:bg-brand-bg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+              aria-label="Cerrar galería"
+            >
+              <X className="h-5 w-5" aria-hidden="true" />
+            </button>
+            <img
+              src={galeriaFotos[lightboxIndex].src}
+              alt={galeriaFotos[lightboxIndex].title}
+              width={galeriaFotos[lightboxIndex].width}
+              height={galeriaFotos[lightboxIndex].height}
+              className="max-h-[76vh] max-w-full object-contain"
+            />
+          </div>
+          <div className="flex flex-col gap-4 border-t border-white/10 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+            <div aria-live="polite">
+              <p className="text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-brand-accentSoft">0{lightboxIndex + 1} / 0{galeriaFotos.length}</p>
+              <h3 id="lightbox-title" className="mt-1 font-display text-2xl font-light text-brand-bg">{galeriaFotos[lightboxIndex].title}</h3>
+              <p id="lightbox-description" className="mt-1 text-sm text-brand-bg/70">{galeriaFotos[lightboxIndex].desc}</p>
+            </div>
+            <div className="flex shrink-0 items-center gap-2">
+              <button type="button" onClick={showPrevPhoto} className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-brand-bg transition hover:border-brand-accent hover:text-brand-accent" aria-label="Foto anterior">
+                <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+              </button>
+              <button type="button" onClick={showNextPhoto} className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-brand-bg transition hover:border-brand-accent hover:text-brand-accent" aria-label="Foto siguiente">
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </button>
+            </div>
+          </div>
+        </dialog>
+      )}
+
       <a
         href={WHATSAPP_BASE_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className="safe-bottom fixed right-6 z-50 flex h-14 w-14 animate-bounce items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_8px_30px_rgba(37,211,102,0.35)] transition hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(37,211,102,0.45)]"
+        className="safe-bottom fixed right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-brand-accent text-brand-dark shadow-[0_8px_30px_rgba(201,162,39,0.35)] transition hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(201,162,39,0.45)]"
         aria-label="Cotizar por WhatsApp"
       >
         <FaWhatsapp className="h-7 w-7" aria-hidden="true" />

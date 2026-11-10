@@ -13,8 +13,8 @@ Sitio web de una página (SPA) diseñado para promocionar un salón de eventos y
 - **Hero** — Presentación del salón con llamado a la acción y estadísticas (4,7★ Google, 161+ reseñas, 200+ eventos)
 - **Diferenciales** — Generador propio, capacidad hasta 120 invitados, complejo interior/exterior, ubicación estratégica
 - **Testimonios** — 3 reseñas verificadas de Google con links directos
-- **Galería** — Carrusel interactivo con navegación por flechas y teclado (4 fotos del salón)
-- **Instagram** — Feed de 6 posts con links a la cuenta @palmarespyeventos
+- **Galería** — Grilla editorial full-bleed con lightbox accesible (4 fotos del salón)
+- **Instagram** — Tira horizontal de 6 posts con links a la cuenta @palmarespyeventos
 - **Ubicación** — Mapa de Google Maps embebido + formulario de cotización que genera un mensaje pre-cargado para WhatsApp
 
 ## Stack

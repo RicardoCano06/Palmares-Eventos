@@ -5,16 +5,19 @@ module.exports = {
     extend: {
       colors: {
         brand: {
-          bg: '#F9F9F5',
-          surface: '#F2F2EC',
-          text: '#111215',
-          dark: '#111215',
-          green: '#3A5A24',
-          muted: '#66665f',
+          bg: '#F5EFE4',
+          surface: '#EDE4D5',
+          surfaceDark: '#E3D7C4',
+          text: '#10231A',
+          dark: '#0E2318',
+          green: '#1F4D2E',
+          muted: '#5C625A',
+          accent: '#C9A227',
+          accentSoft: '#E8D6A3',
         },
       },
       fontFamily: {
-        display: ['Plus Jakarta Sans', 'sans-serif'],
+        display: ['Fraunces', 'Georgia', 'serif'],
         body: ['Inter', 'sans-serif'],
       },
     },
